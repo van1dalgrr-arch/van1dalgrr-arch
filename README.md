@@ -1,16 +1,30 @@
-## Hi there 👋
+<div align="center">
 
-<!--
-**van1dalgrr-arch/van1dalgrr-arch** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# van1dallgrr
 
-Here are some ideas to get you started:
+<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=18&duration=2500&pause=1200&color=FFFFFF&center=true&vCenter=true&width=400&lines=Junior+Backend+Developer;Learning+Go;Saint+Petersburg,+Russia">
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+</div>
+
+<br>
+
+## About
+
+Junior Backend Developer from Saint Petersburg, Russia.
+
+Currently learning Go and building my foundation in software engineering.
+
+<br>
+
+## Interests
+
+Backend development  
+APIs  
+Clean architecture  
+Systems programming
+
+<br>
+
+## Currently learning
+
+Go 🐹
