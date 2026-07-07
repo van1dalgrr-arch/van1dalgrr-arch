@@ -1,16 +1,12 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0D1117&height=130&section=header&text=van1dallgrr&fontSize=42&fontColor=FFFFFF&animation=fadeIn"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0D1117&height=120&section=header&text=van1dallgrr&fontSize=40&fontColor=FFFFFF&animation=fadeIn"/>
 
 <br>
 
-<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=17&duration=2000&pause=800&color=FFFFFF&center=true&vCenter=true&width=420&lines=Junior+Backend+Developer"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=18&duration=2500&pause=1000&color=FFFFFF&center=true&vCenter=true&width=400&lines=Junior+Backend+Developer;Go+Developer;Backend+Engineering"/>
 
-<br>
-
-<img src="https://user-images.githubusercontent.com/74038190/212284115-6b0b8f7c-2e8b-4a5a-8c6e-8c1d5c7f3f1a.gif" width="40">
-
-<br>
+<br><br>
 
 📍 Saint Petersburg, Russia
 
@@ -36,9 +32,9 @@ Backend · Go · Software Engineering
 
 <img src="https://skillicons.dev/icons?i=vscode&theme=dark"/>
 
-<img src="https://skillicons.dev/icons?i=google&theme=dark"/>
+<img src="https://cdn.simpleicons.org/google/4285F4" height="45"/>
 
-<img src="https://cdn.simpleicons.org/google/FFFFFF"/>
+<img src="https://cdn.simpleicons.org/gemini/8E75B2" height="45"/>
 
 </div>
 
@@ -47,8 +43,14 @@ Backend · Go · Software Engineering
 
 <div align="center">
 
-<img src="https://cdn.simpleicons.org/discord/5865F2" width="40">
+<img src="https://cdn.simpleicons.org/discord/5865F2" height="40"/>
 
-<img src="https://cdn.simpleicons.org/telegram/26A5E4" width="40">
+<img src="https://cdn.simpleicons.org/telegram/26A5E4" height="40"/>
 
 </div>
+
+
+## 📫 Contact
+
+GitHub: van1dallgrr-arch  
+Discord: van1dall_grr
