@@ -2,16 +2,14 @@
 
 # van1dallgrr
 
-**Junior Backend Developer**
-
-Saint Petersburg, Russia
+<img src="https://readme-typing-svg.herokuapp.com?font=Google+Sans&size=18&duration=3000&pause=1500&color=FFFFFF&center=true&vCenter=true&width=450&lines=Junior+Backend+Developer;Learning+Go;Building+software">
 
 <br>
 
-<i>
-Building software.  
-Learning Go.  
-Growing as an engineer.
-</i>
+Saint Petersburg, Russia
+
+<br><br>
+
+Backend development · Go · Software Engineering
 
 </div>
