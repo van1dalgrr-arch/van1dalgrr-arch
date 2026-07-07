@@ -34,8 +34,6 @@ Backend · Go · Software Engineering
 
 <img src="https://cdn.simpleicons.org/google/4285F4" height="45"/>
 
-<img src="https://cdn.simpleicons.org/gemini/8E75B2" height="45"/>
-
 </div>
 
 
