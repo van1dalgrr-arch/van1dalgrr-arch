@@ -1,12 +1,16 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0D1117&height=160&section=header&text=van1dallgrr&fontSize=45&fontColor=FFFFFF&animation=fadeIn"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0D1117&height=160&section=header&text=van1dallgrr&fontSize=45&fontColor=FFFFFF&animation=twinkling"/>
 
 <br>
 
-<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=18&duration=3000&pause=1200&color=0D1117&center=true&vCenter=true&width=450&lines=Junior+Backend+Developer;Go+Developer;Building+backend+solutions"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=20&duration=2500&pause=800&color=FFFFFF&center=true&vCenter=true&width=500&lines=Junior+Backend+Developer;Go+Developer;Backend+Engineer;Building+software"/>
 
-<br>
+<br><br>
+
+<img src="https://komarev.com/ghpvc/?username=van1dallgrr-arch&style=flat-square&color=0D1117"/>
+
+<br><br>
 
 Saint Petersburg, Russia
 
@@ -21,9 +25,8 @@ Backend Development · Go · Software Engineering
 
 Junior Backend Developer focused on backend development and building reliable software.
 
-<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=14&duration=2500&pause=1000&color=0D1117&width=400&lines=Writing+clean+code;Building+APIs;Improving+software+design"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=15&duration=2000&pause=700&color=0D1117&width=450&lines=Designing+APIs;Writing+clean+code;Building+backend+systems"/>
 
-<br>
 
 Working with:
 
