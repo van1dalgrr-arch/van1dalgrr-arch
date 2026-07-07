@@ -51,4 +51,4 @@ Backend · Go · Software Engineering
 ## 📫 Contact
 
 GitHub: van1dallgrr-arch  
-Discord: van1dall_grr
+Discord: van1dal_grr
