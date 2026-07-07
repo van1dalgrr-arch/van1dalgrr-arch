@@ -1,17 +1,32 @@
 <div align="center">
 
-# van1dallgrr
-
-<img src="https://readme-typing-svg.herokuapp.com?font=Google+Sans&size=18&duration=3000&pause=1500&color=FFFFFF&center=true&vCenter=true&width=450&lines=Junior+Backend+Developer;Learning+Go;Building+software">
-
-<br><br>
-
-Saint Petersburg, Russia
-
-<br><br>
-
-Backend development · Go · Software Engineering
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0D1117&height=160&section=header&text=van1dallgrr&fontSize=45&fontColor=FFFFFF&animation=fadeIn"/>
 
 <br>
 
-Team Work
+## Junior Backend Developer
+
+Saint Petersburg, Russia
+
+<br>
+
+Backend Development · Go · Software Engineering
+
+</div>
+
+
+## About
+
+Junior Backend Developer focused on backend development and building reliable software.
+
+Working with:
+- Go
+- Backend architecture
+- APIs
+- Software engineering practices
+
+
+## Contact
+
+GitHub: van1dalgrr-arch 
+Discord: van1dal_grr
