@@ -30,13 +30,12 @@ const van1dal = {
 🏆  Trophies
 <div align="center"> <img src="https://github-profile-trophy.vercel.app/?username=van1dal&theme=discord&no-frame=true&column=7&margin-w=8&margin-h=8" /> </div> <div align="center"><img src="https://capsule-render.vercel.app/api?type=transparent&height=35&color=7928CA" width="100%"/></div>
 🧭  Philosophy
-<div align="center">
 css
 .van1dal {
   /* build beautiful experiences */
   /* write clean, maintainable code */
   /* always improve, never settle */
 }
-</div> <div align="center"><img src="https://capsule-render.vercel.app/api?type=transparent&height=35&color=FF0080" width="100%"/></div>
+<div align="center"><img src="https://capsule-render.vercel.app/api?type=transparent&height=35&color=FF0080" width="100%"/></div>
 🌐  Let's Connect
 <div align="center"> <a href="https://t.me/van1dal" target="_blank"> <img src="https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000"/> </a> <a href="https://github.com/van1dal" target="_blank"> <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/> </a> <a href="mailto:hello@van1dal.dev"> <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white"/> </a> <a href="#" target="_blank"> <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"/> </a> </div> <br> <div align="center"> <sub>built from scratch, no templates, no shortcuts — just <strong>van1dal</strong> and a lot of coffee ☕</sub> </div> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00D9FF,25:7928CA,50:FF0080,75:7928CA,100:00D9FF&height=220&section=footer&animation=twinkling" width="100%"/> <!--
