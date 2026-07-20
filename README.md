@@ -1,28 +1,29 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:020617,30:0f172a,60:1e3a8a,100:020617&height=260&section=header&text=Van1dal.dev&fontSize=75&fontColor=ffffff&animation=fadeIn&fontAlignY=35"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:020617,30:172554,70:1d4ed8,100:020617&height=280&section=header&text=Van1dal&fontSize=90&fontColor=ffffff&animation=fadeIn&fontAlignY=35"/>
 
 <br>
 
-<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=25&duration=1800&pause=700&color=38BDF8&center=true&vCenter=true&width=750&lines=Web+Developer;Frontend+Developer;Building+Beautiful+Interfaces;HTML+%7C+CSS+%7C+JavaScript;Learning+React"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=28&duration=2000&pause=700&color=38BDF8&center=true&vCenter=true&width=900&lines=Web+Developer;Frontend+Engineer;Building+Modern+Interfaces;Creating+Beautiful+Digital+Experiences"/>
 
 <br><br>
 
-<img src="https://komarev.com/ghpvc/?username=van1dalgrr-arch&style=for-the-badge&color=38BDF8"/>
+<img src="https://komarev.com/ghpvc/?username=van1dalgrr-arch&style=for-the-badge&color=2563EB"/>
 
 <br><br>
 
-<h2>
-🌐 Web Developer
-</h2>
+<h3>
+🌐 Frontend Developer
+</h3>
 
 <p>
-Creating modern websites, interactive interfaces and smooth user experiences.
+I create modern, responsive and interactive web experiences.<br>
+Focused on clean code, beautiful UI and continuous improvement.
 </p>
 
 <br>
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=van1dalgrr-arch&theme=tokyo-night&hide_border=true&area=true&line=38BDF8&point=FFFFFF"/>
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=van1dalgrr-arch&theme=react-dark&hide_border=true&area=true"/>
 
 </div>
 
@@ -31,15 +32,54 @@ Creating modern websites, interactive interfaces and smooth user experiences.
 
 <div align="center">
 
-# 💻 Tech Stack
+## ⚡ My Frontend Universe
 
-<br>
+</div>
 
-<img src="https://skillicons.dev/icons?i=html,css,js,ts,react,vite,tailwind,sass,git,github&theme=dark"/>
 
-<br><br>
+<table>
+<tr>
 
-<img src="https://skillicons.dev/icons?i=vscode,figma,photoshop&theme=dark"/>
+<td width="50%">
+
+### 🎨 Frontend
+
+```
+HTML5
+CSS3
+JavaScript
+TypeScript
+React
+Vite
+Tailwind CSS
+SASS
+```
+
+</td>
+
+<td width="50%">
+
+### 🛠 Development
+
+```
+Git
+GitHub
+VS Code
+Figma
+REST API
+Responsive Design
+UI Animation
+```
+
+</td>
+
+</tr>
+</table>
+
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=html,css,js,ts,react,vite,tailwind,sass,git,github,figma&theme=dark"/>
 
 </div>
 
@@ -48,33 +88,35 @@ Creating modern websites, interactive interfaces and smooth user experiences.
 
 <div align="center">
 
-# 🚀 About Me
+## 👨‍💻 About Me
 
 </div>
 
 
 ```javascript
 const developer = {
+    
     name: "Van1dal",
 
     role: "Web Developer",
 
-    skills: [
+    passion: [
+        "Modern UI",
+        "Smooth animations",
+        "Clean architecture",
+        "User experience"
+    ],
+
+    technologies: [
         "HTML",
         "CSS",
         "JavaScript",
         "React",
-        "UI Design"
+        "TypeScript"
     ],
 
-    currentlyLearning: [
-        "TypeScript",
-        "React",
-        "Modern Frontend"
-    ],
-
-    goal:
-        "Creating beautiful and useful web applications"
+    mindset:
+        "Learn. Build. Improve. Repeat."
 };
 ```
 
@@ -83,21 +125,21 @@ const developer = {
 
 <div align="center">
 
-# ✨ What I Do
+## 🚀 What I Create
 
 </div>
 
 
 ```
-🎨 Build modern user interfaces
-
-⚡ Create smooth animations
-
-📱 Develop responsive websites
-
-🧩 Create reusable components
-
-🚀 Improve frontend skills every day
+╔══════════════════════════════╗
+║                              ║
+║  🌐 Landing Pages            ║
+║  ⚡ Interactive Websites     ║
+║  🎨 UI Components            ║
+║  📱 Responsive Interfaces    ║
+║  🧩 Web Applications         ║
+║                              ║
+╚══════════════════════════════╝
 ```
 
 
@@ -105,41 +147,61 @@ const developer = {
 
 <div align="center">
 
-# 🖥️ Featured Projects
+## ✨ Development Philosophy
 
 <br>
 
-<img src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=Portfolio&theme=tokyonight&hide_border=true"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=18&duration=2500&pause=800&color=A78BFA&center=true&width=700&lines=Clean+Code+Matters;Design+Should+Feel+Natural;Every+Pixel+Has+a+Purpose;Always+Learning+New+Things"/>
 
 </div>
 
 
 ---
 
+# 🌟 Featured Projects
+
+
+## 🌐 Portfolio Website
+
+Personal developer website.
+
+Features:
+
+- Modern dark interface
+- CSS animations
+- Responsive layout
+- Interactive elements
+
+
+## 💬 Discord Bot
+
+Automation and moderation project.
+
+Features:
+
+- Commands
+- User interactions
+- Backend logic
+
+
+
+---
+
 <div align="center">
 
-# 📈 GitHub Stats
+# 📊 GitHub Statistics
 
 <br>
 
-<img src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&theme=tokyonight&hide_border=true&count_private=true"/>
+<img src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&theme=tokyonight&hide_border=true"/>
 
 <br><br>
 
 <img src="https://github-readme-streak-stats.herokuapp.com/?user=van1dalgrr-arch&theme=tokyonight&hide_border=true"/>
 
-</div>
+<br><br>
 
-
----
-
-<div align="center">
-
-# 🌌 Currently Learning
-
-<br>
-
-<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=18&duration=2500&pause=800&color=A78BFA&center=true&width=600&lines=React+Components;JavaScript+Deep+Dive;TypeScript;UI%2FUX+Animation;Clean+Code"/>
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dalgrr-arch&layout=compact&theme=tokyonight&hide_border=true"/>
 
 </div>
 
@@ -148,28 +210,41 @@ const developer = {
 
 <div align="center">
 
-# 📫 Contact
+# 📚 Currently Learning
+
+<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=22&duration=2200&pause=900&color=22C55E&center=true&width=700&lines=React+Advanced+Patterns;TypeScript;Frontend+Architecture;Better+User+Interfaces;Professional+Development"/>
+
+</div>
+
+
+---
+
+<div align="center">
+
+# 🌎 Let's Connect
 
 <br>
 
 <a href="#">
-<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+<img src="https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=github"/>
 </a>
 
 <a href="#">
-<img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"/>
+<img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord"/>
 </a>
 
 <a href="#">
-<img src="https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/>
+<img src="https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram"/>
 </a>
+
 
 <br><br>
 
-<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=18&duration=3000&pause=1000&color=22C55E&center=true&width=500&lines=Code+%7C+Design+%7C+Create;Always+Learning+🚀"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&size=18&duration=3000&pause=1000&color=38BDF8&center=true&width=500&lines=Thanks+for+visiting+my+profile;See+you+in+the+next+project+🚀"/>
+
 
 <br>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:020617,100:1e3a8a&height=140&section=footer"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=020617&height=150&section=footer"/>
 
 </div>
