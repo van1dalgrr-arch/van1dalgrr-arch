@@ -48,15 +48,31 @@ Infrastructure
 
 </td> </tr> </table> <br>
 Engineering Journey
-<div align="center">
+<div align="center"> <img src="https://img.shields.io/badge/01-Java%20Core-1A1B23?style=flat-square" height="34"/>
 
-Java Core → OOP → Collections → Spring Boot → REST API → Database → Cloud
+↓
 
-<sub>Solid fundamentals first — then framework, then infrastructure.</sub>
+<img src="https://img.shields.io/badge/02-OOP-1A1B23?style=flat-square" height="34"/>
 
-</div> <br>
-GitHub Analytics
-<div align="center"> <img height="165" src="https://github-readme-stats.vercel.app/api?username=van1dal&show_icons=true&hide_border=true&bg_color=0B0C10&title_color=4285F4&icon_color=EA4335&text_color=C9D1D9&ring_color=FBBC05"/> <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dal&layout=compact&hide_border=true&bg_color=0B0C10&title_color=4285F4&text_color=C9D1D9&langs_count=6"/> <img src="https://github-readme-streak-stats.herokuapp.com/?user=van1dal&hide_border=true&background=0B0C10&stroke=0B0C10&ring=4285F4&fire=EA4335&currStreakLabel=4285F4&sideLabels=C9D1D9&dates=C9D1D9&currStreakNum=C9D1D9&sideNums=C9D1D9"/> </div> <br> <div align="center"> <a href="https://github.com/van1dal"> <img src="https://img.shields.io/badge/-GitHub-4285F4?style=for-the-badge&logo=github&logoColor=white" height="30"/> </a>
+↓
+
+<img src="https://img.shields.io/badge/03-Collections-1A1B23?style=flat-square" height="34"/>
+
+↓
+
+<img src="https://img.shields.io/badge/04-Spring%20Boot-1A1B23?style=flat-square" height="34"/>
+
+↓
+
+<img src="https://img.shields.io/badge/05-REST%20API-4285F4?style=flat-square" height="34"/>
+
+↓
+
+<img src="https://img.shields.io/badge/06-Database%20Design-2A2B33?style=flat-square" height="34"/>
+
+↓
+
+<img src="https://img.shields.io/badge/07-Cloud-2A2B33?style=flat-square" height="34"/> <br> <img src="https://readme-typing-svg.demolab.com?font=Google+Sans&weight=400&size=15&duration=2500&pause=1500&color=EA4335&center=true&vCenter=true&width=460&lines=Currently+at%3A+REST+API+design+%26+backend+architecture" alt="Current stage"/> </div> <br> <div align="center"> <a href="https://github.com/van1dal"> <img src="https://img.shields.io/badge/-GitHub-4285F4?style=for-the-badge&logo=github&logoColor=white" height="30"/> </a>
 
 <sub>© van1dal — Backend Developer</sub>
 
