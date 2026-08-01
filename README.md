@@ -1,54 +1,256 @@
-<div align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:4285F4,25:0f0f0f,50:0f0f0f,75:0f0f0f,100:34A853&height=230&section=header&text=Hi,%20I'm%20van1dal&fontSize=46&fontColor=ffffff&animation=fadeIn&fontAlignY=36&desc=Backend%20Developer%20·%20Java%20%2B%20Spring&descAlignY=54&descSize=18&descAlign=50" width="100%"/> <br/> <a href="#"> <img src="https://readme-typing-svg.demolab.com?font=Google+Sans&size=22&duration=3000&pause=800&color=4285F4&center=true&vCenter=true&width=600&lines=Backend+developer+in+the+making;Java+%2B+Spring+Boot;REST+APIs+%C2%B7+Spring+Data+%C2%B7+Spring+Security;Always+shipping%2C+always+learning" alt="Typing SVG" /> </a>
+<div align="center">
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0C10,50:1A1B23,100:0B0C10&height=220&section=header&text=van1dal&fontSize=64&fontColor=4285F4&fontAlignY=42&desc=Backend%20Developer%20%E2%80%A2%20Java%20%2F%20Spring%20Boot&descAlignY=62&descSize=18&descColor=EA4335&animation=fadeIn"/>
+
+<br/>
+
+<a href="https://github.com/van1dal">
+  <img src="https://readme-typing-svg.demolab.com?font=Google+Sans&weight=500&size=24&duration=3000&pause=1200&color=4285F4&center=true&vCenter=true&width=560&lines=Building+reliable+backend+systems;Java+%2B+Spring+Boot+%2B+PostgreSQL;Designing+clean+REST+APIs;Learning+cloud-native+architecture" alt="Typing SVG" />
+</a>
 
 <br/><br/>
 
-<img src="https://img.shields.io/badge/status-learning-4285F4?style=for-the-badge&labelColor=0d1117"/> <img src="https://img.shields.io/badge/focus-Spring%20Boot-EA4335?style=for-the-badge&labelColor=0d1117"/> <img src="https://img.shields.io/badge/open%20to-collab-34A853?style=for-the-badge&labelColor=0d1117"/> </div> <br/> <div align="center">
-01 About
-</div> <table align="center" width="100%"> <tr> <td width="55%" valign="top">
+<img src="https://img.shields.io/badge/-Java-4285F4?style=flat-square&logo=openjdk&logoColor=white&labelColor=0B0C10" height="26"/>
+<img src="https://img.shields.io/badge/-Spring%20Boot-34A853?style=flat-square&logo=springboot&logoColor=white&labelColor=0B0C10" height="26"/>
+<img src="https://img.shields.io/badge/-PostgreSQL-FBBC05?style=flat-square&logo=postgresql&logoColor=white&labelColor=0B0C10" height="26"/>
+<img src="https://img.shields.io/badge/-Docker-EA4335?style=flat-square&logo=docker&logoColor=white&labelColor=0B0C10" height="26"/>
 
-Currently learning Spring Boot · Spring Data JPA · REST API design
+</div>
 
-Building My first end-to-end Spring project
+<br/>
 
-Background Started with core Java, now moving into the Spring ecosystem
+<img width="100%" height="1" src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif"/>
 
-Approach Learning by building, breaking things, and fixing them
+<br/>
 
-</td> <td width="45%" valign="top">
-java
-public class Developer {
+## About
 
-    private final String name  = "van1dal";
-    private final String role  = "Backend Developer";
-    private final String[] stack = {
-        "Java", "Spring Boot", "SQL"
-    };
-    private boolean learning = true;
+<table>
+<tr>
+<td width="55%" valign="top">
 
-    public String motto() {
-        return "Build. Break. Learn. Repeat.";
+Backend developer focused on building well-structured, production-minded services with **Java** and **Spring Boot**. Interested in clean API design, relational data modeling, and the operational side of software — containers, Linux, and cloud infrastructure.
+
+Currently deepening my understanding of backend architecture and moving from "it works" to "it's built to last."
+
+```
+🔧  Focus       Backend Engineering
+🌱  Learning    REST APIs · System Design · Cloud
+📍  Based in    —
+💬  Ask me      Java · Spring · SQL
+```
+
+</td>
+<td width="45%" valign="top">
+
+```java
+public class Engineer {
+
+    private final String name = "van1dal";
+    private final String role = "Backend Developer";
+    private final List<String> stack = List.of(
+        "Java", "Spring Boot", "PostgreSQL"
+    );
+
+    public String philosophy() {
+        return "Simple, readable, "
+             + "and correct — "
+             + "in that order.";
     }
 }
-</td> </tr> </table> <br/> <div align="center">
-02 Tech Stack
-<img src="https://skillicons.dev/icons?i=java,spring,idea,mysql,postgres,git,github,postman,docker&theme=dark&perline=9" />
+```
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<img width="100%" height="1" src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif"/>
+
+<br/>
+
+## Tech Stack
+
+<table>
+<tr>
+<td valign="top" width="33%">
+
+**Language & Framework**
+
+<img src="https://img.shields.io/badge/Java-4285F4?style=for-the-badge&logo=openjdk&logoColor=white" height="28"/><br/>
+<img src="https://img.shields.io/badge/Spring%20Boot-34A853?style=for-the-badge&logo=springboot&logoColor=white" height="28"/><br/>
+<img src="https://img.shields.io/badge/Spring%20Data%20JPA-34A853?style=for-the-badge&logo=spring&logoColor=white" height="28"/><br/>
+<img src="https://img.shields.io/badge/Spring%20Security-34A853?style=for-the-badge&logo=springsecurity&logoColor=white" height="28"/>
+
+</td>
+<td valign="top" width="33%">
+
+**Data**
+
+<img src="https://img.shields.io/badge/PostgreSQL-4285F4?style=for-the-badge&logo=postgresql&logoColor=white" height="28"/><br/>
+<img src="https://img.shields.io/badge/MySQL-FBBC05?style=for-the-badge&logo=mysql&logoColor=white" height="28"/><br/>
+<img src="https://img.shields.io/badge/SQL-EA4335?style=for-the-badge&logo=databricks&logoColor=white" height="28"/>
+
+</td>
+<td valign="top" width="33%">
+
+**Infrastructure**
+
+<img src="https://img.shields.io/badge/Docker-4285F4?style=for-the-badge&logo=docker&logoColor=white" height="28"/><br/>
+<img src="https://img.shields.io/badge/Linux-EA4335?style=for-the-badge&logo=linux&logoColor=white" height="28"/><br/>
+<img src="https://img.shields.io/badge/Google%20Cloud-34A853?style=for-the-badge&logo=googlecloud&logoColor=white" height="28"/><br/>
+<img src="https://img.shields.io/badge/Git-FBBC05?style=for-the-badge&logo=git&logoColor=white" height="28"/>
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<img width="100%" height="1" src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif"/>
+
+<br/>
+
+## Engineering Journey
+
+<div align="center">
+
+```
+   Java Core
+      │
+      ▼
+      OOP
+      │
+      ▼
+  Collections
+      │
+      ▼
+  Spring Boot
+      │
+      ▼
+   REST API
+      │
+      ▼
+   Database
+      │
+      ▼
+    Cloud
+```
+
+</div>
+
+<div align="center">
+<sub>Solid fundamentals first — then framework, then infrastructure.</sub>
+</div>
+
+<br/>
+
+<img width="100%" height="1" src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif"/>
+
+<br/>
+
+## Featured Projects
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🔹 Project One
+
+Short description of what the service does and the problem it solves — written in plain, engineering-focused language.
+
+**Stack:** Java · Spring Boot · PostgreSQL · Docker
+
+**Highlights**
+- Layered architecture (Controller → Service → Repository)
+- JWT-based authentication with Spring Security
+- Dockerized for consistent local & prod environments
+
+`github.com/van1dal/project-one`
+
+</td>
+<td width="50%" valign="top">
+
+### 🔹 Project Two
+
+Short description of what the service does and the problem it solves — written in plain, engineering-focused language.
+
+**Stack:** Java · Spring Data JPA · MySQL
+
+**Highlights**
+- Clean REST API with validated DTOs
+- Database schema designed for normalization & scale
+- Unit and integration test coverage
+
+`github.com/van1dal/project-two`
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<img width="100%" height="1" src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif"/>
+
+<br/>
+
+## GitHub Analytics
+
+<div align="center">
+
+<img height="165" src="https://github-readme-stats.vercel.app/api?username=van1dal&show_icons=true&hide_border=true&bg_color=0B0C10&title_color=4285F4&icon_color=EA4335&text_color=C9D1D9&ring_color=FBBC05"/>
+<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dal&layout=compact&hide_border=true&bg_color=0B0C10&title_color=4285F4&text_color=C9D1D9&langs_count=6"/>
+
+<br/>
+
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=van1dal&hide_border=true&background=0B0C10&stroke=0B0C10&ring=4285F4&fire=EA4335&currStreakLabel=4285F4&sideLabels=C9D1D9&dates=C9D1D9&currStreakNum=C9D1D9&sideNums=C9D1D9"/>
+
+</div>
+
+<br/>
+
+<img width="100%" height="1" src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif"/>
+
+<br/>
+
+## Contribution Graph
+
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/van1dal/van1dal/output/github-contribution-grid-snake-dark.svg">
+  <img alt="snake contribution graph" src="https://raw.githubusercontent.com/van1dal/van1dal/output/github-contribution-grid-snake-dark.svg">
+</picture>
+
+<sub>Generated automatically via GitHub Actions — see setup note below.</sub>
+
+</div>
+
+<br/>
+
+<img width="100%" height="1" src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif"/>
+
+<br/>
+
+## Contact
+
+<div align="center">
+
+<a href="https://www.linkedin.com/in/van1dal">
+<img src="https://img.shields.io/badge/-LinkedIn-4285F4?style=for-the-badge&logo=linkedin&logoColor=white" height="30"/>
+</a>
+<a href="mailto:your.email@example.com">
+<img src="https://img.shields.io/badge/-Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" height="30"/>
+</a>
+<a href="https://t.me/van1dal">
+<img src="https://img.shields.io/badge/-Telegram-34A853?style=for-the-badge&logo=telegram&logoColor=white" height="30"/>
+</a>
 
 <br/><br/>
 
-Layer	Tools
-Language	Java
-Framework	Spring Boot, Spring Data JPA, Spring Security
-Database	MySQL, PostgreSQL
-Tools	Git, GitHub, IntelliJ IDEA, Postman
-</div> <br/> <div align="center">
-03 GitHub Stats
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=van1dal&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=4285F4&icon_color=34A853&text_color=c9d1d9&ring_color=EA4335"/> <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dal&layout=compact&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=4285F4&text_color=c9d1d9"/> <br/> <img src="https://github-readme-streak-stats.herokuapp.com/?user=van1dal&theme=tokyonight&hide_border=true&background=0d1117&ring=4285F4&fire=EA4335&currStreakLabel=4285F4"/> <br/> <img src="https://github-profile-trophy.vercel.app/?username=van1dal&theme=tokyonight&no-frame=true&no-bg=true&column=7&margin-w=8"/> </div> <br/> <div align="center">
-04 Contribution Activity
-<img src="https://raw.githubusercontent.com/platane/snk/output/github-contribution-grid-snake-dark.svg" width="100%"/> </div> <br/> <div align="center">
-05 Connect
+<sub>© van1dal — Backend Developer</sub>
 
-<a href="#"><img src="https://img.shields.io/badge/Telegram-4285F4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=0d1117"/></a> <a href="#"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white&labelColor=0d1117"/></a> <a href="#"><img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white&labelColor=0d1117"/></a>
+</div>
 
-<br/><br/>
-
-<img src="https://komarev.com/ghpvc/?username=van1dal&label=Profile%20Views&color=4285F4&style=for-the-badge"/> </div> <br/> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:34A853,25:0f0f0f,50:0f0f0f,75:0f0f0f,100:4285F4&height=110&section=footer" width="100%"/>
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0C10,50:1A1B23,100:0B0C10&height=100&section=footer"/>
