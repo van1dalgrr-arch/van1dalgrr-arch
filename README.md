@@ -1,10 +1,8 @@
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,45:a855f7,100:3b82f6&height=210&section=header&text=van1dal&fontSize=64&fontColor=ffffff&fontAlignY=38&desc=Go%20backend%20%C2%B7%20heading%20into%20DevOps&descSize=18&descAlignY=60&descColor=e9d5ff&animation=fadeIn"/>
+<img width="100%" src="assets/banner.svg" alt="van1dal — Go backend, heading into DevOps"/>
 
-<a href="https://github.com/van1dalgrr-arch">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=20&duration=2800&pause=1200&color=A855F7&center=true&vCenter=true&width=620&lines=Go+backend+services+that+don't+fall+over;Gin+%C2%B7+PostgreSQL+%C2%B7+Docker+%C2%B7+CI%2FCD;Learning+Kubernetes+one+deploy+at+a+time" alt="typing"/>
-</a>
+<img width="80%" src="assets/terminal.svg" alt="terminal"/>
 
 <br>
 
@@ -188,6 +186,10 @@ Telegram bot with an AI brain, written in Go.
 
 <img height="165" src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&hide_border=true&bg_color=0D1117&title_color=a855f7&icon_color=3b82f6&text_color=c9d1d9&rank_icon=github" alt="stats"/>
 <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dalgrr-arch&layout=compact&hide_border=true&bg_color=0D1117&title_color=a855f7&text_color=c9d1d9&hide=css,html" alt="languages"/>
+
+<br>
+
+<img width="100%" src="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/snake.svg" alt="snake eating my contributions"/>
 
 </div>
 
