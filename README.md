@@ -1,25 +1,13 @@
-<img width="100%" src="assets/banner.svg" alt="van1dal — Go backend, heading into DevOps"/>
+<img width="100%" src="assets/banner.svg" alt="van1dal — go backend → devops"/>
 
-Go backend developer — Gin, PostgreSQL, Docker. Moving into DevOps: CI/CD, Kubernetes, cloud.
-I like services that are simple, readable and don't fall over.
-
-**Now** — Go backend on a team project · **Learning** — CI/CD, Kubernetes, cloud
+Go backend developer — Gin, PostgreSQL, Docker. Now moving into DevOps: CI/CD, Kubernetes, cloud.
 
 ![Go](https://img.shields.io/badge/Go-0d1117?style=flat-square&logo=go&logoColor=00ADD8)
 ![Gin](https://img.shields.io/badge/Gin-0d1117?style=flat-square&logo=go&logoColor=00ADD8)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-0d1117?style=flat-square&logo=postgresql&logoColor=00ADD8)
 ![Docker](https://img.shields.io/badge/Docker-0d1117?style=flat-square&logo=docker&logoColor=00ADD8)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-0d1117?style=flat-square&logo=githubactions&logoColor=00ADD8)
-![Linux](https://img.shields.io/badge/Linux-0d1117?style=flat-square&logo=linux&logoColor=00ADD8)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-0d1117?style=flat-square&logo=kubernetes&logoColor=00ADD8)
 
-### Projects
-
-<a href="https://github.com/van1dalgrr-arch/OrderGo"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9&border_color=30363d&repo=OrderGo" alt="OrderGo"/></a> <a href="https://github.com/van1dalgrr-arch/logsence"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9&border_color=30363d&repo=logsence" alt="logsence"/></a>
-<a href="https://github.com/van1dalgrr-arch/MINI-deploy"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9&border_color=30363d&repo=MINI-deploy" alt="MINI-deploy"/></a> <a href="https://github.com/van1dalgrr-arch/watchdog"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9&border_color=30363d&repo=watchdog" alt="watchdog"/></a>
-
-<sub>and my macOS setup — <a href="https://github.com/van1dalgrr-arch/dotfiles">dotfiles</a>: Ghostty, AeroSpace, a pure-zsh prompt, Zed, live wallpapers drawn in Swift</sub>
-
-### Stats
-
-<img height="150" src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&hide_border=true&hide_rank=true&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9" alt="stats"/> <img height="150" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dalgrr-arch&layout=compact&hide_border=true&bg_color=0d1117&title_color=00ADD8&text_color=c9d1d9&langs_count=4&exclude_repo=dotfiles,Luma,SpringBoot-Templates,TelegramRepo,java-calculator,Portfolio,UserForge" alt="languages"/>
+<a href="https://github.com/van1dalgrr-arch/OrderGo"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=OrderGo&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9&border_color=30363d" alt="OrderGo"/></a> <a href="https://github.com/van1dalgrr-arch/logsence"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=logsence&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9&border_color=30363d" alt="logsence"/></a>
+<a href="https://github.com/van1dalgrr-arch/MINI-deploy"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=MINI-deploy&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9&border_color=30363d" alt="MINI-deploy"/></a> <a href="https://github.com/van1dalgrr-arch/watchdog"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=watchdog&bg_color=0d1117&title_color=00ADD8&icon_color=00ADD8&text_color=c9d1d9&border_color=30363d" alt="watchdog"/></a>
