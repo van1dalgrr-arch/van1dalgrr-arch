@@ -1,4 +1,7 @@
-<img width="100%" src="assets/banner.svg" alt="van1dal — go backend → devops"/>
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg">
+  <img width="100%" src="assets/banner.svg" alt="van1dal — go backend → devops">
+</picture>
 
 Go backend developer — Gin, PostgreSQL, Docker. Now moving into DevOps: CI/CD, Kubernetes, cloud.
 
