@@ -162,7 +162,7 @@ Before a commit even leaves my laptop, **gitleaks** checks it for secrets in eve
 
 ## 💻 Where I work
 
-<img src="https://raw.githubusercontent.com/van1dalgrr-arch/dotfiles/main/docs/terminal.png" width="100%" alt="Ghostty terminal with a framed zsh prompt">
+<img src="https://raw.githubusercontent.com/van1dalgrr-arch/dotfiles/main/docs/desktop.jpg" width="100%" alt="Ghostty and Zed tiled by AeroSpace over a sakura wallpaper">
 
 A MacBook Air with **8 GB of RAM**, so everything is tuned to stay light:
 
