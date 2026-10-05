@@ -90,13 +90,10 @@ and free chat, with answers right in Telegram.
 </tr>
 </table>
 
-### Also built
+### Environment
 
 | Project | What | Stack |
 |---|---|---|
-| [Luma](https://github.com/van1dalgrr-arch/Luma) | AI assistant extension for VS Code: a chat sidebar and editor context | TypeScript, React webview, esbuild, tests |
-| [UserForge](https://github.com/van1dalgrr-arch/UserForge) | User management REST API | Java 21, Spring Boot 4, multi-stage Docker with CDS and a healthcheck |
-| [SpringBoot-Templates](https://github.com/van1dalgrr-arch/SpringBoot-Templates) | Starter for new Spring services: controller → service → repository | Java, Spring Boot, Maven |
 | [dotfiles](https://github.com/van1dalgrr-arch/dotfiles) | My macOS dev environment as code (more below) | zsh, bash, Swift, GitHub Actions |
 
 <br>
@@ -128,9 +125,6 @@ REST APIs, SQL, Compose, Makefiles, the terminal
 
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-0d1117?style=for-the-badge&logo=githubactions&logoColor=2088FF)
 ![golangci-lint](https://img.shields.io/badge/golangci--lint-0d1117?style=for-the-badge&logo=go&logoColor=00ADD8)
-![Java](https://img.shields.io/badge/Java_·_Spring-0d1117?style=for-the-badge&logo=springboot&logoColor=6DB33F)
-![TypeScript](https://img.shields.io/badge/TypeScript-0d1117?style=for-the-badge&logo=typescript&logoColor=3178C6)
-![Python](https://img.shields.io/badge/Python-0d1117?style=for-the-badge&logo=python&logoColor=FFD43B)
 ![Telegram](https://img.shields.io/badge/Telegram_Bot_API-0d1117?style=for-the-badge&logo=telegram&logoColor=26A5E4)
 
 migrations, govulncheck, hadolint, gitleaks, LLM APIs
@@ -184,7 +178,7 @@ A MacBook Air with **8 GB of RAM**, so everything is tuned to stay light:
 
 <p>
   <img height="165" src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&hide_border=true&bg_color=00000000&title_color=a855f7&icon_color=00ADD8&text_color=7d8590&count_private=true&hide_rank=true&hide=stars" alt="GitHub stats">
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dalgrr-arch&layout=compact&hide_border=true&bg_color=00000000&title_color=a855f7&text_color=7d8590&exclude_repo=dotfiles,Luma,Portfolio,extensions" alt="Top languages">
+  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dalgrr-arch&layout=compact&hide_border=true&bg_color=00000000&title_color=a855f7&text_color=7d8590&exclude_repo=dotfiles,Luma,Portfolio,extensions,UserForge,SpringBoot-Templates,TelegramRepo,java-calculator" alt="Top languages">
 </p>
 
 <br>
