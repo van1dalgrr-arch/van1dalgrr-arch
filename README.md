@@ -157,17 +157,10 @@ Every Go project gets the same path from commit to image. It's the same CI that 
 [logsence](https://github.com/van1dalgrr-arch/logsence/blob/main/.github/workflows/ci.yml),
 and new projects start with it via my `gonew` template.
 
-```mermaid
-flowchart LR
-    A[git push] --> B[gofmt + go vet]
-    A --> C[go test -race]
-    A --> D[golangci-lint]
-    A --> E[govulncheck]
-    A --> F[hadolint + docker build]
-    B & C & D & E & F --> G{all green?}
-    G -->|yes| H[merge]
-    H -.->|next| I[image → registry → Kubernetes]
-```
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/pipeline-light.svg">
+  <img width="100%" src="assets/pipeline.svg" alt="git push runs gofmt, tests, golangci-lint, govulncheck and a Docker build in parallel; all green, then merge; next: image to Kubernetes">
+</picture>
 
 Before a commit even leaves my laptop, **gitleaks** checks it for secrets in every repo.
 
@@ -190,7 +183,7 @@ A MacBook Air with **8 GB of RAM**, so everything is tuned to stay light:
 ## 📊 Stats
 
 <p>
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&hide_border=true&bg_color=00000000&title_color=a855f7&icon_color=00ADD8&text_color=7d8590&count_private=true" alt="GitHub stats">
+  <img height="165" src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&hide_border=true&bg_color=00000000&title_color=a855f7&icon_color=00ADD8&text_color=7d8590&count_private=true&hide_rank=true&hide=stars" alt="GitHub stats">
   <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dalgrr-arch&layout=compact&hide_border=true&bg_color=00000000&title_color=a855f7&text_color=7d8590&exclude_repo=dotfiles,Luma,Portfolio,extensions" alt="Top languages">
 </p>
 

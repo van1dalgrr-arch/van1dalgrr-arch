@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7d8590"/></marker>
+<linearGradient id="v" x1="0" x2="1"><stop offset="0" stop-color="#a855f7"/><stop offset="1" stop-color="#00ADD8"/></linearGradient></defs>
+<rect width="1200" height="330" rx="16" fill="#0d1117" stroke="#30363d"/>
+<rect x="40" y="140" width="150" height="50" rx="10" fill="#161b22" stroke="#a855f7" stroke-width="1.5"/>
+<text x="115.0" y="171.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#e6edf3">git push</text>
+<rect x="300" y="28" width="260" height="40" rx="10" fill="#161b22" stroke="#00ADD8" stroke-width="1.5"/>
+<text x="430.0" y="54.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="500" fill="#e6edf3">gofmt · go vet</text>
+<path d="M190 165 C245.0 165 245.0 48 300 48" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M560 48 C610.0 48 610.0 165 660 165" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="300" y="88" width="260" height="40" rx="10" fill="#161b22" stroke="#00ADD8" stroke-width="1.5"/>
+<text x="430.0" y="114.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="500" fill="#e6edf3">go test -race</text>
+<path d="M190 165 C245.0 165 245.0 108 300 108" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M560 108 C610.0 108 610.0 165 660 165" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="300" y="148" width="260" height="40" rx="10" fill="#161b22" stroke="#00ADD8" stroke-width="1.5"/>
+<text x="430.0" y="174.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="500" fill="#e6edf3">golangci-lint</text>
+<path d="M190 165 C245.0 165 245.0 168 300 168" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M560 168 C610.0 168 610.0 165 660 165" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="300" y="208" width="260" height="40" rx="10" fill="#161b22" stroke="#00ADD8" stroke-width="1.5"/>
+<text x="430.0" y="234.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="500" fill="#e6edf3">govulncheck</text>
+<path d="M190 165 C245.0 165 245.0 228 300 228" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M560 228 C610.0 228 610.0 165 660 165" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="300" y="268" width="260" height="40" rx="10" fill="#161b22" stroke="#00ADD8" stroke-width="1.5"/>
+<text x="430.0" y="294.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="500" fill="#e6edf3">hadolint · docker build</text>
+<path d="M190 165 C245.0 165 245.0 288 300 288" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M560 288 C610.0 288 610.0 165 660 165" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="660" y="135" width="150" height="60" rx="10" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+<text x="735.0" y="171.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#e6edf3">all green ✓</text>
+<path d="M810 165 C845.0 165 845.0 165 880 165" fill="none" stroke="#7d8590" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="880" y="140" width="120" height="50" rx="10" fill="#161b22" stroke="#a855f7" stroke-width="1.5"/>
+<text x="940.0" y="171.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#e6edf3">merge</text>
+<path d="M1000 165 C1020.0 165 1020.0 165 1040 165" fill="none" stroke="#7d8590" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#a)"/>
+<rect x="1040" y="125" width="130" height="80" rx="10" fill="#161b22" stroke="#7d8590" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="1105.0" y="171.0" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="500" fill="#7d8590"></text>
+<text x="1105" y="158" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#7d8590">image →</text>
+<text x="1105" y="180" text-anchor="middle" font-family="ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#7d8590">Kubernetes</text>
+<text x="1105" y="226" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" fill="#7d8590">next</text>
+<text x="40" y="44" font-family="-apple-system, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="15" fill="#7d8590">every push · in parallel</text>
+</svg>
