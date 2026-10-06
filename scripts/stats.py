@@ -14,7 +14,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-from svgkit import MONO, SANS, THEMES, esc, frame, svg, text_w
+from svgkit import MONO, SANS, THEMES, blossom, esc, gtext, paper, svg
 
 LOGIN = "van1dalgrr-arch"
 # Not part of the Go/DevOps picture (or not code at all), so they stay out of the language bar.
@@ -90,80 +90,77 @@ def streaks(days):
 
 def render(u, theme):
     t = THEMES[theme]
-    W, H = 1200, 300
+    W, H = 1200, 320
     cc = u["contributionsCollection"]
     days = [d for w in cc["contributionCalendar"]["weeks"] for d in w["contributionDays"]]
     cur, longest = streaks(days)
 
-    o = [frame(W, H, t, glows=((0.0, 0.0, 0.4, "cyan"), (1.0, 1.0, 0.5, "purple")), uid="st"),
-         f'<defs><linearGradient id="bars" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="{t["purple"]}"/>'
-         f'<stop offset="1" stop-color="{t["cyan"]}"/></linearGradient></defs>']
-    o.append(f'<text x="36" y="46" font-family="{MONO}" font-size="14" fill="{t["muted"]}"><tspan fill="{t["purple"]}">$</tspan> '
-             f'gh stats --last-year   <tspan fill="{t["faint"]}"># updated daily by GitHub Actions</tspan></text>')
+    o = [paper(W, H, t)]
+    o.append(gtext("統計", 30, 50, 22, t["deep"], weight=900))
+    o.append(f'<text x="84" y="45" font-family="{MONO}" font-size="13" fill="{t["muted"]}">last 12 months '
+             f'<tspan fill="{t["faint"]}">· redrawn every day by GitHub Actions</tspan></text>')
 
-    # number tiles
     tiles = [
-        (f'{cc["contributionCalendar"]["totalContributions"]:,}', "contributions", t["purple"]),
-        (f'{cc["totalCommitContributions"]:,}', "commits", t["cyan"]),
-        (f'{cc["totalPullRequestContributions"]:,}', "pull requests", t["cyan"]),
-        (str(u["repositories"]["totalCount"]), "public repos", t["purple"]),
-        (f"{cur} d", "current streak", t["green"]),
-        (f"{longest} d", "longest streak", t["yellow"]),
+        (f'{cc["contributionCalendar"]["totalContributions"]:,}', "contributions", True),
+        (f'{cc["totalCommitContributions"]:,}', "commits", False),
+        (f'{cc["totalPullRequestContributions"]:,}', "pull requests", False),
+        (str(u["repositories"]["totalCount"]), "public repos", False),
+        (f"{cur}d", "current streak", True),
+        (f"{longest}d", "longest streak", False),
     ]
-    for i, (big, small, c) in enumerate(tiles):
-        x = 36 + (i % 3) * 170
-        y = 70 + (i // 3) * 102
-        o.append(f'<rect x="{x}" y="{y}" width="158" height="90" rx="12" fill="{t["panel"]}" stroke="{t["border"]}"/>')
-        o.append(f'<text x="{x+18}" y="{y+46}" font-family="{SANS}" font-size="30" font-weight="800" fill="{c}">{esc(big)}</text>')
-        o.append(f'<text x="{x+18}" y="{y+70}" font-family="{SANS}" font-size="13" fill="{t["muted"]}">{esc(small)}</text>')
+    for i, (big, small, pink) in enumerate(tiles):
+        x = 30 + (i % 3) * 172
+        y = 74 + (i // 3) * 112
+        o.append(f'<rect x="{x}" y="{y}" width="160" height="100" rx="14" fill="{t["panel"]}" stroke="{t["border"]}"/>')
+        o.append(gtext(big, x + 18, y + 54, 38, t["deep"] if pink else t["ink"], weight=900))
+        o.append(f'<text x="{x+18}" y="{y+80}" font-family="{SANS}" font-size="13" fill="{t["muted"]}">{esc(small)}</text>')
 
-    # weekly activity, last 16 weeks, bars grow in on load
+    # weekly activity as falling-petal columns: one stem per week, a blossom on top
     weeks = cc["contributionCalendar"]["weeks"][-16:]
     totals = [sum(d["contributionCount"] for d in w["contributionDays"]) for w in weeks]
     peak = max(totals) or 1
-    bx, by, bw, bh = 570, 84, 300, 150
-    o.append(f'<text x="{bx}" y="76" font-family="{MONO}" font-size="12" fill="{t["muted"]}">last 16 weeks</text>')
-    o.append(f'<line x1="{bx}" y1="{by+bh}" x2="{bx+bw}" y2="{by+bh}" stroke="{t["border"]}"/>')
+    bx, by, bw, bh = 570, 92, 320, 170
+    o.append(f'<text x="{bx}" y="84" font-family="{MONO}" font-size="12" fill="{t["muted"]}">last 16 weeks</text>')
+    o.append(f'<line x1="{bx}" y1="{by+bh}" x2="{bx+bw}" y2="{by+bh}" stroke="{t["faint"]}"/>')
     step = bw / len(totals)
     for i, v in enumerate(totals):
-        h = max(2, v / peak * (bh - 10))
-        x = bx + i * step + 1.5
-        o.append(f'<rect x="{x:.1f}" y="{by+bh-h:.1f}" width="{step-3:.1f}" height="{h:.1f}" rx="2" fill="url(#bars)" opacity="{0.45 + 0.55 * v / peak:.2f}">'
-                 f'<animate attributeName="height" from="0" to="{h:.1f}" dur="0.9s" begin="{i*0.03:.2f}s" fill="freeze"/>'
-                 f'<animate attributeName="y" from="{by+bh}" to="{by+bh-h:.1f}" dur="0.9s" begin="{i*0.03:.2f}s" fill="freeze"/></rect>')
-    o.append(f'<text x="{bx}" y="{by+bh+22}" font-family="{MONO}" font-size="11" fill="{t["faint"]}">peak {peak}/week</text>')
+        h = v / peak * (bh - 26)
+        x = bx + i * step + step / 2
+        top = by + bh - h
+        o.append(f'<line x1="{x:.1f}" y1="{by+bh}" x2="{x:.1f}" y2="{top:.1f}" stroke="{t["branch"]}" stroke-width="3" stroke-linecap="round">'
+                 f'<animate attributeName="y2" from="{by+bh}" to="{top:.1f}" dur="0.8s" begin="{i*0.04:.2f}s" fill="freeze"/></line>')
+        if v:
+            o.append(blossom(x, top, 4 + 7 * v / peak, t, rot=i * 23))
+    o.append(f'<text x="{bx+bw}" y="{by+bh+22}" text-anchor="end" font-family="{MONO}" font-size="11" fill="{t["muted"]}">peak {peak} / week</text>')
 
-    # languages by bytes across public, non-excluded repos
-    sizes, colors = {}, {}
+    # languages by bytes across public, non-excluded repos: the top one pink, the rest in ink
+    sizes = {}
     for r in u["repositories"]["nodes"]:
         if r["name"] in EXCLUDE:
             continue
         for e in r["languages"]["edges"]:
-            n = e["node"]["name"]
-            sizes[n] = sizes.get(n, 0) + e["size"]
-            colors[n] = e["node"]["color"] or t["muted"]
+            sizes[e["node"]["name"]] = sizes.get(e["node"]["name"], 0) + e["size"]
     total = sum(sizes.values()) or 1
-    top = sorted(sizes.items(), key=lambda kv: -kv[1])[:5]
-    lx, lw = 910, 254
-    o.append(f'<text x="{lx}" y="76" font-family="{MONO}" font-size="12" fill="{t["muted"]}">languages</text>')
-    o.append(f'<clipPath id="lb"><rect x="{lx}" y="88" width="{lw}" height="12" rx="6"/></clipPath>')
+    top5 = sorted(sizes.items(), key=lambda kv: -kv[1])[:5]
+    shades = [t["deep"], t["ink"], t["muted"], t["faint"], t["border"]]
+    lx, lw = 930, 240
+    o.append(f'<text x="{lx}" y="84" font-family="{MONO}" font-size="12" fill="{t["muted"]}">languages</text>')
+    o.append(f'<clipPath id="lb"><rect x="{lx}" y="96" width="{lw}" height="10" rx="5"/></clipPath><g clip-path="url(#lb)">')
+    o.append(f'<rect x="{lx}" y="96" width="{lw}" height="10" fill="{t["ghost"]}"/>')
     x = lx
-    o.append('<g clip-path="url(#lb)">')
-    o.append(f'<rect x="{lx}" y="88" width="{lw}" height="12" fill="{t["chip"]}"/>')
-    for n, s in top:
-        w = s / total * lw
-        o.append(f'<rect x="{x:.1f}" y="88" width="{w:.1f}" height="12" fill="{colors[n]}"/>')
+    for (n, sz), c in zip(top5, shades):
+        w = sz / total * lw
+        o.append(f'<rect x="{x:.1f}" y="96" width="{w:.1f}" height="10" fill="{c}"/>')
         x += w
     o.append("</g>")
-    for i, (n, s) in enumerate(top):
-        y = 132 + i * 24
-        o.append(f'<circle cx="{lx+6}" cy="{y-4}" r="5" fill="{colors[n]}"/>')
+    for i, ((n, sz), c) in enumerate(zip(top5, shades)):
+        y = 140 + i * 26
+        o.append(f'<circle cx="{lx+6}" cy="{y-4}" r="5" fill="{c}"/>')
         o.append(f'<text x="{lx+20}" y="{y}" font-family="{SANS}" font-size="14" font-weight="600" fill="{t["text"]}">{esc(n)}</text>')
-        pct = f"{s / total * 100:.1f}%"
-        o.append(f'<text x="{lx+lw}" y="{y}" text-anchor="end" font-family="{MONO}" font-size="13" fill="{t["muted"]}">{pct}</text>')
+        o.append(f'<text x="{lx+lw}" y="{y}" text-anchor="end" font-family="{MONO}" font-size="13" fill="{t["muted"]}">{sz / total * 100:.1f}%</text>')
 
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    o.append(f'<text x="{W-36}" y="46" text-anchor="end" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{stamp}</text>')
+    o.append(f'<text x="{W-30}" y="45" text-anchor="end" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{stamp}</text>')
     return svg(W, H, "\n".join(o), f"GitHub stats: {tiles[0][0]} contributions in the last year, current streak {cur} days")
 
 
