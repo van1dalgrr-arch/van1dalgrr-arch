@@ -65,7 +65,7 @@ ART = [
     " ╚██████╔╝ ╚██████╔╝",
     "  ╚═════╝   ╚═════╝ ",
 ]
-ART_SHADES = ["#ffffff", "#e6edf3", "#c9d1d9", "#a8b1bb", "#8b949e", "#6e7681"]
+ART_SHADES = ["#ffffff", "#ffe3ec", "#ffcadb", "#ffb3c7", "#e598b0", "#c47e96"]   # белый → розовый
 
 def svg(s):
     rows = [
@@ -87,7 +87,7 @@ def svg(s):
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="neofetch-style card">',
            """<style>
   text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; fill: #c9d1d9; }
-  .k { fill: #ffffff; font-weight: 700; } .dim { fill: #6e7681; } .t { fill: #ffffff; font-weight: 700; } .art { font-size: 22px; font-weight: 700; }
+  .k { fill: #ffb3c7; font-weight: 700; } .dim { fill: #6e7681; } .t { fill: #ffffff; font-weight: 700; } .art { font-size: 22px; font-weight: 700; }
   .ln { opacity: 0; animation: in .35s ease-out forwards; }
   .type { animation: type 1.1s steps(9, end) .3s both; }
   .cur { animation: blink 1s steps(1) infinite; }
@@ -116,12 +116,12 @@ def svg(s):
         elif kind == "kv":
             k, v = val
             out.append(f'<text x="{xr}" y="{y}" class="ln" style="animation-delay:{d:.2f}s"><tspan class="k">{escape(k)}</tspan><tspan class="dim">:</tspan> {escape(v)}</text>')
-        else:   # палитра: восемь оттенков серого, как блоки цветов у neofetch
-            for j, g in enumerate(("#0d1117", "#21262d", "#3a3f47", "#5c6370", "#8b949e", "#b1bac4", "#d7dde3", "#ffffff")):
+        else:   # палитра: серые и розовый акцент профиля, как блоки цветов у neofetch
+            for j, g in enumerate(("#0d1117", "#21262d", "#3a3f47", "#5c6370", "#8b949e", "#c47e96", "#ffb3c7", "#ffffff")):
                 out.append(f'<rect x="{xr + j * 30}" y="{y - 4}" width="26" height="16" rx="3" fill="{g}" stroke="#30363d" class="ln" style="animation-delay:{d + j * 0.04:.2f}s"/>')
     yc = H - 26
     out.append(f'<text x="{x0}" y="{yc}" class="dim ln" style="animation-delay:{t0 + 2.2:.2f}s">$</text>')
-    out.append(f'<rect x="52" y="{yc - 14}" width="9" height="18" fill="#ffffff" class="cur"/>')
+    out.append(f'<rect x="52" y="{yc - 14}" width="9" height="18" fill="#ffb3c7" class="cur"/>')
     out.append("</svg>")
     return "\n".join(out)
 

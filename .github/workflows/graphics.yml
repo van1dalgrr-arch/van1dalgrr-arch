@@ -16,15 +16,16 @@ jobs:
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/snake.svg?color_snake=#ffffff&color_dots=#161b22,#3a3a3a,#6e6e6e,#a8a8a8,#ffffff
+            dist/snake.svg?color_snake=#ffb3c7&color_dots=#161b22,#3a3a3a,#6e6e6e,#a8a8a8,#ffffff
       - uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
           games: pacman,breakout,galaga
-      - uses: yoshi389111/github-profile-3d-contrib@latest
+      - uses: yoshi389111/github-profile-3d-contrib@latest   # 3D-граф в цветах профиля: settings/3d-pink.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          SETTING_JSON: settings/3d-pink.json
       # neofetch-карточка с живыми цифрами из GitHub API
       - run: python3 scripts/terminal.py dist/terminal.svg
         env:

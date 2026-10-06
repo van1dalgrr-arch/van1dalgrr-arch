@@ -1,0 +1,11 @@
+{
+  "type": "normal",
+  "fileName": "profile-night-pink.svg",
+  "backgroundColor": "#0d1117",
+  "foregroundColor": "#c9d1d9",
+  "strongColor": "#ffb3c7",
+  "weakColor": "#6e7681",
+  "radarColor": "#ffb3c7",
+  "growingAnimation": true,
+  "contribColors": ["#21262d", "#4a2f3b", "#87506a", "#d17fa1", "#ffb3c7"]
+}
