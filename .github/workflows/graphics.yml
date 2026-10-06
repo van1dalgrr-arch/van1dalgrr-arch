@@ -1,0 +1,36 @@
+# Анимированная графика по графу контрибуций: змейка, аркады (Pac-Man, Breakout, Galaga) и 3D-граф.
+# Раз в день перерисовывается и кладётся в ветку output — оттуда её берёт README
+name: graphics
+on:
+  schedule: [{ cron: "0 3 * * *" }]
+  workflow_dispatch:
+  push: { branches: [main] }
+permissions: { contents: write }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: touch .start && mkdir -p dist
+      - uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake.svg?color_snake=#ffffff&color_dots=#161b22,#3a3a3a,#6e6e6e,#a8a8a8,#ffffff
+      - uses: abozanona/pacman-contribution-graph@main
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          games: pacman,breakout,galaga
+      - uses: yoshi389111/github-profile-3d-contrib@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+      # всё, что нагенерировали экшены, — в dist (имена файлов у них свои)
+      - run: |
+          find . -path ./dist -prune -o -path ./.git -prune -o -name '*.svg' -newer .start -print | while read -r f; do
+            cp "$f" "dist/$(echo "${f#./}" | tr / -)"
+          done
+          ls -la dist
+      - uses: crazy-max/ghaction-github-pages@v4
+        with: { target_branch: output, build_dir: dist }
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
