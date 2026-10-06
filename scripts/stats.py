@@ -117,12 +117,12 @@ def render(u, theme):
         o.append(f'<text x="{x+18}" y="{y+46}" font-family="{SANS}" font-size="30" font-weight="800" fill="{c}">{esc(big)}</text>')
         o.append(f'<text x="{x+18}" y="{y+70}" font-family="{SANS}" font-size="13" fill="{t["muted"]}">{esc(small)}</text>')
 
-    # weekly activity, last 26 weeks, bars grow in on load
-    weeks = cc["contributionCalendar"]["weeks"][-26:]
+    # weekly activity, last 16 weeks, bars grow in on load
+    weeks = cc["contributionCalendar"]["weeks"][-16:]
     totals = [sum(d["contributionCount"] for d in w["contributionDays"]) for w in weeks]
     peak = max(totals) or 1
     bx, by, bw, bh = 570, 84, 300, 150
-    o.append(f'<text x="{bx}" y="76" font-family="{MONO}" font-size="12" fill="{t["muted"]}">last 26 weeks</text>')
+    o.append(f'<text x="{bx}" y="76" font-family="{MONO}" font-size="12" fill="{t["muted"]}">last 16 weeks</text>')
     o.append(f'<line x1="{bx}" y1="{by+bh}" x2="{bx+bw}" y2="{by+bh}" stroke="{t["border"]}"/>')
     step = bw / len(totals)
     for i, v in enumerate(totals):
