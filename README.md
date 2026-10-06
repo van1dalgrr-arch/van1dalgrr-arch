@@ -15,9 +15,7 @@
 <p align="center"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=1400&pause=100000&color=FFFFFF&center=true&vCenter=true&repeat=false&width=440&height=40&lines=%3E+about_me" alt="about_me"></p>
 
 <p align="center">
-  Backend developer writing Go. I build REST services with Gin and PostgreSQL,<br>
-  ship them in Docker and gate every push with CI.<br>
-  Next up: infrastructure as code and the cloud. English / Russian.
+  <img src="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/terminal.svg" width="100%" alt="neofetch: van1dal@github — Go backend developer, Saint Petersburg; stack Go, Gin, PostgreSQL, Redis, Docker; CI on GitHub Actions; live repo, contribution and streak numbers">
 </p>
 
 <p align="center"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=1400&pause=100000&color=FFFFFF&center=true&vCenter=true&repeat=false&width=440&height=40&lines=%3E+projects" alt="projects"></p>
@@ -40,6 +38,10 @@
 <p align="center">
   <img width="49%" src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&hide_rank=true&card_width=495&hide_border=true&bg_color=0d1117&title_color=ffffff&icon_color=ffffff&text_color=c9d1d9" alt="GitHub stats">
   <img width="49%" src="https://streak-stats.demolab.com?user=van1dalgrr-arch&hide_border=true&background=0d1117&ring=ffffff&fire=ffffff&currStreakLabel=ffffff&stroke=444444&sideLabels=c9d1d9&dates=8b949e&currStreakNum=ffffff&sideNums=ffffff" alt="Contribution streak">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/profile-3d-contrib-profile-night-green.svg" width="100%" alt="3D contribution calendar with a radar of commits, PRs and reviews and a language ring">
 </p>
 
 <p align="center"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=1400&pause=100000&color=FFFFFF&center=true&vCenter=true&repeat=false&width=440&height=40&lines=%3E+commit_activity" alt="commit_activity"></p>

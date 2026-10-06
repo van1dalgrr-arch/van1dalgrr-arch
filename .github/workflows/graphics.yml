@@ -1,4 +1,4 @@
-# Анимированная графика по графу контрибуций: змейка, аркады (Pac-Man, Breakout, Galaga) и 3D-граф.
+# Анимированная графика: neofetch-карточка, змейка, аркады (Pac-Man, Breakout, Galaga) и 3D-граф.
 # Раз в день перерисовывается и кладётся в ветку output — оттуда её берёт README
 name: graphics
 on:
@@ -22,6 +22,11 @@ jobs:
           github_user_name: ${{ github.repository_owner }}
           games: pacman,breakout,galaga
       - uses: yoshi389111/github-profile-3d-contrib@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+      # neofetch-карточка с живыми цифрами из GitHub API
+      - run: python3 scripts/terminal.py dist/terminal.svg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
