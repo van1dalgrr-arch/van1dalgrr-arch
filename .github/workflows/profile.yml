@@ -1,0 +1,55 @@
+name: profile
+
+# Daily refresh of the live parts of the README: the stats card and the contribution snake.
+# Both land on the `output` branch, so main only ever holds hand-made changes.
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["scripts/**", ".github/workflows/profile.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check that the static assets are up to date
+        run: |
+          python3 scripts/build.py
+          git diff --exit-code -- assets/ || { echo "::error::assets/ is stale: run python3 scripts/build.py and commit"; exit 1; }
+
+      - name: Stats card
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/stats.py dist
+
+      - name: Contribution snake
+        uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake.svg?palette=github-dark&color_snake=#a855f7&color_dots=#161b22,#0e4a5c,#0b6f8a,#0896b8,#00ADD8
+            dist/snake-light.svg?palette=github-light&color_snake=#7c3aed&color_dots=#ebedf0,#b3e5f2,#66c7e0,#1aa6cb,#0089ad
+
+      - name: Publish to the output branch
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+          commit_message: "Refresh stats and snake"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
