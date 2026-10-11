@@ -12,17 +12,19 @@
   <img src="https://img.shields.io/badge/Saint_Petersburg-f97316?style=for-the-badge&logo=googlemaps&logoColor=white" alt="Saint Petersburg">
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/terminal.svg" width="100%" alt="neofetch: van1dal@github — Go backend developer, Saint Petersburg; stack Go, Gin, PostgreSQL, Redis, Docker; CI on GitHub Actions; live repo, contribution and streak numbers">
+</p>
+
 ### 👋 About me
 
 - 🧑‍💻 **Go backend developer** from Saint Petersburg
 - 🛠️ I build **REST services** with Gin, PostgreSQL, Redis and Docker — tested, linted and shipped through **CI on every push**
 - 🧪 Side projects: an HTTP framework on top of Gin ([Pulse](https://github.com/van1dalgrr-arch/Pulse)), an uptime monitor ([watchdog](https://github.com/van1dalgrr-arch/watchdog)), a log collection service ([logsence](https://github.com/van1dalgrr-arch/logsence))
+- 🤝 In a team: the Go backend of [kinoza-back](https://github.com/orionvega2343-cloud/kinoza-back)
 - ☕ Also at home in **Java / Spring Boot**
 - 🖥️ My whole macOS dev setup is open source: [dotfiles](https://github.com/van1dalgrr-arch/dotfiles)
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/terminal.svg" width="100%" alt="neofetch: van1dal@github — Go backend developer, Saint Petersburg; stack Go, Gin, PostgreSQL, Redis, Docker; CI on GitHub Actions; live repo, contribution and streak numbers">
-</p>
 
 ### 🧰 Tech stack
 
@@ -32,12 +34,14 @@
 
 ### 🚀 Projects
 
+<p align="center"><sub>kinoza-back — a team project I work on · the rest are mine</sub></p>
+
 <p align="center">
+  <a href="https://github.com/orionvega2343-cloud/kinoza-back"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=orionvega2343-cloud&repo=kinoza-back&show_owner=true&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="kinoza-back (team)"></a>
   <a href="https://github.com/van1dalgrr-arch/logsence"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=logsence&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="logsence"></a>
   <a href="https://github.com/van1dalgrr-arch/OrderGo"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=OrderGo&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="OrderGo"></a>
   <a href="https://github.com/van1dalgrr-arch/watchdog"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=watchdog&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="watchdog"></a>
   <a href="https://github.com/van1dalgrr-arch/Pulse"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=Pulse&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="Pulse"></a>
-  <a href="https://github.com/van1dalgrr-arch/MINI-deploy"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=MINI-deploy&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="MINI-deploy"></a>
   <a href="https://github.com/van1dalgrr-arch/dotfiles"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=dotfiles&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="dotfiles"></a>
 </p>
 
