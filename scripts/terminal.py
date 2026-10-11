@@ -76,14 +76,16 @@ def svg(s):
         ("kv", ("Stack", "Go · Gin · PostgreSQL · Redis · Docker")),
         ("kv", ("CI", "GitHub Actions · golangci-lint · govulncheck")),
         ("kv", ("Setup", "macOS · Ghostty · Zed · AeroSpace")),
+        ("kv", ("Building", "orbstack — a container dashboard in Go")),
         ("kv", ("Repos", f'{s["repos"]} public')),
         ("kv", ("Last push", s["latest"])),
         ("kv", ("This year", f'{s["contrib"]} contributions · {s["commits"]} commits')),
-        ("kv", ("Streak", f'{s["streak"]} days now · best {s["longest"]}')),
+        ("kv", ("Streak", f'{s["streak"]} day{"s" if s["streak"] != 1 else ""} now · best {s["longest"]}')),
         ("kv", ("Languages", s["langs"])),
         ("palette", ""),
     ]
-    W, H, lh, x0, xr, y0 = 900, 470, 25, 34, 330, 104
+    W, lh, x0, xr, y0 = 900, 25, 34, 330, 104
+    H = max(470, y0 + len(rows) * lh + 46)   # высота — по числу строк: новая строка не налезет на курсор
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="neofetch-style card">',
            """<style>
   text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; fill: #c9d1d9; }

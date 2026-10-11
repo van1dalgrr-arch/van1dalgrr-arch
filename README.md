@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=18&pause=900&color=FFB3C7&center=true&vCenter=true&width=520&lines=REST+services+in+Go;Gin+%C2%B7+PostgreSQL+%C2%B7+Docker;CI+on+every+push;Infrastructure+as+code+next" alt="REST services in Go · Gin, PostgreSQL, Docker · CI on every push · Infrastructure as code next">
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=18&pause=900&color=FFB3C7&center=true&vCenter=true&width=520&lines=REST+services+in+Go;Gin+%C2%B7+PostgreSQL+%C2%B7+Docker;CI+on+every+push;Terminal+tools+with+Bubble+Tea" alt="REST services in Go · Gin, PostgreSQL, Docker · CI on every push · Terminal tools with Bubble Tea">
 </p>
 
 <p align="center">
@@ -18,12 +18,25 @@
   <img src="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/terminal.svg" width="100%" alt="neofetch: van1dal@github — Go backend developer, Saint Petersburg; stack Go, Gin, PostgreSQL, Redis, Docker; CI on GitHub Actions; live repo, contribution and streak numbers">
 </p>
 
+<p align="center"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=1400&pause=100000&color=FFB3C7&center=true&vCenter=true&repeat=false&width=440&height=40&lines=%3E+featured" alt="featured"></p>
+
+<p align="center">
+  <a href="https://github.com/van1dalgrr-arch/dotfiles#containers-orbstack"><img src="https://raw.githubusercontent.com/van1dalgrr-arch/dotfiles/main/docs/orbstack.jpg" width="100%" alt="orbstack: a live container dashboard in the terminal — containers with CPU and memory, the selected log and an event feed"></a>
+</p>
+
+<p align="center">
+  <b>berth</b> — a live container dashboard in Go + <a href="https://github.com/charmbracelet/bubbletea">Bubble Tea</a>; in my <a href="https://github.com/van1dalgrr-arch/dotfiles">dotfiles</a> it's the <code>orbstack</code> command.<br>
+  <sub>CPU and memory per container · logs and events live · Dockerfile and compose viewer · templates · live rebuild · every action shows the docker command behind it</sub>
+</p>
+
 <p align="center"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=1400&pause=100000&color=FFB3C7&center=true&vCenter=true&repeat=false&width=440&height=40&lines=%3E+projects" alt="projects"></p>
 
 <p align="center">
   <a href="https://github.com/van1dalgrr-arch/logsence"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=logsence&hide_border=true&bg_color=0d1117&title_color=ffffff&icon_color=ffb3c7&text_color=c9d1d9" alt="logsence"></a>
   <a href="https://github.com/van1dalgrr-arch/OrderGo"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=OrderGo&hide_border=true&bg_color=0d1117&title_color=ffffff&icon_color=ffb3c7&text_color=c9d1d9" alt="OrderGo"></a>
   <a href="https://github.com/van1dalgrr-arch/watchdog"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=watchdog&hide_border=true&bg_color=0d1117&title_color=ffffff&icon_color=ffb3c7&text_color=c9d1d9" alt="watchdog"></a>
+  <a href="https://github.com/van1dalgrr-arch/Pulse"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=Pulse&hide_border=true&bg_color=0d1117&title_color=ffffff&icon_color=ffb3c7&text_color=c9d1d9" alt="Pulse"></a>
+  <a href="https://github.com/van1dalgrr-arch/MINI-deploy"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=MINI-deploy&hide_border=true&bg_color=0d1117&title_color=ffffff&icon_color=ffb3c7&text_color=c9d1d9" alt="MINI-deploy"></a>
   <a href="https://github.com/van1dalgrr-arch/dotfiles"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=van1dalgrr-arch&repo=dotfiles&hide_border=true&bg_color=0d1117&title_color=ffffff&icon_color=ffb3c7&text_color=c9d1d9" alt="dotfiles"></a>
 </p>
 
