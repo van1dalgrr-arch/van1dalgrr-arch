@@ -45,7 +45,7 @@
 
 <p align="center">
   <img width="49%" src="https://github-readme-stats.vercel.app/api?username=van1dalgrr-arch&show_icons=true&hide_rank=true&card_width=495&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="GitHub stats">
-  <img width="49%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dalgrr-arch&layout=compact&exclude_repo=dotfiles,van1dalgrr-arch&card_width=495&langs_count=6&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="Top languages">
+  <img width="49%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=van1dalgrr-arch&layout=compact&exclude_repo=dotfiles,van1dalgrr-arch,Luma,extensions&card_width=495&langs_count=6&bg_color=0d1117&title_color=f472b6&icon_color=a78bfa&text_color=c9d1d9&border_color=30363d&border_radius=10" alt="Top languages">
 </p>
 <p align="center">
   <img width="60%" src="https://streak-stats.demolab.com?user=van1dalgrr-arch&background=0d1117&border=30363d&border_radius=10&ring=ec4899&fire=f97316&currStreakLabel=f472b6&sideLabels=c9d1d9&dates=8b949e&currStreakNum=ffffff&sideNums=ffffff&stroke=30363d" alt="Contribution streak">
