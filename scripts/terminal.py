@@ -89,11 +89,14 @@ def svg(s):
            """<style>
   text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; fill: #c9d1d9; }
   .k { fill: #f472b6; font-weight: 700; } .dim { fill: #6e7681; } .t { fill: #ffffff; font-weight: 700; } .art { font-size: 22px; font-weight: 700; }
-  .ln { opacity: 0; animation: in .35s ease-out forwards; }
-  .type { animation: type 1.1s steps(9, end) .3s both; }
+  /* по кругу каждые 16 с: команда печатается, строки выезжают, держатся и гаснут — видно, когда ни долистай */
+  .ln { opacity: 0; animation: in 16s ease-out infinite both; }
+  .type { animation: type 16s .3s infinite both; }
   .cur { animation: blink 1s steps(1) infinite; }
-  @keyframes in { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
-  @keyframes type { from { width: 0; } to { width: 110px; } }
+  @keyframes in { 0% { opacity: 0; transform: translateX(-6px); } 3% { opacity: 1; transform: none; }
+                  84% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; transform: none; } }
+  @keyframes type { 0% { width: 0; animation-timing-function: steps(9, end); } 7% { width: 110px; }
+                    84% { width: 110px; } 90%, 100% { width: 0; } }
   @keyframes blink { 50% { opacity: 0; } }
 </style>""",
            f'<rect width="{W}" height="{H}" rx="12" fill="#0d1117" stroke="#30363d"/>',
