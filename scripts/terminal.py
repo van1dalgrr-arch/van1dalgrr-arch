@@ -42,7 +42,7 @@ def stats(u):
     # основной язык каждого репозитория — честнее байтов (один TS-плагин не перевешивает все Go-сервисы)
     langs = {}
     for r in u["repos"]["nodes"]:
-        if r["primaryLanguage"] and r["name"] != USER:
+        if r["primaryLanguage"] and r["name"] not in (USER, "Portfolio", "UserForge"):   # вёрстка и пустой Dockerfile — не языки
             langs[r["primaryLanguage"]["name"]] = langs.get(r["primaryLanguage"]["name"], 0) + 1
     top = sorted(langs.items(), key=lambda x: -x[1])[:3]
     latest = next(r for r in u["latest"]["nodes"] if r["name"] != USER)   # не сам профиль

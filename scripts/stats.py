@@ -8,7 +8,7 @@ import json, os, random, sys, urllib.request
 from kit import C, GRAD, MONO, card, esc, gt, gw, svg
 
 USER = os.environ.get("USERNAME", "van1dalgrr-arch")
-SKIP = {USER, "dotfiles", "Luma", "extensions"}   # профиль и не-код не тянут языки в свою сторону
+SKIP = {USER, "dotfiles", "Luma", "extensions", "Portfolio", "UserForge"}   # профиль и не-код не тянут языки в свою сторону
 
 QUERY = """query($login: String!) { user(login: $login) {
   repos: repositories(first: 100, privacy: PUBLIC, ownerAffiliations: OWNER, isFork: false) {
