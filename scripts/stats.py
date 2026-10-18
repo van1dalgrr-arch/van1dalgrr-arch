@@ -29,7 +29,7 @@ def fetch():
 
 def demo():
     rnd = random.Random(3)
-    weeks = [{"contributionDays": [{"contributionCount": rnd.choice([0, 0, 1, 3, 6, 9])} for _ in range(7)]} for _ in range(53)]
+    weeks = [{"contributionDays": [{"contributionCount": rnd.choice([0, 0, 1, 3, 6, 9])} for _ in range(7)]} for _ in range(53)]  # noqa
     return {"repos": {"totalCount": 15, "nodes": [{"name": f"r{i}", "primaryLanguage": {"name": l}} for i, l in enumerate(["Go"] * 9 + ["Java"] * 3 + ["Python", "Swift"])]},
             "contributionsCollection": {"totalCommitContributions": 412, "totalPullRequestContributions": 31,
                                         "contributionCalendar": {"totalContributions": 530, "weeks": weeks}}}
@@ -79,7 +79,10 @@ def render(u, theme):
     step = 520 / len(tot)
     for i, v in enumerate(tot):
         h = max(2, v / peak * bh)
-        o.append(f'<rect x="{bx + i * step:.1f}" y="{by - h:.1f}" width="{step - 6:.1f}" height="{h:.1f}" rx="2" fill="{t["accent"] if i == len(tot) - 1 else t["line2"] if v == 0 else t["faint"]}"/>')
+        d = 0.6 + i * 0.04   # столбики вырастают слева направо; без анимации просто стоят
+        o.append(f'<rect x="{bx + i * step:.1f}" y="{by - h:.1f}" width="{step - 6:.1f}" height="{h:.1f}" rx="2" fill="{t["accent"] if i == len(tot) - 1 else t["line2"] if v == 0 else t["faint"]}">'
+                 f'<animate attributeName="height" values="0;0;{h:.1f}" keyTimes="0;{(d - 0.5) / d:.3f};1" dur="{d:.2f}s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;0.2 0.8 0.3 1"/>'
+                 f'<animate attributeName="y" values="{by};{by};{by - h:.1f}" keyTimes="0;{(d - 0.5) / d:.3f};1" dur="{d:.2f}s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;0.2 0.8 0.3 1"/></rect>')
     o.append(f'<text x="{bx + 520 - 6}" y="{by + 22}" text-anchor="end" font-family="{SANS}" font-size="12" fill="{t["faint"]}">peak {peak}</text>')
 
     # языки — по основному языку каждого репозитория
@@ -106,9 +109,39 @@ def render(u, theme):
     return svg(W, H, "\n".join(o), f"Last 12 months: {rows[0][0]} contributions, {rows[1][0]} commits, current streak {cur} days, best {best}")
 
 
+def calendar(u, theme):
+    """Свой календарь вкладов: 53 недели × 7 дней, по заполненным клеткам раз в несколько секунд проходит волна."""
+    t = THEMES[theme]
+    weeks = u["contributionsCollection"]["contributionCalendar"]["weeks"]
+    W, H, cell, gap = 1200, 230, 16, 4
+    o = [frame(W, H, t, rx=16, fill=t["panel"])]
+    o.append(f'<text x="40" y="48" font-family="{SANS}" font-size="12" font-weight="600" letter-spacing="1.5" fill="{t["accent"]}">CONTRIBUTIONS</text>')
+    total = u["contributionsCollection"]["contributionCalendar"]["totalContributions"]
+    o.append(f'<text x="{W - 40}" y="48" text-anchor="end" font-family="{SANS}" font-size="13" fill="{t["muted"]}">{total:,} in the last year</text>')
+    counts = sorted(d["contributionCount"] for w in weeks for d in w["contributionDays"] if d["contributionCount"])
+    q = lambda f: counts[min(len(counts) - 1, int(len(counts) * f))] if counts else 1
+    edges = [q(0.25), q(0.5), q(0.75)]
+    x0 = (W - len(weeks) * (cell + gap) + gap) / 2
+    for i, w in enumerate(weeks):
+        for j, d in enumerate(w["contributionDays"]):
+            c = d["contributionCount"]
+            x, y = x0 + i * (cell + gap), 70 + j * (cell + gap)
+            if not c:
+                o.append(f'<rect x="{x:.0f}" y="{y}" width="{cell}" height="{cell}" rx="4" fill="{t["line"]}"/>')
+                continue
+            lvl = 1 + sum(c > e for e in edges)
+            op = (0.35, 0.55, 0.78, 1.0)[lvl - 1]
+            wave = 8.0
+            at = (i + j * 0.5) / (len(weeks) + 4)
+            o.append(f'<rect x="{x:.0f}" y="{y}" width="{cell}" height="{cell}" rx="4" fill="{t["accent"]}" opacity="{op}">'
+                     f'<animate attributeName="opacity" values="{op};{op};1;{op};{op}" keyTimes="0;{at * 0.8:.3f};{at * 0.8 + 0.03:.3f};{at * 0.8 + 0.08:.3f};1" dur="{wave}s" repeatCount="indefinite"/></rect>')
+    return svg(W, H, "\n".join(o), f"Contribution calendar: {total} contributions in the last year")
+
+
 if __name__ == "__main__":
     out = sys.argv[1] if len(sys.argv) > 1 else "dist"
     u = demo() if "--demo" in sys.argv else fetch()
     for theme in THEMES:
         write("scores", theme, render(u, theme), folder=out)
+        write("calendar", theme, calendar(u, theme), folder=out)
     print("written to", out)

@@ -1,5 +1,9 @@
 <picture><source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg"><img src="assets/hero.svg" width="100%" alt="van1dal — Go backend developer in Saint Petersburg. I build REST services with Gin, PostgreSQL, Redis and Docker, tested, linted and shipped through CI on every push."></picture>
 
+### Right now
+
+<p><picture><source media="(prefers-color-scheme: light)" srcset="assets/now-light.svg"><img src="assets/now.svg" width="100%" alt="Right now: building gw, the Go backend of kinoza-back with a team, tuning dotfiles. An example feed of the gw daemon: pull requests, Actions runs, reviews and mentions sent to Telegram."></picture></p>
+
 ### About
 
 - Go backend developer in Saint Petersburg
@@ -7,7 +11,7 @@
 - Building [gw](https://github.com/van1dalgrr-arch/github-watcher), GitHub in the terminal with a daemon that sends alerts to Telegram
 - In a team: the Go backend of [kinoza-back](https://github.com/orionvega2343-cloud/kinoza-back)
 - Also comfortable with Java and Spring Boot
-- My macOS setup is open source: [dotfiles](https://github.com/van1dalgrr-arch/dotfiles)
+- My macOS setup is open source: [dotfiles](https://github.com/van1dalgrr-arch/dotfiles), with [berth](https://github.com/van1dalgrr-arch/dotfiles/tree/main/berth) for containers in the terminal
 
 ### Projects
 
@@ -26,16 +30,26 @@
   <a href="https://github.com/van1dalgrr-arch/OrderGo"><picture><source media="(prefers-color-scheme: light)" srcset="assets/p-ordergo-light.svg"><img src="assets/p-ordergo.svg" width="49%" alt="OrderGo — REST API for orders"></picture></a>
 </p>
 
+<p><a href="https://github.com/van1dalgrr-arch/logsence"><picture><source media="(prefers-color-scheme: light)" srcset="assets/flow-light.svg"><img src="assets/flow.svg" width="100%" alt="How a log travels in logsence: a client sends POST /logs to the Gin router, the handler validates and batches, PostgreSQL stores it; GET /logs?service=api comes back newest first"></picture></a></p>
+
+### How I ship
+
+<p><picture><source media="(prefers-color-scheme: light)" srcset="assets/ci-light.svg"><img src="assets/ci.svg" width="100%" alt="Every push: gofmt and vet, tests with -race, golangci-lint, govulncheck and a Docker build, then merge. gitleaks checks every commit for secrets before it leaves the laptop."></picture></p>
+
 ### Stack
 
-<p><picture><source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg"><img src="assets/stack.svg" width="100%" alt="Go, Gin, PostgreSQL, Redis, Docker, GitHub Actions, Linux, Git, Bash, Neovim, Java, Spring"></picture></p>
+<p><picture><source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg"><img src="assets/stack.svg" width="100%" alt="Backend: Go, Gin, Java, Spring. Data: PostgreSQL, Redis. Ship: Docker, GitHub Actions, Linux. Tools: Git, Bash, Neovim."></picture></p>
 
 ### Activity
 
 <p><picture><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/scores-light.svg"><img src="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/scores.svg" width="100%" alt="Last 12 months: contributions, commits, pull requests, public repos, current and best streak, weekly activity and languages"></picture></p>
 
+<p><picture><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/calendar-light.svg"><img src="https://raw.githubusercontent.com/van1dalgrr-arch/van1dalgrr-arch/output/calendar.svg" width="100%" alt="Contribution calendar for the last year"></picture></p>
+
 ### Contact
 
 [van1dalgrr@gmail.com](mailto:van1dalgrr@gmail.com) · [github.com/van1dalgrr-arch](https://github.com/van1dalgrr-arch) · English or Russian
 
-<sub>The images are drawn by [`scripts/build.py`](scripts/build.py); the activity card is redrawn daily by [a workflow](.github/workflows/graphics.yml).</sub>
+<p><picture><source media="(prefers-color-scheme: light)" srcset="assets/footer-light.svg"><img src="assets/footer.svg" width="100%" alt="Thanks for stopping by"></picture></p>
+
+<sub>The images are drawn by [`scripts/build.py`](scripts/build.py); activity is redrawn daily by [a workflow](.github/workflows/graphics.yml).</sub>
