@@ -1,5 +1,6 @@
-# Анимированная графика: neofetch-карточка, змейка, аркады (Pac-Man, Breakout, Galaga) и 3D-граф.
-# Раз в день перерисовывается и кладётся в ветку output — оттуда её берёт README
+# Живая графика профиля: neofetch, таблица рекордов, змейка, аркады (Pac-Man, Breakout, Galaga) и 3D-граф.
+# Раз в день перерисовывается и кладётся в ветку output — оттуда её берёт README.
+# Статичные картинки (assets/) рисует scripts/build.py; job check следит, чтобы они не отставали от скрипта.
 name: graphics
 on:
   schedule: [{ cron: "0 3 * * *" }]
@@ -7,6 +8,14 @@ on:
   push: { branches: [main] }
 permissions: { contents: write }
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: |
+          python3 scripts/build.py
+          git diff --exit-code -- assets/ || { echo "::error::assets/ устарели: запусти python3 scripts/build.py и закоммить"; exit 1; }
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -16,7 +25,7 @@ jobs:
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/snake.svg?color_snake=#f97316&color_dots=#161b22,#4c1d95,#7c3aed,#ec4899,#fb923c
+            dist/snake.svg?color_snake=#fde047&color_dots=#1c1233,#4c1d95,#7c3aed,#ec4899,#f97316
       - uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
@@ -26,14 +35,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
           SETTING_JSON: settings/3d-pink.json
-      # neofetch-карточка с живыми цифрами из GitHub API
-      - run: python3 scripts/terminal.py dist/terminal.svg
+      # neofetch и таблица рекордов с живыми цифрами из GitHub API
+      - run: |
+          python3 scripts/terminal.py dist/terminal.svg
+          python3 scripts/stats.py dist/scores.svg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
       # всё, что нагенерировали экшены, — в dist (имена файлов у них свои)
       - run: |
-          find . -path ./dist -prune -o -path ./.git -prune -o -name '*.svg' -newer .start -print | while read -r f; do
+          find . -path ./dist -prune -o -path ./.git -prune -o -path ./assets -prune -o -name '*.svg' -newer .start -print | while read -r f; do
             cp "$f" "dist/$(echo "${f#./}" | tr / -)"
           done
           ls -la dist

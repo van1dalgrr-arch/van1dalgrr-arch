@@ -75,7 +75,8 @@ def svg(s):
         ("kv", ("Location", "Saint Petersburg")),
         ("kv", ("Stack", "Go · Gin · PostgreSQL · Redis · Docker")),
         ("kv", ("CI", "GitHub Actions · golangci-lint · govulncheck")),
-        ("kv", ("Setup", "macOS · Ghostty · Zed · AeroSpace")),
+        ("kv", ("Setup", "macOS · Ghostty · Neovim · AeroSpace")),
+        ("kv", ("Building", "gw — GitHub in the terminal")),
         ("kv", ("Repos", f'{s["repos"]} public')),
         ("kv", ("Last push", s["latest"])),
         ("kv", ("This year", f'{s["contrib"]} contributions · {s["commits"]} commits')),
@@ -83,34 +84,34 @@ def svg(s):
         ("kv", ("Languages", s["langs"])),
         ("palette", ""),
     ]
-    W, lh, x0, xr, y0 = 900, 25, 34, 330, 104
+    W, lh, x0, xr, y0 = 1200, 28, 50, 450, 108
     H = max(470, y0 + len(rows) * lh + 46)   # высота — по числу строк: новая строка не налезет на курсор
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="neofetch-style card">',
            """<style>
-  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; fill: #c9d1d9; }
-  .k { fill: #f472b6; font-weight: 700; } .dim { fill: #6e7681; } .t { fill: #ffffff; font-weight: 700; } .art { font-size: 22px; font-weight: 700; }
+  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 17px; fill: #c9bfe6; }
+  .k { fill: #f472b6; font-weight: 700; } .dim { fill: #9a8fbd; } .t { fill: #ffffff; font-weight: 700; } .art { font-size: 30px; font-weight: 700; }
   /* по кругу каждые 16 с: команда печатается, строки выезжают, держатся и гаснут — видно, когда ни долистай */
   .ln { opacity: 0; animation: in 16s ease-out infinite both; }
   .type { animation: type 16s .3s infinite both; }
   .cur { animation: blink 1s steps(1) infinite; }
   @keyframes in { 0% { opacity: 0; transform: translateX(-6px); } 3% { opacity: 1; transform: none; }
                   84% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; transform: none; } }
-  @keyframes type { 0% { width: 0; animation-timing-function: steps(9, end); } 7% { width: 110px; }
-                    84% { width: 110px; } 90%, 100% { width: 0; } }
+  @keyframes type { 0% { width: 0; animation-timing-function: steps(9, end); } 7% { width: 120px; }
+                    84% { width: 120px; } 90%, 100% { width: 0; } }
   @keyframes blink { 50% { opacity: 0; } }
 </style>""",
-           f'<rect width="{W}" height="{H}" rx="12" fill="#0d1117" stroke="#30363d"/>',
-           f'<rect width="{W}" height="38" rx="12" fill="#161b22"/><rect y="26" width="{W}" height="12" fill="#161b22"/>',
-           f'<line x1="0" y1="38" x2="{W}" y2="38" stroke="#30363d"/>']
+           f'<rect width="{W}" height="{H}" rx="20" fill="#0c0718" stroke="#2c1f4a" stroke-width="1.5"/>',
+           f'<rect width="{W}" height="38" rx="20" fill="#1c1233"/><rect y="20" width="{W}" height="18" fill="#1c1233"/>',
+           f'<line x1="0" y1="38" x2="{W}" y2="38" stroke="#2c1f4a"/>']
     for i, c in enumerate(("#ec4899", "#f97316", "#a78bfa")):
         out.append(f'<circle cx="{24 + i * 20}" cy="19" r="6" fill="{c}"/>')
     out.append(f'<text x="{W / 2}" y="24" text-anchor="middle" class="dim">zsh — {escape(USER)}</text>')
     # команда печатается: обрезаем текст растущим прямоугольником
-    out.append('<defs><clipPath id="c"><rect class="type" x="48" y="56" height="26" width="0"/></clipPath></defs>')
-    out.append(f'<text x="{x0}" y="74" class="dim">$</text><text x="52" y="74" class="t" clip-path="url(#c)">neofetch</text>')
+    out.append('<defs><clipPath id="c"><rect class="type" x="64" y="56" height="26" width="0"/></clipPath></defs>')
+    out.append(f'<text x="{x0}" y="74" class="dim">$</text><text x="68" y="74" class="t" clip-path="url(#c)">neofetch</text>')
     t0 = 1.5
     for i, line in enumerate(ART):
-        out.append(f'<text x="{x0}" y="{y0 + 60 + i * 26}" class="art ln" fill="{ART_SHADES[i]}" style="fill:{ART_SHADES[i]};animation-delay:{t0 + i * 0.08:.2f}s" xml:space="preserve">{escape(line)}</text>')
+        out.append(f'<text x="{x0}" y="{y0 + 70 + i * 32}" class="art ln" fill="{ART_SHADES[i]}" style="fill:{ART_SHADES[i]};animation-delay:{t0 + i * 0.08:.2f}s" xml:space="preserve">{escape(line)}</text>')
     for i, (kind, val) in enumerate(rows):
         y, d = y0 + i * lh, t0 + 0.25 + i * 0.12
         if kind == "title":
@@ -122,10 +123,10 @@ def svg(s):
             out.append(f'<text x="{xr}" y="{y}" class="ln" style="animation-delay:{d:.2f}s"><tspan class="k">{escape(k)}</tspan><tspan class="dim">:</tspan> {escape(v)}</text>')
         else:   # палитра: серые и розовый акцент профиля, как блоки цветов у neofetch
             for j, g in enumerate(("#7c3aed", "#a78bfa", "#c026d3", "#ec4899", "#f472b6", "#f97316", "#fb923c", "#ffffff")):
-                out.append(f'<rect x="{xr + j * 30}" y="{y - 4}" width="26" height="16" rx="3" fill="{g}" stroke="#30363d" class="ln" style="animation-delay:{d + j * 0.04:.2f}s"/>')
+                out.append(f'<rect x="{xr + j * 38}" y="{y - 4}" width="32" height="18" rx="3" fill="{g}" stroke="#2c1f4a" class="ln" style="animation-delay:{d + j * 0.04:.2f}s"/>')
     yc = H - 26
     out.append(f'<text x="{x0}" y="{yc}" class="dim ln" style="animation-delay:{t0 + 2.2:.2f}s">$</text>')
-    out.append(f'<rect x="52" y="{yc - 14}" width="9" height="18" fill="#f97316" class="cur"/>')
+    out.append(f'<rect x="68" y="{yc - 15}" width="10" height="20" fill="#f97316" class="cur"/>')
     out.append("</svg>")
     return "\n".join(out)
 
