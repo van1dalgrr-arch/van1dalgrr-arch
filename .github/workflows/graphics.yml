@@ -1,5 +1,4 @@
-# Живая графика профиля: neofetch, таблица рекордов, змейка, аркады (Pac-Man, Breakout, Galaga) и 3D-граф.
-# Раз в день перерисовывается и кладётся в ветку output — оттуда её берёт README.
+# Таблица рекордов с живыми цифрами: раз в день перерисовывается и кладётся в ветку output — оттуда её берёт README.
 # Статичные картинки (assets/) рисует scripts/build.py; job check следит, чтобы они не отставали от скрипта.
 name: graphics
 on:
@@ -16,38 +15,14 @@ jobs:
           python3 scripts/build.py
           git diff --exit-code -- assets/ || { echo "::error::assets/ устарели: запусти python3 scripts/build.py и закоммить"; exit 1; }
 
-  build:
+  scores:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - run: touch .start && mkdir -p dist
-      - uses: Platane/snk/svg-only@v3
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/snake.svg?color_snake=#ecd5a4&color_dots=#181d28,#2f3347,#4f4b6e,#7d77a8,#b9849a
-      - uses: abozanona/pacman-contribution-graph@main
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          games: pacman,breakout,galaga
-      - uses: yoshi389111/github-profile-3d-contrib@latest   # 3D-граф в цветах профиля: settings/3d-pink.json
+      - run: python3 scripts/stats.py dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
-          SETTING_JSON: settings/3d-pink.json
-      # neofetch и таблица рекордов с живыми цифрами из GitHub API
-      - run: |
-          python3 scripts/terminal.py dist/terminal.svg
-          python3 scripts/stats.py dist/scores.svg
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ${{ github.repository_owner }}
-      # всё, что нагенерировали экшены, — в dist (имена файлов у них свои)
-      - run: |
-          find . -path ./dist -prune -o -path ./.git -prune -o -path ./assets -prune -o -name '*.svg' -newer .start -print | while read -r f; do
-            cp "$f" "dist/$(echo "${f#./}" | tr / -)"
-          done
-          ls -la dist
       - uses: crazy-max/ghaction-github-pages@v4
         with: { target_branch: output, build_dir: dist }
         env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Запекает шрифты заголовков в scripts/glyphs.json — контурами SVG, чтобы надписи выглядели одинаково везде.
 
-Нужно только когда в заголовке появляется новый символ (латиница, кириллица и ASCII уже есть):
+Нужно только когда в заголовке появляется новый символ (латиница и ASCII уже есть):
 
-    npm pack @fontsource/unbounded @fontsource/press-start-2p && for t in *.tgz; do tar xzf $t --one-top-level; done
+    npm pack @fontsource/geist-sans && for t in *.tgz; do tar xzf $t --one-top-level; done
     pip install fonttools brotli
     python3 scripts/glyphs.py <папка с распакованными пакетами>
 
-Шрифты под SIL OFL: Unbounded (крупные надписи) и Press Start 2P (пиксельный, аркадный).
+Шрифт — Geist Sans (SIL OFL): 600 для заголовков, 400 для подзаголовков.
 """
 import glob, json, string, sys
 from pathlib import Path
@@ -15,11 +15,10 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.ttLib import TTFont
 
 FONTS = {   # имя → (пакет, вес)
-    "display": ("unbounded", 900),
-    "bold": ("unbounded", 700),
-    "pixel": ("press-start-2p", 400),
+    "head": ("geist-sans", 600),
+    "body": ("geist-sans", 400),
 }
-CHARS = set(string.printable.strip()) | {" "} | set("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя") | set("·→←★♥×—°…▶")
+CHARS = set(string.printable.strip()) | {" "} | set("·→—…’")
 
 def main(root):
     out = {}

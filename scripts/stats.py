@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Таблица рекордов в аркадном стиле — живые цифры из GitHub API (GITHUB_TOKEN, USERNAME).
+"""Таблица рекордов: живые цифры из GitHub API (GITHUB_TOKEN, USERNAME), тёмная и светлая версии.
 
-    python3 scripts/stats.py dist/scores.svg          # в workflow
-    python3 scripts/stats.py scores.svg --demo        # выдуманные цифры, посмотреть вёрстку
+    python3 scripts/stats.py dist            # в workflow: dist/scores.svg и dist/scores-light.svg
+    python3 scripts/stats.py out --demo      # выдуманные цифры, посмотреть вёрстку
 """
 import json, os, random, sys, urllib.request
-from kit import C, GRAD, MONO, card, esc, gt, gw, svg
+from kit import MONO, SANS, THEMES, esc, frame, gt, svg, write
 
 USER = os.environ.get("USERNAME", "van1dalgrr-arch")
 SKIP = {USER, "dotfiles", "Luma", "extensions", "Portfolio", "UserForge"}   # профиль и не-код не тянут языки в свою сторону
@@ -49,49 +49,38 @@ def streaks(days):
     return cur, longest
 
 
-def render(u):
-    W, H = 1200, 400
+def render(u, theme):
+    t = THEMES[theme]
+    W, H = 1200, 300
     cc = u["contributionsCollection"]
     weeks = cc["contributionCalendar"]["weeks"]
     days = [d["contributionCount"] for w in weeks for d in w["contributionDays"]]
     cur, best = streaks(days)
-    rows = [("1ST", "CONTRIBUTIONS", f'{cc["contributionCalendar"]["totalContributions"]:06d}'),
-            ("2ND", "COMMITS", f'{cc["totalCommitContributions"]:06d}'),
-            ("3RD", "PULL REQUESTS", f'{cc["totalPullRequestContributions"]:06d}'),
-            ("4TH", "PUBLIC REPOS", f'{u["repos"]["totalCount"]:06d}'),
-            ("5TH", "STREAK NOW", f"{cur} DAYS"),
-            ("6TH", "BEST STREAK", f"{best} DAYS")]
-    colors = [C["sun"], C["amber"], C["orange"], C["rose"], C["pink"], C["lilac"]]
+    rows = [(f'{cc["contributionCalendar"]["totalContributions"]:,}', "contributions"),
+            (f'{cc["totalCommitContributions"]:,}', "commits"),
+            (f'{cc["totalPullRequestContributions"]:,}', "pull requests"),
+            (f'{u["repos"]["totalCount"]}', "public repos"),
+            (f"{cur}d", "current streak"),
+            (f"{best}d", "best streak")]
 
-    o = [card(W, H, gid="sc")]
-    o.append(f'<g>{gt("HIGH SCORES", 300, 66, 20, C["rose"], font="pixel", anchor="middle", tracking=3)}'
-             '<animate attributeName="opacity" values="1;1;0.2;1" keyTimes="0;0.7;0.8;1" dur="1.4s" repeatCount="indefinite"/></g>')
-    o.append(gt("LAST 12 MONTHS", 300, 92, 10, C["muted"], font="pixel", anchor="middle", tracking=2))
-    for i, (rank, name, score) in enumerate(rows):
-        y = 140 + i * 40
-        col = colors[i]
-        t = 0.2 + i * 0.15   # появляется по очереди; без анимации (превью, почта) строка просто видна
-        o.append(f'<g><animate attributeName="opacity" values="0;0;1" keyTimes="0;0.99;1" dur="{t:.2f}s" fill="freeze"/>'
-                 + gt(rank, 60, y, 14, col, font="pixel")
-                 + gt(name, 130, y, 14, col, font="pixel")
-                 + gt(score, 540, y, 14, col, font="pixel", anchor="end") + "</g>")
-    o.append(f'<line x1="600" y1="40" x2="600" y2="{H - 40}" stroke="{C["line"]}" stroke-dasharray="4 6"/>')
+    o = [frame(W, H, t, rx=16, fill=t["panel"])]
+    o.append(f'<text x="40" y="52" font-family="{SANS}" font-size="12" font-weight="600" letter-spacing="1.5" fill="{t["accent"]}">LAST 12 MONTHS</text>')
+    for i, (big, small) in enumerate(rows):   # шесть рекордов сеткой 3×2
+        x, y = 40 + (i % 3) * 180, 118 + (i // 3) * 110
+        o.append(gt(big, x, y, 40, t["text"], tracking=-1.2))
+        o.append(f'<text x="{x + 1}" y="{y + 28}" font-family="{SANS}" font-size="13" fill="{t["muted"]}">{small}</text>')
+    o.append(f'<line x1="600" y1="40" x2="600" y2="{H - 40}" stroke="{t["line"]}"/>')
 
-    # 16 недель пиксельными столбиками
-    tot = [sum(d["contributionCount"] for d in w["contributionDays"]) for w in weeks[-16:]]
+    # 26 недель тонкими столбиками
+    tot = [sum(d["contributionCount"] for d in w["contributionDays"]) for w in weeks[-26:]]
     peak = max(tot) or 1
-    o.append(gt("16 WEEKS", 650, 66, 12, C["soft"], font="pixel", tracking=2))
-    bx, by, cell = 650, 230, 9
+    bx, by, bh = 640, 170, 110
+    o.append(f'<text x="{bx}" y="52" font-family="{SANS}" font-size="13" fill="{t["muted"]}">Contributions per week · last 26 weeks</text>')
+    step = 520 / len(tot)
     for i, v in enumerate(tot):
-        n = max(0, round(v / peak * 14))
-        for k in range(n):
-            col = GRAD[min(2, k * 3 // 14)]
-            t = 0.3 + i * 0.04 + k * 0.03
-            o.append(f'<rect x="{bx + i * 32}" y="{by - k * (cell + 2)}" width="26" height="{cell}" fill="{col}">'
-                     f'<animate attributeName="opacity" values="0;0;1" keyTimes="0;0.99;1" dur="{t:.2f}s" fill="freeze"/></rect>')
-        if n == 0:
-            o.append(f'<rect x="{bx + i * 32}" y="{by}" width="26" height="2" fill="{C["faint"]}"/>')
-    o.append(f'<text x="{bx + 16 * 32 - 6}" y="{by + 30}" text-anchor="end" font-family="{MONO}" font-size="12" fill="{C["muted"]}">peak {peak} / week</text>')
+        h = max(2, v / peak * bh)
+        o.append(f'<rect x="{bx + i * step:.1f}" y="{by - h:.1f}" width="{step - 6:.1f}" height="{h:.1f}" rx="2" fill="{t["accent"] if i == len(tot) - 1 else t["line2"] if v == 0 else t["faint"]}"/>')
+    o.append(f'<text x="{bx + 520 - 6}" y="{by + 22}" text-anchor="end" font-family="{SANS}" font-size="12" fill="{t["faint"]}">peak {peak}</text>')
 
     # языки — по основному языку каждого репозитория
     langs = {}
@@ -99,21 +88,27 @@ def render(u):
         if r["primaryLanguage"] and r["name"] not in SKIP:
             langs[r["primaryLanguage"]["name"]] = langs.get(r["primaryLanguage"]["name"], 0) + 1
     top = sorted(langs.items(), key=lambda kv: -kv[1])[:4]
-    total = sum(langs.values()) or 1
-    o.append(gt("CHARACTERS", 650, 296, 12, C["soft"], font="pixel", tracking=2))
-    x = 650
-    for i, (n, c) in enumerate(top):
-        label = f"{n.upper()} x{c}"
-        col = [C["rose"], C["amber"], C["lilac"], C["sun"]][i]
-        w = gw(label, 10, "pixel", 1) + 20
-        o.append(f'<rect x="{x:.0f}" y="314" width="{w:.0f}" height="28" rx="4" fill="none" stroke="{col}"/>')
-        o.append(gt(label, x + 10, 333, 10, col, font="pixel", tracking=1))
-        x += w + 10
-    o.append(f'<text x="650" y="370" font-family="{MONO}" font-size="12" fill="{C["muted"]}">public repos by main language · {total} counted · redrawn daily</text>')
-    return svg(W, H, "\n".join(o), f"High scores: {rows[0][2].lstrip('0')} contributions in the last year, streak {cur} days, best {best}")
+    total = sum(n for _, n in top) or 1
+    shades = [t["accent"], t["soft"], t["muted"], t["faint"]]
+    o.append(f'<clipPath id="lb"><rect x="{bx}" y="216" width="514" height="8" rx="4"/></clipPath><g clip-path="url(#lb)">')
+    x = bx
+    for (n, c), col in zip(top, shades):
+        w = c / total * 514
+        o.append(f'<rect x="{x:.1f}" y="216" width="{w:.1f}" height="8" fill="{col}"/>')
+        x += w
+    o.append("</g>")
+    x = bx
+    for (n, c), col in zip(top, shades):
+        o.append(f'<circle cx="{x + 4}" cy="{250}" r="4" fill="{col}"/>')
+        label = f"{n} {c}"
+        o.append(f'<text x="{x + 14}" y="254.5" font-family="{SANS}" font-size="13" fill="{t["soft"]}">{esc(n)} <tspan fill="{t["muted"]}">{c}</tspan></text>')
+        x += len(label) * 7.4 + 34
+    return svg(W, H, "\n".join(o), f"Last 12 months: {rows[0][0]} contributions, {rows[1][0]} commits, current streak {cur} days, best {best}")
 
 
 if __name__ == "__main__":
-    out = sys.argv[1] if len(sys.argv) > 1 else "scores.svg"
-    open(out, "w").write(render(demo() if "--demo" in sys.argv else fetch()))
-    print("written", out)
+    out = sys.argv[1] if len(sys.argv) > 1 else "dist"
+    u = demo() if "--demo" in sys.argv else fetch()
+    for theme in THEMES:
+        write("scores", theme, render(u, theme), folder=out)
+    print("written to", out)
