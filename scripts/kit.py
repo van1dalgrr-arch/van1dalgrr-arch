@@ -1,6 +1,6 @@
 """Общее для всех картинок профиля: палитра, шрифты-контуры, иконки, пиксель-арт, звёзды.
 
-Стиль: ночной Петербург в synthwave — глубокий фиолетовый фон, градиент фиолетовый → розовый → оранжевый.
+Стиль: белая ночь в Петербурге — сине-чёрный фон, приглушённые лаванда, пудрово-розовый и персик, без неона.
 """
 import json, random
 from pathlib import Path
@@ -15,10 +15,10 @@ MONO = "ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, monospa
 SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif"
 
 C = dict(
-    night="#07040f", bg="#0c0718", panel="#140c26", panel2="#1c1233", line="#2c1f4a",
-    text="#f3eefe", soft="#c9bfe6", muted="#9a8fbd", faint="#5a4d80",
-    violet="#7c3aed", lilac="#a78bfa", pink="#ec4899", rose="#f472b6", orange="#f97316",
-    amber="#fb923c", sun="#fde047", cyan="#22d3ee", green="#4ade80",
+    night="#090b11", bg="#0d1017", panel="#12161f", panel2="#181d28", line="#262c3a",
+    text="#e8e4dc", soft="#bdb7ad", muted="#8b8a94", faint="#4b4f5e",
+    violet="#7d77a8", lilac="#a59fc9", pink="#b9849a", rose="#d0a3b3", orange="#c9956b",
+    amber="#dcb48c", sun="#ecd5a4", cyan="#8fb3bf", green="#9cbf9f",
 )
 GRAD = [C["violet"], C["pink"], C["orange"]]   # главный градиент профиля
 
@@ -100,7 +100,7 @@ def stars(n, w, h, seed=1, y0=0):
     return "\n".join(out)
 
 
-def scanlines(w, h, pid="scan", op=0.07):
+def scanlines(w, h, pid="scan", op=0.035):
     return (f'<defs><pattern id="{pid}" width="4" height="4" patternUnits="userSpaceOnUse">'
             f'<rect width="4" height="1" fill="#000"/></pattern></defs>'
             f'<rect width="{w}" height="{h}" fill="url(#{pid})" opacity="{op}" pointer-events="none"/>')
@@ -111,7 +111,7 @@ def card(w, h, rx=20, fill=None, stroke=True, gid="cardstroke"):
     out = [f'<defs>{lgrad(gid, [C["violet"], C["pink"], C["orange"]], 0, 0, 1, 1)}</defs>',
            f'<rect width="{w}" height="{h}" rx="{rx}" fill="{fill or C["bg"]}"/>']
     if stroke:
-        out.append(f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="{rx - 1}" fill="none" stroke="url(#{gid})" stroke-opacity="0.55" stroke-width="1.5"/>')
+        out.append(f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="{rx - 1}" fill="none" stroke="url(#{gid})" stroke-opacity="0.35" stroke-width="1.2"/>')
     return "\n".join(out)
 
 

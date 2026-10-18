@@ -1,11 +1,11 @@
 {
   "type": "normal",
   "fileName": "profile-night-pink.svg",
-  "backgroundColor": "#0c0718",
-  "foregroundColor": "#c9bfe6",
-  "strongColor": "#f472b6",
-  "weakColor": "#9a8fbd",
-  "radarColor": "#f97316",
+  "backgroundColor": "#0d1017",
+  "foregroundColor": "#bdb7ad",
+  "strongColor": "#d0a3b3",
+  "weakColor": "#8b8a94",
+  "radarColor": "#c9956b",
   "growingAnimation": true,
-  "contribColors": ["#1c1233", "#4c1d95", "#7c3aed", "#ec4899", "#f97316"]
+  "contribColors": ["#181d28", "#2f3347", "#4f4b6e", "#7d77a8", "#b9849a"]
 }

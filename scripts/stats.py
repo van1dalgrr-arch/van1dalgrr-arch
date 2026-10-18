@@ -70,7 +70,8 @@ def render(u):
     for i, (rank, name, score) in enumerate(rows):
         y = 140 + i * 40
         col = colors[i]
-        o.append(f'<g opacity="0"><animate attributeName="opacity" values="0;1" begin="{0.2 + i * 0.15:.2f}s" dur="0.01s" fill="freeze"/>'
+        t = 0.2 + i * 0.15   # появляется по очереди; без анимации (превью, почта) строка просто видна
+        o.append(f'<g><animate attributeName="opacity" values="0;0;1" keyTimes="0;0.99;1" dur="{t:.2f}s" fill="freeze"/>'
                  + gt(rank, 60, y, 14, col, font="pixel")
                  + gt(name, 130, y, 14, col, font="pixel")
                  + gt(score, 540, y, 14, col, font="pixel", anchor="end") + "</g>")
@@ -85,8 +86,9 @@ def render(u):
         n = max(0, round(v / peak * 14))
         for k in range(n):
             col = GRAD[min(2, k * 3 // 14)]
-            o.append(f'<rect x="{bx + i * 32}" y="{by - k * (cell + 2)}" width="26" height="{cell}" fill="{col}" opacity="0">'
-                     f'<animate attributeName="opacity" values="0;1" begin="{0.3 + (i * 0.04) + k * 0.03:.2f}s" dur="0.01s" fill="freeze"/></rect>')
+            t = 0.3 + i * 0.04 + k * 0.03
+            o.append(f'<rect x="{bx + i * 32}" y="{by - k * (cell + 2)}" width="26" height="{cell}" fill="{col}">'
+                     f'<animate attributeName="opacity" values="0;0;1" keyTimes="0;0.99;1" dur="{t:.2f}s" fill="freeze"/></rect>')
         if n == 0:
             o.append(f'<rect x="{bx + i * 32}" y="{by}" width="26" height="2" fill="{C["faint"]}"/>')
     o.append(f'<text x="{bx + 16 * 32 - 6}" y="{by + 30}" text-anchor="end" font-family="{MONO}" font-size="12" fill="{C["muted"]}">peak {peak} / week</text>')

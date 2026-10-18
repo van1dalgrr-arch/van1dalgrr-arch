@@ -25,7 +25,7 @@ jobs:
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/snake.svg?color_snake=#fde047&color_dots=#1c1233,#4c1d95,#7c3aed,#ec4899,#f97316
+            dist/snake.svg?color_snake=#ecd5a4&color_dots=#181d28,#2f3347,#4f4b6e,#7d77a8,#b9849a
       - uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}

@@ -39,7 +39,7 @@ H_HORIZON = 440
 
 def skyline():
     """Силуэт Петербурга: низкие фасады, Петропавловка, Исаакий, Адмиралтейство. Окна мерцают."""
-    ink = "#0e0620"
+    ink = "#0b0d15"
     rnd = random.Random(7)
     hz = H_HORIZON
     o = [f'<g fill="{ink}">']
@@ -83,7 +83,7 @@ def skyline():
 
 def bridge():
     """Дворцовый мост: пролёты, фонари и разводной центр — крылья поднимаются и опускаются."""
-    ink, y = "#140a2a", 478
+    ink, y = "#10131c", 478
     o = [f'<g fill="{ink}">']
     o.append(f'<rect x="40" y="{y}" width="250" height="9"/><rect x="390" y="{y}" width="230" height="9"/>')
     for px in (40, 150, 260, 390, 500, 610):
@@ -107,18 +107,28 @@ def bridge():
     return "\n".join(o)
 
 
+def gulls():
+    """Чайки над Невой: медленно летят через кадр и машут крыльями."""
+    o = []
+    for i, (y, dur, scale, delay) in enumerate(((62, 46, 0.9, 0), (108, 58, 0.7, 20), (40, 64, 0.55, 35), (120, 52, 0.75, 8))):
+        o.append(f'<g><animateMotion path="M-40 {y} C300 {y - 30} 700 {y + 25} {W + 40} {y - 10}" dur="{dur}s" begin="-{delay}s" repeatCount="indefinite"/>'
+                 f'<g transform="scale({scale})"><path d="M-11 0Q-5 -6 0 0Q5 -6 11 0" fill="none" stroke="{C["text"]}" stroke-opacity="0.75" stroke-width="1.8" stroke-linecap="round">'
+                 f'<animateTransform attributeName="transform" type="scale" values="1 1;1 -0.5;1 1" dur="{0.9 + i * 0.15:.2f}s" repeatCount="indefinite"/></path></g></g>')
+    return "\n".join(o)
+
+
 def hero():
     H, hz = 620, H_HORIZON
     sx, sy, sr = 800, 392, 178
     o = ["<defs>",
-         lgrad("sky", ["#07040f", "#150a2e", "#3a1050", "#8c2557", "#e0565b"], 0, 0, 0, 1),
-         lgrad("sea", ["#2a0d3a", "#12071f", "#07040f"], 0, 0, 0, 1),
-         lgrad("sun", [C["sun"], C["amber"], C["pink"], "#c026d3"], 0, 0, 0, 1),
-         lgrad("chrome", ["#ffffff", "#fde7f3", "#f9a8d4", C["pink"], C["orange"]], 0, 0, 0, 1),
+         lgrad("sky", ["#090b11", "#141827", "#2a2b40", "#544a5e", "#a0807c"], 0, 0, 0, 1),
+         lgrad("sea", ["#2c2a37", "#151821", "#090b11"], 0, 0, 0, 1),
+         lgrad("sun", [C["sun"], C["amber"], C["pink"], "#7a6a8c"], 0, 0, 0, 1),
+         lgrad("chrome", ["#f6f2ea", "#ece3d8", "#dcc6c0", C["rose"], C["amber"]], 0, 0, 0, 1),
          lgrad("refl", [C["sun"], C["pink"], C["violet"]], 0, 0, 0, 1),
-         f'<radialGradient id="halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0.3" stop-color="{C["pink"]}" stop-opacity="0.55"/>'
+         f'<radialGradient id="halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0.3" stop-color="{C["pink"]}" stop-opacity="0.22"/>'
          f'<stop offset="1" stop-color="{C["pink"]}" stop-opacity="0"/></radialGradient>',
-         glow("nglow", 9, 0.75), glow("sglow", 4, 0.6),
+         glow("nglow", 7, 0.3), glow("sglow", 4, 0.4),
          f'<clipPath id="hclip"><rect width="{W}" height="{H}" rx="22"/></clipPath>',
          f'<clipPath id="above"><rect width="{W}" height="{hz}"/></clipPath>',
          # «прорези» в солнце, ползут вниз
@@ -132,7 +142,13 @@ def hero():
          stars(90, W, hz - 120, seed=3)]
     o.append(f'<circle cx="{sx}" cy="{sy}" r="{sr * 1.9}" fill="url(#halo)"/>')
     o.append(f'<g clip-path="url(#above)"><circle cx="{sx}" cy="{sy}" r="{sr}" fill="url(#sun)" mask="url(#slits)"/></g>')
+    # дымка над водой: белая ночь не бывает резкой
+    o.append(f'<defs>{lgrad("fog", ["#d9c7c0", "#d9c7c0", "#d9c7c0"], 0, 0, 0, 1)}'
+             f'<linearGradient id="haze" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#d9c7c0" stop-opacity="0"/>'
+             f'<stop offset="0.6" stop-color="#d9c7c0" stop-opacity="0.16"/><stop offset="1" stop-color="#d9c7c0" stop-opacity="0"/></linearGradient></defs>')
     o.append(skyline())
+    o.append(f'<rect y="{hz - 70}" width="{W}" height="110" fill="url(#haze)"/>')
+    o.append(gulls())
     # отражение солнца в Неве: дрожащие полосы
     for i in range(12):
         y = hz + 8 + i * 13
@@ -191,10 +207,10 @@ def header(key):
     H = 100
     o = ["<defs>",
          lgrad(f"t{key}", [C["lilac"], C["rose"], C["amber"], C["lilac"]], 0, 0, 1, 0,
-               anim='<animateTransform attributeName="gradientTransform" type="translate" values="-1 0;0 0" dur="6s" repeatCount="indefinite"/>'),
+               anim='<animateTransform attributeName="gradientTransform" type="translate" values="-1 0;0 0" dur="14s" repeatCount="indefinite"/>'),
          f'<linearGradient id="u{key}" spreadMethod="repeat" x1="0" x2="0.35">'
          + "".join(f'<stop offset="{o_}" stop-color="{c}"/>' for o_, c in ((0, C["violet"]), (0.5, C["pink"]), (1, C["violet"])))
-         + '<animateTransform attributeName="gradientTransform" type="translate" values="0 0;0.35 0" dur="3s" repeatCount="indefinite"/></linearGradient>',
+         + '<animateTransform attributeName="gradientTransform" type="translate" values="0 0;0.35 0" dur="7s" repeatCount="indefinite"/></linearGradient>',
          "</defs>",
          card(W, H, rx=18, gid=f"cs{key}")]
     o.append(gt(num, 30, 62, 18, C["orange"], font="pixel"))
@@ -223,19 +239,19 @@ TRACKS = [
 
 
 def reel(cx, cy, tape_r, dur):
-    o = [f'<circle cx="{cx}" cy="{cy}" r="{tape_r}" fill="#2a1424"/>',
+    o = [f'<circle cx="{cx}" cy="{cy}" r="{tape_r}" fill="#2a2328"/>',
          f'<circle cx="{cx}" cy="{cy}" r="22" fill="{C["text"]}"/>',
          f'<g><animateTransform attributeName="transform" type="rotate" from="0 {cx} {cy}" to="-360 {cx} {cy}" dur="{dur}s" repeatCount="indefinite"/>']
     for i in range(6):
         a = math.radians(i * 60)
-        o.append(f'<rect x="{cx - 3}" y="{cy - 21}" width="6" height="9" rx="1" fill="#2a1424" transform="rotate({i * 60} {cx} {cy})"/>')
-    o.append(f'<circle cx="{cx}" cy="{cy}" r="8" fill="#2a1424"/><circle cx="{cx}" cy="{cy}" r="3" fill="{C["text"]}"/></g>')
+        o.append(f'<rect x="{cx - 3}" y="{cy - 21}" width="6" height="9" rx="1" fill="#2a2328" transform="rotate({i * 60} {cx} {cy})"/>')
+    o.append(f'<circle cx="{cx}" cy="{cy}" r="8" fill="#2a2328"/><circle cx="{cx}" cy="{cy}" r="3" fill="{C["text"]}"/></g>')
     return "".join(o)
 
 
 def now():
     H = 380
-    o = ["<defs>", lgrad("shell", ["#2b1458", "#5b1d6e", "#8c1d5c"], 0, 0, 1, 1),
+    o = ["<defs>", lgrad("shell", ["#232838", "#33324a", "#4a4055"], 0, 0, 1, 1),
          lgrad("stripe", GRAD), lgrad("prog", GRAD), "</defs>",
          card(W, H, gid="nowc")]
     # кассета
@@ -243,24 +259,24 @@ def now():
     o.append(f'<rect x="{x0}" y="{y0}" width="{cw}" height="{ch}" rx="20" fill="url(#shell)"/>')
     o.append(f'<rect x="{x0 + 3}" y="{y0 + 3}" width="{cw - 6}" height="{ch - 6}" rx="18" fill="none" stroke="#ffffff" stroke-opacity="0.12"/>')
     for sxp, syp in ((x0 + 16, y0 + 16), (x0 + cw - 16, y0 + 16), (x0 + 16, y0 + ch - 16), (x0 + cw - 16, y0 + ch - 16)):
-        o.append(f'<circle cx="{sxp}" cy="{syp}" r="5" fill="#1a0d33"/><path d="M{sxp - 3} {syp}h6" stroke="#5a4d80" stroke-width="1.5"/>')
+        o.append(f'<circle cx="{sxp}" cy="{syp}" r="5" fill="#151927"/><path d="M{sxp - 3} {syp}h6" stroke="#6b6878" stroke-width="1.5"/>')
     lx, ly, lw_, lh = x0 + 32, y0 + 26, cw - 64, 176
-    o.append(f'<rect x="{lx}" y="{ly}" width="{lw_}" height="{lh}" rx="10" fill="#f6f0ff"/>')
+    o.append(f'<rect x="{lx}" y="{ly}" width="{lw_}" height="{lh}" rx="10" fill="#ece6dc"/>')
     o.append(f'<rect x="{lx}" y="{ly + 12}" width="{lw_}" height="10" fill="url(#stripe)"/>')
-    o.append(gt("VAN1DAL", lx + 16, ly + 52, 22, "#1a0d33"))
+    o.append(gt("VAN1DAL", lx + 16, ly + 52, 22, "#151927"))
     o.append(gt("SIDE A", lx + lw_ - 16, ly + 52, 13, C["pink"], font="pixel", anchor="end"))
-    o.append(f'<text x="{lx + 16}" y="{ly + 72}" font-family="{MONO}" font-size="12" fill="#5a4d80">backend mixtape · autumn 2026 · spb</text>')
+    o.append(f'<text x="{lx + 16}" y="{ly + 72}" font-family="{MONO}" font-size="12" fill="#6b6878">backend mixtape · autumn 2026 · spb</text>')
     # окно с плёнкой
     wx, wy, ww, wh = lx + 60, ly + 84, lw_ - 120, 80
-    o.append(f'<rect x="{wx}" y="{wy}" width="{ww}" height="{wh}" rx="40" fill="#1a0d33"/>')
-    o.append(f'<rect x="{wx + 70}" y="{wy + 54}" width="{ww - 140}" height="4" fill="#2a1424"/>')
+    o.append(f'<rect x="{wx}" y="{wy}" width="{ww}" height="{wh}" rx="40" fill="#151927"/>')
+    o.append(f'<rect x="{wx + 70}" y="{wy + 54}" width="{ww - 140}" height="4" fill="#2a2328"/>')
     o.append(reel(wx + 52, wy + 40, 34, 2.4))
     o.append(reel(wx + ww - 52, wy + 40, 26, 1.9))
     # низ кассеты
-    o.append(f'<path d="M{x0 + 110} {y0 + ch}L{x0 + 135} {y0 + ch - 58}H{x0 + cw - 135}L{x0 + cw - 110} {y0 + ch}Z" fill="#1a0d33" opacity="0.7"/>')
+    o.append(f'<path d="M{x0 + 110} {y0 + ch}L{x0 + 135} {y0 + ch - 58}H{x0 + cw - 135}L{x0 + cw - 110} {y0 + ch}Z" fill="#151927" opacity="0.7"/>')
     for hx in (x0 + 170, x0 + cw - 170):
-        o.append(f'<circle cx="{hx}" cy="{y0 + ch - 26}" r="7" fill="#0c0718"/>')
-    o.append(f'<rect x="{x0 + cw / 2 - 18}" y="{y0 + ch - 34}" width="36" height="14" rx="3" fill="#0c0718"/>')
+        o.append(f'<circle cx="{hx}" cy="{y0 + ch - 26}" r="7" fill="#0d1017"/>')
+    o.append(f'<rect x="{x0 + cw / 2 - 18}" y="{y0 + ch - 34}" width="36" height="14" rx="3" fill="#0d1017"/>')
 
     # трек-лист
     rx_ = 610
@@ -341,7 +357,7 @@ PROJECTS = [
 def featured():
     p = FEATURED
     H = 400
-    o = ["<defs>", lgrad("fg", GRAD), glow("fglow", 6, 0.7), "</defs>", card(W, H, gid="fcard")]
+    o = ["<defs>", lgrad("fg", GRAD), glow("fglow", 5, 0.3), "</defs>", card(W, H, gid="fcard")]
     o.append(gt("FEATURED", 40, 56, 12, C["orange"], font="pixel", tracking=2))
     # глаз: зрачок оглядывается
     ex, ey, s = 40, 82, 9
@@ -446,8 +462,8 @@ def stack():
         acc = GRAD[(c + r) % 3]
         o.append(f'<rect x="{x:.0f}" y="{y}" width="{tw_}" height="{th_}" rx="14" fill="{C["panel"]}" stroke="{C["line"]}"/>')
         # подсветка бежит по плиткам волной
-        o.append(f'<rect x="{x:.0f}" y="{y}" width="{tw_}" height="{th_}" rx="14" fill="{acc}" fill-opacity="0.12" stroke="{acc}" stroke-width="1.5" opacity="0">'
-                 f'<animate attributeName="opacity" values="0;1;0;0" keyTimes="0;0.08;0.2;1" dur="6s" begin="{(c + r * 2) * 0.35:.2f}s" repeatCount="indefinite"/></rect>')
+        o.append(f'<rect x="{x:.0f}" y="{y}" width="{tw_}" height="{th_}" rx="14" fill="{acc}" fill-opacity="0.08" stroke="{acc}" stroke-width="1.2" opacity="0">'
+                 f'<animate attributeName="opacity" values="0;1;0;0" keyTimes="0;0.1;0.25;1" dur="9s" begin="{(c + r * 2) * 0.5:.2f}s" repeatCount="indefinite"/></rect>')
         o.append(icon(ic, x + tw_ / 2 - 20, y + 22, 40, C["text"]))
         o.append(f'<text x="{x + tw_ / 2:.0f}" y="{y + 92}" text-anchor="middle" font-family="{MONO}" font-size="14" fill="{C["soft"]}">{esc(label)}</text>')
         o.append(f'<rect x="{x + tw_ / 2 - 14:.0f}" y="{y + th_ - 10}" width="28" height="3" rx="1.5" fill="{acc}"/>')
@@ -460,10 +476,10 @@ def stack():
 
 def footer():
     H, hz = 320, 150
-    o = ["<defs>", lgrad("fsky", ["#07040f", "#2a0d3a", "#8c2557"], 0, 0, 0, 1),
+    o = ["<defs>", lgrad("fsky", ["#090b11", "#1f2130", "#544a5e"], 0, 0, 0, 1),
          lgrad("fsun", [C["sun"], C["amber"], C["pink"]], 0, 0, 0, 1),
          f'<clipPath id="fclip"><rect width="{W}" height="{H}" rx="22"/></clipPath>',
-         f'<clipPath id="fskyc"><rect width="{W}" height="{hz}"/></clipPath>', glow("tglow", 5, 0.8), "</defs>",
+         f'<clipPath id="fskyc"><rect width="{W}" height="{hz}"/></clipPath>', glow("tglow", 4, 0.35), "</defs>",
          '<g clip-path="url(#fclip)">',
          f'<rect width="{W}" height="{H}" fill="{C["night"]}"/>',
          f'<rect width="{W}" height="{hz}" fill="url(#fsky)"/>',
@@ -477,17 +493,17 @@ def footer():
         x += rnd.randint(40, 90)
         pts.append((x, hz - rnd.randint(8, 46)))
     pts.append((W, hz))
-    o.append(f'<path d="M{" L".join(f"{a} {b}" for a, b in pts)}Z" fill="#12082a"/>')
+    o.append(f'<path d="M{" L".join(f"{a} {b}" for a, b in pts)}Z" fill="#11131c"/>')
     # сетка в перспективе, едет на зрителя
     vx = W / 2
     for i in range(-14, 15):
-        o.append(f'<line x1="{vx + i * 18}" y1="{hz}" x2="{vx + i * 170}" y2="{H}" stroke="{C["pink"]}" stroke-opacity="0.55" stroke-width="1.2"/>')
+        o.append(f'<line x1="{vx + i * 18}" y1="{hz}" x2="{vx + i * 170}" y2="{H}" stroke="{C["violet"]}" stroke-opacity="0.4" stroke-width="1"/>')
     ys = [hz + (H - hz) * (k / 10) ** 2 for k in range(1, 12)]
     for k in range(len(ys) - 1):
-        o.append(f'<line x1="0" x2="{W}" y1="{ys[k]:.1f}" y2="{ys[k]:.1f}" stroke="{C["pink"]}" stroke-opacity="0.55" stroke-width="1.2">'
+        o.append(f'<line x1="0" x2="{W}" y1="{ys[k]:.1f}" y2="{ys[k]:.1f}" stroke="{C["violet"]}" stroke-opacity="0.4" stroke-width="1">'
                  f'<animate attributeName="y1" values="{ys[k]:.1f};{ys[k + 1]:.1f}" dur="1.2s" repeatCount="indefinite"/>'
                  f'<animate attributeName="y2" values="{ys[k]:.1f};{ys[k + 1]:.1f}" dur="1.2s" repeatCount="indefinite"/></line>')
-    o.append(f'<rect y="{hz}" width="{W}" height="2" fill="{C["rose"]}"/>')
+    o.append(f'<rect y="{hz}" width="{W}" height="1.5" fill="{C["rose"]}" opacity="0.7"/>')
     o.append(f'<rect x="{W / 2 - 330}" y="200" width="660" height="80" rx="14" fill="{C["night"]}" fill-opacity="0.82"/>')
     o.append(f'<g>{gt("SEE YOU SPACE COWBOY...", W / 2, 248, 28, C["text"], font="bold", anchor="middle", tracking=3, extra=' filter="url(#tglow)"')}'
              '<animate attributeName="opacity" values="1;1;0.4;1;1;0.7;1" keyTimes="0;0.6;0.62;0.64;0.9;0.92;1" dur="5s" repeatCount="indefinite"/></g>')

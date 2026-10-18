@@ -63,9 +63,9 @@
 <p><img src="assets/h-contact.svg" width="100%" alt="07 Contact"></p>
 
 <p>
-  <a href="https://github.com/van1dalgrr-arch"><img src="https://img.shields.io/badge/github-van1dalgrr--arch-0c0718?style=for-the-badge&logo=github&logoColor=f472b6&labelColor=0c0718&color=1c1233" alt="GitHub: van1dalgrr-arch"></a>
-  <a href="mailto:van1dalgrr@gmail.com"><img src="https://img.shields.io/badge/mail-van1dalgrr@gmail.com-0c0718?style=for-the-badge&logo=gmail&logoColor=fb923c&labelColor=0c0718&color=1c1233" alt="Email: van1dalgrr@gmail.com"></a>
-  <img src="https://img.shields.io/badge/based in-Saint Petersburg-0c0718?style=for-the-badge&logo=googlemaps&logoColor=a78bfa&labelColor=0c0718&color=1c1233" alt="Based in Saint Petersburg">
+  <a href="https://github.com/van1dalgrr-arch"><img src="https://img.shields.io/badge/github-van1dalgrr--arch-0d1017?style=for-the-badge&logo=github&logoColor=d0a3b3&labelColor=0d1017&color=181d28" alt="GitHub: van1dalgrr-arch"></a>
+  <a href="mailto:van1dalgrr@gmail.com"><img src="https://img.shields.io/badge/mail-van1dalgrr@gmail.com-0d1017?style=for-the-badge&logo=gmail&logoColor=dcb48c&labelColor=0d1017&color=181d28" alt="Email: van1dalgrr@gmail.com"></a>
+  <img src="https://img.shields.io/badge/based in-Saint Petersburg-0d1017?style=for-the-badge&logo=googlemaps&logoColor=a59fc9&labelColor=0d1017&color=181d28" alt="Based in Saint Petersburg">
 </p>
 
 <p><img src="assets/footer.svg" width="100%" alt="See you space cowboy — thanks for stopping by"></p>

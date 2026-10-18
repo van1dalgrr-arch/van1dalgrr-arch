@@ -65,7 +65,7 @@ ART = [
     " ╚██████╔╝ ╚██████╔╝",
     "  ╚═════╝   ╚═════╝ ",
 ]
-ART_SHADES = ["#a78bfa", "#c084fc", "#e879f9", "#ec4899", "#f472b6", "#fb923c"]   # фиолетовый → розовый → оранжевый, как баннер
+ART_SHADES = ["#a59fc9", "#b4a3c4", "#c3a6b9", "#cfa8ad", "#d6ae9f", "#dcb48c"]   # лаванда → пудра → персик, как баннер
 
 def svg(s):
     rows = [
@@ -88,8 +88,8 @@ def svg(s):
     H = max(470, y0 + len(rows) * lh + 46)   # высота — по числу строк: новая строка не налезет на курсор
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="neofetch-style card">',
            """<style>
-  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 17px; fill: #c9bfe6; }
-  .k { fill: #f472b6; font-weight: 700; } .dim { fill: #9a8fbd; } .t { fill: #ffffff; font-weight: 700; } .art { font-size: 30px; font-weight: 700; }
+  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 17px; fill: #bdb7ad; }
+  .k { fill: #d0a3b3; font-weight: 700; } .dim { fill: #8b8a94; } .t { fill: #e8e4dc; font-weight: 700; } .art { font-size: 30px; font-weight: 700; }
   /* по кругу каждые 16 с: команда печатается, строки выезжают, держатся и гаснут — видно, когда ни долистай */
   .ln { opacity: 0; animation: in 16s ease-out infinite both; }
   .type { animation: type 16s .3s infinite both; }
@@ -100,10 +100,10 @@ def svg(s):
                     84% { width: 120px; } 90%, 100% { width: 0; } }
   @keyframes blink { 50% { opacity: 0; } }
 </style>""",
-           f'<rect width="{W}" height="{H}" rx="20" fill="#0c0718" stroke="#2c1f4a" stroke-width="1.5"/>',
-           f'<rect width="{W}" height="38" rx="20" fill="#1c1233"/><rect y="20" width="{W}" height="18" fill="#1c1233"/>',
-           f'<line x1="0" y1="38" x2="{W}" y2="38" stroke="#2c1f4a"/>']
-    for i, c in enumerate(("#ec4899", "#f97316", "#a78bfa")):
+           f'<rect width="{W}" height="{H}" rx="20" fill="#0d1017" stroke="#262c3a" stroke-width="1.5"/>',
+           f'<rect width="{W}" height="38" rx="20" fill="#181d28"/><rect y="20" width="{W}" height="18" fill="#181d28"/>',
+           f'<line x1="0" y1="38" x2="{W}" y2="38" stroke="#262c3a"/>']
+    for i, c in enumerate(("#b9849a", "#c9956b", "#7d77a8")):
         out.append(f'<circle cx="{24 + i * 20}" cy="19" r="6" fill="{c}"/>')
     out.append(f'<text x="{W / 2}" y="24" text-anchor="middle" class="dim">zsh — {escape(USER)}</text>')
     # команда печатается: обрезаем текст растущим прямоугольником
@@ -122,11 +122,11 @@ def svg(s):
             k, v = val
             out.append(f'<text x="{xr}" y="{y}" class="ln" style="animation-delay:{d:.2f}s"><tspan class="k">{escape(k)}</tspan><tspan class="dim">:</tspan> {escape(v)}</text>')
         else:   # палитра: серые и розовый акцент профиля, как блоки цветов у neofetch
-            for j, g in enumerate(("#7c3aed", "#a78bfa", "#c026d3", "#ec4899", "#f472b6", "#f97316", "#fb923c", "#ffffff")):
-                out.append(f'<rect x="{xr + j * 38}" y="{y - 4}" width="32" height="18" rx="3" fill="{g}" stroke="#2c1f4a" class="ln" style="animation-delay:{d + j * 0.04:.2f}s"/>')
+            for j, g in enumerate(("#7d77a8", "#a59fc9", "#9b7f9e", "#b9849a", "#d0a3b3", "#c9956b", "#dcb48c", "#e8e4dc")):
+                out.append(f'<rect x="{xr + j * 38}" y="{y - 4}" width="32" height="18" rx="3" fill="{g}" stroke="#262c3a" class="ln" style="animation-delay:{d + j * 0.04:.2f}s"/>')
     yc = H - 26
     out.append(f'<text x="{x0}" y="{yc}" class="dim ln" style="animation-delay:{t0 + 2.2:.2f}s">$</text>')
-    out.append(f'<rect x="68" y="{yc - 15}" width="10" height="20" fill="#f97316" class="cur"/>')
+    out.append(f'<rect x="68" y="{yc - 15}" width="10" height="20" fill="#c9956b" class="cur"/>')
     out.append("</svg>")
     return "\n".join(out)
 
