@@ -64,9 +64,12 @@ CODE = [   # (отступ, [(текст, роль)]) — роль: kw ключ�
 ]
 
 
+BUILD = ["REST APIs in Go", "terminal tools", "CI that says no", "my own dev setup"]
+
+
 def hero(theme):
     t = THEMES[theme]
-    H = 360
+    H = 380
     o = [frame(W, H, t, rx=20), dots(t, 10, 10, W - 20, H - 20)]
     # статус: зелёная точка пульсирует
     st = INTRO["status"]
@@ -82,7 +85,7 @@ def hero(theme):
     o.append(s)
 
     # карточка с кодом
-    cx, cy, cw, ch = 700, 60, 444, 240
+    cx, cy, cw, ch = 700, 70, 444, 240
     o.append(f'<rect x="{cx}" y="{cy}" width="{cw}" height="{ch}" rx="12" fill="{t["panel"]}" stroke="{t["line"]}"/>')
     o.append(f'<line x1="{cx}" y1="{cy + 38}" x2="{cx + cw}" y2="{cy + 38}" stroke="{t["line"]}"/>')
     for i in range(3):
@@ -106,6 +109,21 @@ def hero(theme):
     last = "".join(s_ for s_, _ in CODE[-1][1])
     o.append(f'<rect x="{cx + 48 + tw(last, 14, mono=True) + 2:.0f}" y="{y - 22 - 13}" width="2" height="17" fill="{t["accent"]}">'
              '<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1.1s" repeatCount="indefinite"/></rect>')
+    # «I build …» — слово меняется по кругу, выезжая снизу
+    o.append(f'<text x="56" y="336" font-family="{SANS}" font-size="15" fill="{t["muted"]}">I build</text>')
+    o.append(f'<clipPath id="rot"><rect x="110" y="318" width="300" height="24"/></clipPath><g clip-path="url(#rot)">')
+    words = BUILD
+    n = len(words)
+    for i, wd in enumerate(words):
+        a0, a1 = i / n, (i + 1) / n
+        vals = f"0 24;0 24;0 0;0 0;0 -24;0 -24" if i else "0 0;0 0;0 -24;0 -24;0 24;0 0"
+        # моменты не должны выходить за 1, иначе браузер выбрасывает анимацию целиком
+        kts = (f"0;{a0:.3f};{a0 + 0.03:.3f};{a1 - 0.015:.3f};{min(a1 + 0.015, 1):.3f};1" if i else
+               f"0;{a1 - 0.015:.3f};{a1 + 0.015:.3f};0.985;0.986;1")
+        base = "" if i == 0 else ' transform="translate(0 24)"'   # без анимации видно только первое слово
+        o.append(f'<g{base}><animateTransform attributeName="transform" type="translate" values="{vals}" keyTimes="{kts}" dur="{n * 2.6}s" repeatCount="indefinite"/>'
+                 f'<text x="112" y="336" font-family="{SANS}" font-size="15" font-weight="600" fill="{t["text"]}">{esc(wd)}</text></g>')
+    o.append("</g>")
     # подпись под ролью тянется акцентной линией
     o.append(f'<rect x="56" y="240" width="64" height="2" rx="1" fill="{t["accent"]}"><animate attributeName="width" values="64;180;64" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/></rect>')
     return svg(W, H, "\n".join(o), f'{INTRO["name"]} — {INTRO["role"]} {INTRO["about"]}')
@@ -185,23 +203,132 @@ def featured(theme):
         yy = ry + i * 32
         o.append(T(x + 22, yy, f'{n}  <tspan fill="{sc}">{st}</tspan>  <tspan fill="{t["text"]}">{esc(title):<17}</tspan>{br:<13}{ago}', t["muted"]))
     o.append(T(x + w - 18, y + h - 16, 'enter open · m merge · ? help', t["faint"], ' text-anchor="end"'))
+    # уведомление в Telegram: выезжает справа, висит, уходит
+    tx, ty, tw_, th = x + w - 268, y + h - 84, 290, 56
+    o.append(f'<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.35;0.4;0.75;0.8;1" dur="9s" repeatCount="indefinite"/>'
+             f'<animateTransform attributeName="transform" type="translate" values="40 0;40 0;0 0;0 0;40 0;40 0" keyTimes="0;0.35;0.4;0.75;0.8;1" dur="9s" repeatCount="indefinite" calcMode="spline" keySplines="0 0 1 1;0.2 0.8 0.3 1;0 0 1 1;0.5 0 0.8 0.2;0 0 1 1"/>'
+             f'<rect x="{tx}" y="{ty}" width="{tw_}" height="{th}" rx="12" fill="{t["panel"]}" stroke="{t["line2"]}"/>'
+             f'{icon("telegram", tx + 14, ty + 15, 26, t["accent"])}'
+             f'<text x="{tx + 52}" y="{ty + 24}" font-family="{SANS}" font-size="13" font-weight="600" fill="{t["text"]}">gw</text>'
+             f'<text x="{tx + 76}" y="{ty + 24}" font-family="{SANS}" font-size="12" fill="{t["faint"]}">now</text>'
+             f'<text x="{tx + 52}" y="{ty + 42}" font-family="{SANS}" font-size="12.5" fill="{t["soft"]}">#7 Add cache — all checks passed ✓</text></g>')
     return svg(W, H, "\n".join(o), f'Featured: gw — {p["desc"]}')
+
+
+# ── маленькие живые иллюстрации для карточек: (x, y) — левый верхний угол окна 176×150
+
+def art_watchdog(t, x, y):
+    """Кардиограмма сервиса: бежит линия пульса, раз в пять секунд — запрос к /health."""
+    beat = "h22l6 -18l7 34l6 -26l5 10h22"   # один удар, 68 по ширине
+    d = f"M{x - 68} {y + 78}" + beat * 6
+    o = [f'<clipPath id="ecg"><rect x="{x + 1}" y="{y + 1}" width="174" height="148" rx="10"/></clipPath><g clip-path="url(#ecg)">',
+         f'<path d="{d}" fill="none" stroke="{t["green"]}" stroke-width="1.8" stroke-linejoin="round">'
+         f'<animateTransform attributeName="transform" type="translate" values="0 0;68 0" dur="1.6s" repeatCount="indefinite"/></path></g>',
+         f'<text x="{x + 14}" y="{y + 26}" font-family="{MONO}" font-size="11" fill="{t["muted"]}">GET /health</text>',
+         f'<text x="{x + 162}" y="{y + 26}" text-anchor="end" font-family="{MONO}" font-size="11" fill="{t["green"]}">200<animate attributeName="opacity" values="1;0.3;1" dur="5s" repeatCount="indefinite"/></text>',
+         f'<text x="{x + 14}" y="{y + 136}" font-family="{MONO}" font-size="11" fill="{t["faint"]}">every 5s</text>',
+         f'<circle cx="{x + 158}" cy="{y + 132}" r="4" fill="{t["green"]}"><animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite"/></circle>']
+    return "".join(o)
+
+
+def art_logsence(t, x, y):
+    """Логи бегут вверх строками: уровень и сообщение."""
+    lv = [("INFO", t["accent"], 0.7), ("WARN", t["kw"], 0.5), ("INFO", t["accent"], 0.85), ("ERROR", "#e5534b", 0.6),
+          ("INFO", t["accent"], 0.45), ("DEBUG", t["muted"], 0.75)]
+    rows = lv + lv[:6]
+    o = [f'<clipPath id="lg"><rect x="{x + 1}" y="{y + 1}" width="174" height="148" rx="10"/></clipPath><g clip-path="url(#lg)"><g>',
+         f'<animateTransform attributeName="transform" type="translate" values="0 0;0 {-len(lv) * 22}" dur="{len(lv) * 1.2}s" repeatCount="indefinite"/>']
+    for i, (name, c, ln) in enumerate(rows):
+        yy = y + 24 + i * 22
+        o.append(f'<text x="{x + 14}" y="{yy}" font-family="{MONO}" font-size="10.5" fill="{c}">{name}</text>'
+                 f'<rect x="{x + 62}" y="{yy - 7}" width="{100 * ln:.0f}" height="6" rx="3" fill="{t["line2"]}"/>')
+    o.append("</g></g>")
+    return "".join(o)
+
+
+def art_ordergo(t, x, y):
+    """Заказ проходит статусы: точка заполняет шаги по очереди."""
+    steps = ["created", "paid", "shipped", "delivered"]
+    T = 8
+    o = [f'<line x1="{x + 30}" y1="{y + 26}" x2="{x + 30}" y2="{y + 26 + 3 * 32}" stroke="{t["line2"]}" stroke-width="2"/>',
+         f'<rect x="{x + 29}" y="{y + 26}" width="2" height="{3 * 32}" fill="{t["accent"]}"><animate attributeName="height" values="0;{3 * 32};{3 * 32};0" keyTimes="0;0.75;0.95;1" dur="{T}s" repeatCount="indefinite"/></rect>']
+    for i, st in enumerate(steps):
+        yy = y + 26 + i * 32
+        at = 0.75 * i / 3
+        o.append(f'<circle cx="{x + 30}" cy="{yy}" r="7" fill="{t["bg"]}" stroke="{t["line2"]}" stroke-width="2"/>')
+        o.append(f'<circle cx="{x + 30}" cy="{yy}" r="7" fill="{t["accent"]}"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;{at:.3f};{at + 0.02:.3f};0.95;1" dur="{T}s" repeatCount="indefinite"/></circle>')
+        o.append(f'<text x="{x + 48}" y="{yy + 4}" font-family="{MONO}" font-size="11.5" fill="{t["soft"]}">{st}</text>')
+    o.append(f'<text x="{x + 162}" y="{y + 30}" text-anchor="end" font-family="{MONO}" font-size="10.5" fill="{t["faint"]}">#1042</text>')
+    return "".join(o)
+
+
+def art_pulse(t, x, y):
+    """Запрос проходит цепочку middleware и возвращается ответом."""
+    chain = ["Logger", "Recovery", "Auth", "Handler"]
+    T = 4.8
+    o = []
+    for i, name in enumerate(chain):
+        yy = y + 16 + i * 32
+        o.append(f'<rect x="{x + 34}" y="{yy}" width="108" height="24" rx="6" fill="{t["panel"]}" stroke="{t["line2"]}"/>'
+                 f'<text x="{x + 88}" y="{yy + 16}" text-anchor="middle" font-family="{MONO}" font-size="11" fill="{t["soft"]}">{name}</text>')
+        o.append(f'<rect x="{x + 34}" y="{yy}" width="108" height="24" rx="6" fill="none" stroke="{t["accent"]}" stroke-width="1.5" opacity="0">'
+                 f'<animate attributeName="opacity" values="0;0;1;0;0;1;0;0" keyTimes="0;{i * 0.1:.2f};{i * 0.1 + 0.04:.2f};{i * 0.1 + 0.1:.2f};{0.9 - i * 0.1 - 0.1:.2f};{0.9 - i * 0.1 - 0.04:.2f};{0.9 - i * 0.1:.2f};1" dur="{T}s" repeatCount="indefinite"/></rect>')
+    o.append(f'<circle cx="{x + 22}" r="4" fill="{t["accent"]}"><animate attributeName="cy" values="{y + 28};{y + 124};{y + 124};{y + 28};{y + 28}" keyTimes="0;0.4;0.5;0.9;1" dur="{T}s" repeatCount="indefinite"/>'
+             f'<animate attributeName="fill" values="{t["accent"]};{t["accent"]};{t["green"]};{t["green"]}" keyTimes="0;0.45;0.5;1" dur="{T}s" repeatCount="indefinite"/></circle>')
+    o.append(f'<line x1="{x + 22}" y1="{y + 24}" x2="{x + 22}" y2="{y + 128}" stroke="{t["line2"]}" stroke-dasharray="2 4"/>')
+    return "".join(o)
+
+
+def art_kinoza(t, x, y):
+    """Плёнка едет: кадры с треугольником «play»."""
+    fw = 46
+    o = [f'<clipPath id="fl"><rect x="{x + 1}" y="{y + 1}" width="174" height="148" rx="10"/></clipPath><g clip-path="url(#fl)"><g>',
+         f'<animateTransform attributeName="transform" type="translate" values="0 0;{-fw} 0" dur="1.4s" repeatCount="indefinite"/>',
+         f'<rect x="{x - 10}" y="{y + 36}" width="{fw * 6}" height="78" fill="{t["soft"]}" opacity="0.9"/>']
+    for k in range(6):
+        fx = x - 10 + k * fw
+        for hy in (y + 41, y + 103):
+            o.append(f'<rect x="{fx + 8}" y="{hy}" width="10" height="6" rx="1.5" fill="{t["panel"]}"/><rect x="{fx + 28}" y="{hy}" width="10" height="6" rx="1.5" fill="{t["panel"]}"/>')
+        o.append(f'<rect x="{fx + 5}" y="{y + 52}" width="{fw - 10}" height="46" rx="3" fill="{t["panel"]}"/>')
+        o.append(f'<path d="M{fx + 19} {y + 66}l11 9-11 9z" fill="{t["accent"] if k % 2 else t["faint"]}"/>')
+    o.append("</g></g>")
+    return "".join(o)
+
+
+def art_dotfiles(t, x, y):
+    """dot doctor: команда печатается, проверки отмечаются по одной."""
+    T = 7
+    checks = ["brew", "zsh", "nvim", "ghostty"]
+    o = [f'<clipPath id="dd"><rect x="{x + 12}" y="{y + 12}" width="0" height="20"><animate attributeName="width" values="0;0;150;150;0" keyTimes="0;0.05;0.22;0.95;1" dur="{T}s" repeatCount="indefinite"/></rect></clipPath>',
+         f'<text x="{x + 14}" y="{y + 27}" font-family="{MONO}" font-size="12" clip-path="url(#dd)"><tspan fill="{t["accent"]}">$</tspan> <tspan fill="{t["text"]}">dot doctor</tspan></text>']
+    for i, c in enumerate(checks):
+        at = 0.3 + i * 0.12
+        o.append(f'<text x="{x + 14}" y="{y + 54 + i * 22}" font-family="{MONO}" font-size="12"><tspan fill="{t["green"]}">✓</tspan> <tspan fill="{t["soft"]}">{c}</tspan>'
+                 f'<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;{at:.2f};{at + 0.02:.2f};0.95;1" dur="{T}s" repeatCount="indefinite"/></text>')
+    return "".join(o)
+
+
+ART = {"watchdog": art_watchdog, "logsence": art_logsence, "ordergo": art_ordergo, "pulse": art_pulse,
+       "kinoza": art_kinoza, "dotfiles": art_dotfiles}
 
 
 def project(p, theme):
     t = THEMES[theme]
-    w, h = 590, 200
+    w, h = 590, 230
     o = [frame(w, h, t, rx=16, fill=t["panel"])]
-    o.append(gt(p["name"], 30, 62, 26, t["text"], tracking=-0.6))
+    o.append(gt(p["name"], 30, 60, 26, t["text"], tracking=-0.6))
     nx = 30 + gw(p["name"], 26, tracking=-0.6) + 12
     if p.get("team"):
-        o.append(f'<rect x="{nx:.0f}" y="43" width="50" height="22" rx="11" fill="none" stroke="{t["line2"]}"/>'
-                 f'<text x="{nx + 25:.0f}" y="58" text-anchor="middle" font-family="{SANS}" font-size="12" fill="{t["muted"]}">Team</text>')
-    o.append(arrow(w - 46, 42, 11, t["faint"]))
-    o.append(f'<text x="30" y="88" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{esc(p["repo"])}</text>')
-    s, _ = para(p["desc"], 30, 122, 15, w - 70, t["soft"], limit=2)
+        o.append(f'<rect x="{nx:.0f}" y="41" width="50" height="22" rx="11" fill="none" stroke="{t["line2"]}"/>'
+                 f'<text x="{nx + 25:.0f}" y="56" text-anchor="middle" font-family="{SANS}" font-size="12" fill="{t["muted"]}">Team</text>')
+    o.append(f'<text x="30" y="86" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{esc(p["repo"])}</text>')
+    s, _ = para(p["desc"], 30, 122, 14.5, 330, t["soft"], limit=3)
     o.append(s)
-    o.append(tags(p["tags"], 30, h - 26, t))
+    o.append(tags(p["tags"], 30, h - 28, t))
+    ax, ay = 384, 28
+    o.append(f'<rect x="{ax}" y="{ay}" width="176" height="150" rx="10" fill="{t["bg"]}" stroke="{t["line"]}"/>')
+    o.append(ART[p["slug"]](t, ax, ay))
+    o.append(arrow(w - 44, h - 40, 11, t["faint"]))
     return svg(w, h, "\n".join(o), f'{p["name"]}: {p["desc"]}')
 
 
@@ -380,6 +507,128 @@ def footer(theme):
     return svg(W, H, "\n".join(o), "Thanks for stopping by")
 
 
+# ═══════════════════════════════ заголовки разделов ═══════════════════════════════
+
+SECTIONS = {   # ключ → (номер, заголовок, подпись)
+    "now": ("01", "Right now", "what I'm on this week"),
+    "about": ("02", "About", "the short version"),
+    "projects": ("03", "Projects", "things I built and keep building"),
+    "journey": ("04", "Journey", "2026, month by month"),
+    "ship": ("05", "How I ship", "every push, every repo"),
+    "habits": ("06", "Habits", "rules I don't break"),
+    "stack": ("07", "Stack", "what I reach for"),
+    "activity": ("08", "Activity", "redrawn every day"),
+    "contact": ("09", "Contact", "say hi"),
+}
+
+
+def header(key, theme):
+    t = THEMES[theme]
+    num, title, sub = SECTIONS[key]
+    H = 96
+    o = []   # фон прозрачный — заголовок ложится прямо на страницу GitHub
+    o.append(f'<text x="4" y="52" font-family="{MONO}" font-size="13" fill="{t["accent"]}">{num}</text>')
+    o.append(gt(title, 40, 56, 30, t["text"], tracking=-0.8))
+    o.append(f'<text x="{40 + gw(title, 30, tracking=-0.8) + 16:.0f}" y="55" font-family="{SANS}" font-size="15" fill="{t["muted"]}">{esc(sub)}</text>')
+    o.append(f'<line x1="4" y1="{H - 14}" x2="{W - 4}" y2="{H - 14}" stroke="{t["line"]}"/>')
+    # по линии скользит короткий акцентный отрезок
+    o.append(f'<rect x="4" y="{H - 15}" width="90" height="2" rx="1" fill="{t["accent"]}"><animate attributeName="x" values="4;{W - 94};4" dur="12s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/></rect>')
+    return svg(W, H, "\n".join(o), f"{num} {title} — {sub}")
+
+
+# ═══════════════════════════════ путь по месяцам (даты создания репозиториев) ═══════════════════════════════
+
+JOURNEY = [   # (дата, заголовок, подпись)
+    ("2026-07-07", "Hello, GitHub", "this profile"),
+    ("2026-08-01", "Java first", "calculator, Telegram bot, Spring Boot"),
+    ("2026-08-20", "First Go", "NEXA bot, then Pulse"),
+    ("2026-08-30", "watchdog", "uptime monitor, Docker"),
+    ("2026-09-12", "OrderGo", "production-style layout"),
+    ("2026-09-27", "logsence", "logs into PostgreSQL, full CI"),
+    ("2026-10-03", "dotfiles", "the whole Mac as code"),
+    ("2026-10-11", "gw", "GitHub in the terminal"),
+]
+
+
+def journey(theme):
+    import datetime as dt
+    t = THEMES[theme]
+    H, T = 360, 12.0
+    o = [frame(W, H, t, rx=16, fill=t["panel"])]
+    d0, d1 = dt.date(2026, 7, 1), dt.date(2026, 11, 1)
+    x0, x1, ly = 60, W - 60, 176
+    levels = [(-1, 34), (1, 34), (-1, 86), (1, 86)]   # над/под линией, близко/далеко — подписи не налезают
+    X = lambda d: x0 + (d - d0).days / (d1 - d0).days * (x1 - x0)
+    o.append(f'<line x1="{x0}" y1="{ly}" x2="{x1}" y2="{ly}" stroke="{t["line2"]}" stroke-width="2"/>')
+    for m, name in ((7, "Jul"), (8, "Aug"), (9, "Sep"), (10, "Oct"), (11, "")):
+        mx = X(dt.date(2026, m, 1))
+        o.append(f'<line x1="{mx:.0f}" y1="{ly - 6}" x2="{mx:.0f}" y2="{ly + 6}" stroke="{t["line2"]}" stroke-width="2"/>')
+        if name:
+            o.append(f'<text x="{mx + 8:.0f}" y="{H - 20}" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{name} 2026</text>')
+    last = X(dt.date.fromisoformat(JOURNEY[-1][0]))
+    o.append(f'<rect x="{x0}" y="{ly - 1}" height="2" width="{last - x0:.0f}" fill="{t["accent"]}">'
+             f'<animate attributeName="width" values="0;{last - x0:.0f};{last - x0:.0f};0" keyTimes="0;0.7;0.95;1" dur="{T}s" repeatCount="indefinite"/></rect>')
+    for i, (ds, head, sub) in enumerate(JOURNEY):
+        x = X(dt.date.fromisoformat(ds))
+        at = 0.7 * (x - x0) / (last - x0)
+        side, dist = levels[i % 4]
+        ty = ly - dist - 22 if side < 0 else ly + dist + 6
+        o.append(f'<line x1="{x:.0f}" y1="{ly}" x2="{x:.0f}" y2="{ly + side * (dist - 12)}" stroke="{t["line2"]}" stroke-dasharray="2 3"/>')
+        o.append(f'<circle cx="{x:.0f}" cy="{ly}" r="6" fill="{t["bg"]}" stroke="{t["line2"]}" stroke-width="2"/>')
+        o.append(f'<circle cx="{x:.0f}" cy="{ly}" r="6" fill="{t["accent"]}" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;{at:.3f};{at + 0.01:.3f};0.95;1" dur="{T}s" repeatCount="indefinite"/>'
+                 f'<animate attributeName="r" values="6;6;9;6;6" keyTimes="0;{at:.3f};{at + 0.02:.3f};{at + 0.05:.3f};1" dur="{T}s" repeatCount="indefinite"/></circle>')
+        anchor = "start" if x < 160 else "end" if x > W - 160 else "middle"
+        o.append(f'<text x="{x:.0f}" y="{ty}" text-anchor="{anchor}" font-family="{SANS}" font-size="14" font-weight="600" fill="{t["text"]}">{esc(head)}</text>')
+        o.append(f'<text x="{x:.0f}" y="{ty + 18}" text-anchor="{anchor}" font-family="{SANS}" font-size="12" fill="{t["muted"]}">{esc(sub)}</text>')
+    return svg(W, H, "\n".join(o), "Journey in 2026: " + "; ".join(f"{d} {h} — {s_}" for d, h, s_ in JOURNEY))
+
+
+# ═══════════════════════════════ привычки ═══════════════════════════════
+
+HABITS = [
+    ("check", "Green or it doesn't merge", "fmt, vet, race tests, lint and govulncheck on every push"),
+    ("lock", "No secrets in git", "gitleaks checks each commit before it leaves the laptop"),
+    ("term", "Setup as code", "one command rebuilds my Mac, dot doctor checks it"),
+    ("boxes", "Small, plain services", "cmd/ and internal/, plain net/http when it's enough"),
+]
+
+
+def habit_icon(kind, t, x, y):
+    a = t["accent"]
+    if kind == "check":   # галочка рисуется заново
+        return (f'<circle cx="{x + 18}" cy="{y + 18}" r="16" fill="none" stroke="{t["line2"]}" stroke-width="2"/>'
+                f'<path d="M{x + 10} {y + 18}l6 6 11-12" fill="none" stroke="{a}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="26">'
+                '<animate attributeName="stroke-dashoffset" values="26;0;0;26" keyTimes="0;0.25;0.85;1" dur="3s" repeatCount="indefinite"/></path>')
+    if kind == "lock":    # дужка замка защёлкивается
+        return (f'<rect x="{x + 6}" y="{y + 16}" width="24" height="19" rx="4" fill="none" stroke="{a}" stroke-width="2"/>'
+                f'<path d="M{x + 11} {y + 16}v-5a7 7 0 0 1 14 0v5" fill="none" stroke="{t["soft"]}" stroke-width="2">'
+                '<animateTransform attributeName="transform" type="translate" values="0 -4;0 -4;0 0;0 0;0 -4" keyTimes="0;0.3;0.4;0.9;1" dur="3s" repeatCount="indefinite"/></path>'
+                f'<circle cx="{x + 18}" cy="{y + 25}" r="2" fill="{a}"/>')
+    if kind == "term":    # приглашение и мигающий курсор
+        return (f'<rect x="{x + 2}" y="{y + 4}" width="32" height="28" rx="5" fill="none" stroke="{t["line2"]}" stroke-width="2"/>'
+                f'<path d="M{x + 9} {y + 13}l5 4-5 4" fill="none" stroke="{a}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+                f'<rect x="{x + 17}" y="{y + 20}" width="9" height="2" fill="{t["soft"]}"><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1s" repeatCount="indefinite"/></rect>')
+    return (f'<rect x="{x + 4}" y="{y + 20}" width="12" height="12" rx="2" fill="none" stroke="{t["soft"]}" stroke-width="2"/>'
+            f'<rect x="{x + 20}" y="{y + 20}" width="12" height="12" rx="2" fill="none" stroke="{t["soft"]}" stroke-width="2"/>'
+            f'<rect x="{x + 12}" y="{y + 4}" width="12" height="12" rx="2" fill="none" stroke="{a}" stroke-width="2">'
+            '<animateTransform attributeName="transform" type="translate" values="0 -3;0 0;0 0;0 -3" keyTimes="0;0.2;0.8;1" dur="2.6s" repeatCount="indefinite"/></rect>')
+
+
+def habits(theme):
+    t = THEMES[theme]
+    H, gap = 210, 16
+    cw = (W - 3 * gap) / 4
+    o = [f'<rect width="{W}" height="{H}" fill="{t["bg"]}" opacity="0"/>']
+    for i, (kind, head, sub) in enumerate(HABITS):
+        x = i * (cw + gap)
+        o.append(f'<rect x="{x + 0.5:.1f}" y="0.5" width="{cw - 1:.1f}" height="{H - 1}" rx="16" fill="{t["panel"]}" stroke="{t["line"]}"/>')
+        o.append(habit_icon(kind, t, x + 26, 28))
+        o.append(gt(head, x + 26, 112, 18, t["text"], tracking=-0.3))
+        s_, _ = para(sub, x + 26, 140, 13.5, cw - 52, t["muted"], limit=3)
+        o.append(s_)
+    return svg(W, H, "\n".join(o), "Habits: " + "; ".join(f"{h} — {s_}" for _, h, s_ in HABITS))
+
+
 def main():
     for theme in THEMES:
         write("hero", theme, hero(theme))
@@ -389,6 +638,10 @@ def main():
         write("flow", theme, flow(theme))
         write("ci", theme, ci(theme))
         write("footer", theme, footer(theme))
+        write("journey", theme, journey(theme))
+        write("habits", theme, habits(theme))
+        for k in SECTIONS:
+            write("h-" + k, theme, header(k, theme))
         for p in PROJECTS:
             write("p-" + p["slug"], theme, project(p, theme))
     print("assets: ok")
