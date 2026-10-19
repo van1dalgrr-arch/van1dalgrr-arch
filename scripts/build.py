@@ -4,7 +4,7 @@
 Тексты лежат здесь обычными списками (INTRO, FEATURED, PROJECTS, STACK) — поправил строку,
 перезапустил скрипт, закоммитил. Живую статистику рисует stats.py в workflow.
 """
-from kit import MONO, SANS, THEMES, arrow, esc, frame, gt, gw, icon, svg, tw, write
+from kit import ROOT, MONO, SANS, THEMES, arrow, esc, frame, gopher, gt, gw, icon, svg, tw, write
 
 W = 1200
 
@@ -67,65 +67,113 @@ CODE = [   # (отступ, [(текст, роль)]) — роль: kw ключ�
 BUILD = ["REST APIs in Go", "terminal tools", "CI that says no", "my own dev setup"]
 
 
+def wireframe(t, cx, cy, r, T=28, frames=72):
+    """Икосаэдр из тонких линий медленно вращается; координаты посчитаны на каждый кадр заранее."""
+    import math
+    ph = (1 + 5 ** 0.5) / 2
+    V = [(-1, ph, 0), (1, ph, 0), (-1, -ph, 0), (1, -ph, 0), (0, -1, ph), (0, 1, ph), (0, -1, -ph), (0, 1, -ph),
+         (ph, 0, -1), (ph, 0, 1), (-ph, 0, -1), (-ph, 0, 1)]
+    n = math.sqrt(1 + ph * ph)
+    V = [(x / n, y / n, z / n) for x, y, z in V]
+    E = sorted({tuple(sorted((i, j))) for i in range(12) for j in range(12) if i != j
+                and abs(sum((V[i][k] - V[j][k]) ** 2 for k in range(3)) - (2 / n) ** 2) < 1e-6})
+    proj = []
+    for f in range(frames + 1):
+        a, b = 2 * math.pi * f / frames, 0.42   # поворот вокруг вертикали и постоянный наклон
+        pts = []
+        for x, y, z in V:
+            x, z = x * math.cos(a) + z * math.sin(a), -x * math.sin(a) + z * math.cos(a)
+            y, z = y * math.cos(b) - z * math.sin(b), y * math.sin(b) + z * math.cos(b)
+            k = 1 / (1.9 - z * 0.45)   # лёгкая перспектива
+            pts.append((cx + x * r * k * 1.6, cy + y * r * k * 1.6, z))
+        proj.append(pts)
+    o = [f'<g stroke="{t["accent"]}" stroke-width="1.2" fill="none" stroke-linecap="round">']
+    for i, j in E:
+        attrs = []
+        for nm, idx, c in (("x1", i, 0), ("y1", i, 1), ("x2", j, 0), ("y2", j, 1)):
+            vals = ";".join(f"{fr[idx][c]:.1f}" for fr in proj)
+            attrs.append(f'<animate attributeName="{nm}" values="{vals}" dur="{T}s" repeatCount="indefinite"/>')
+        op = ";".join(f"{0.18 + 0.5 * (1 + (fr[i][2] + fr[j][2]) / 2) / 2:.2f}" for fr in proj)   # дальние рёбра бледнее
+        p0 = proj[0]
+        o.append(f'<line x1="{p0[i][0]:.1f}" y1="{p0[i][1]:.1f}" x2="{p0[j][0]:.1f}" y2="{p0[j][1]:.1f}">{"".join(attrs)}'
+                 f'<animate attributeName="stroke-opacity" values="{op}" dur="{T}s" repeatCount="indefinite"/></line>')
+    o.append("</g>")
+    for v in range(12):
+        xs = ";".join(f"{fr[v][0]:.1f}" for fr in proj)
+        ys = ";".join(f"{fr[v][1]:.1f}" for fr in proj)
+        o.append(f'<circle r="2.6" fill="{t["accent"]}" cx="{proj[0][v][0]:.1f}" cy="{proj[0][v][1]:.1f}">'
+                 f'<animate attributeName="cx" values="{xs}" dur="{T}s" repeatCount="indefinite"/><animate attributeName="cy" values="{ys}" dur="{T}s" repeatCount="indefinite"/></circle>')
+    # две орбиты вокруг
+    for k, (rx_, ry_, rot, d) in enumerate(((r * 1.55, r * 0.42, -18, 40), (r * 1.3, r * 0.3, 24, 55))):
+        o.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx_:.0f}" ry="{ry_:.0f}" fill="none" stroke="{t["muted"]}" stroke-opacity="0.35" stroke-dasharray="2 7" transform="rotate({rot} {cx} {cy})">'
+                 f'<animate attributeName="stroke-dashoffset" values="0;{-90 if k else 90}" dur="{d / 4:.0f}s" repeatCount="indefinite"/></ellipse>')
+    return "".join(o)
+
+
 def hero(theme):
     t = THEMES[theme]
-    H = 380
-    o = [frame(W, H, t, rx=20), dots(t, 10, 10, W - 20, H - 20)]
-    # статус: зелёная точка пульсирует
+    H = 470
+    o = [frame(W, H, t, rx=24, n=4, seed=3)]
+    o.append(wireframe(t, 930, 170, 150))
+    # статус: стеклянная плашка, зелёная точка пульсирует
     st = INTRO["status"]
     pw = tw(st, 13) * 0.9 + 40
-    o.append(f'<rect x="56" y="52" width="{pw:.0f}" height="30" rx="15" fill="{t["panel"]}" stroke="{t["line"]}"/>')
-    o.append(f'<circle cx="74" cy="67" r="7" fill="{t["green"]}" opacity="0.25"><animate attributeName="r" values="4;8;4" dur="2.4s" repeatCount="indefinite"/>'
+    o.append(f'<rect x="56" y="58" width="{pw:.0f}" height="30" rx="15" fill="{t["glass"]}" fill-opacity="{t["glass_op"] * 2:.3f}" stroke="{t["line2"]}"/>')
+    o.append(f'<circle cx="74" cy="73" r="7" fill="{t["green"]}" opacity="0.25"><animate attributeName="r" values="4;8;4" dur="2.4s" repeatCount="indefinite"/>'
              f'<animate attributeName="opacity" values="0.35;0;0.35" dur="2.4s" repeatCount="indefinite"/></circle>')
-    o.append(f'<circle cx="74" cy="67" r="3.5" fill="{t["green"]}"/>')
-    o.append(f'<text x="88" y="71.5" font-family="{SANS}" font-size="13" fill="{t["soft"]}">{esc(st)}</text>')
-    o.append(gt(INTRO["name"], 52, 178, 92, t["text"], tracking=-3.5))
-    o.append(gt(INTRO["role"], 56, 226, 26, t["soft"], font="body", tracking=-0.4))
-    s, _ = para(INTRO["about"], 56, 276, 16, 560, t["muted"])
+    o.append(f'<circle cx="74" cy="73" r="3.5" fill="{t["green"]}"/>')
+    o.append(f'<text x="88" y="77.5" font-family="{SANS}" font-size="13" fill="{t["soft"]}">{esc(st)}</text>')
+    o.append(gt(INTRO["name"], 50, 200, 110, t["text"], tracking=-4.5))
+    o.append(gt(INTRO["role"], 56, 252, 26, t["soft"], font="body", tracking=-0.4))
+    o.append(f'<rect x="56" y="268" width="64" height="2" rx="1" fill="{t["accent"]}"><animate attributeName="width" values="64;200;64" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/></rect>')
+    s, _ = para(INTRO["about"], 56, 306, 16, 540, t["muted"])
     o.append(s)
-
-    # карточка с кодом
-    cx, cy, cw, ch = 700, 70, 444, 240
-    o.append(f'<rect x="{cx}" y="{cy}" width="{cw}" height="{ch}" rx="12" fill="{t["panel"]}" stroke="{t["line"]}"/>')
-    o.append(f'<line x1="{cx}" y1="{cy + 38}" x2="{cx + cw}" y2="{cy + 38}" stroke="{t["line"]}"/>')
-    for i in range(3):
-        o.append(f'<circle cx="{cx + 20 + i * 16}" cy="{cy + 19}" r="4.5" fill="{t["line2"]}"/>')
-    o.append(f'<text x="{cx + cw - 18}" y="{cy + 23.5}" text-anchor="end" font-family="{MONO}" font-size="12" fill="{t["muted"]}">cmd/api/main.go</text>')
-    col = {"kw": t["kw"], "str": t["str"], "fn": t["accent"], "t": t["soft"]}
-    # строки «печатаются» по кругу; без анимации (превью) код просто виден целиком
-    T, clock, y = 14.0, 0.6, cy + 68
-    for n, (ind, parts) in enumerate(CODE):
-        o.append(f'<text x="{cx + 20}" y="{y}" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{n + 1}</text>')
-        text = "".join(s_ for s_, _ in parts)
-        x0 = cx + 48 + ind * 29
-        full = tw(text, 14, mono=True) + 6
-        st, dur = clock, max(0.05, 0.05 * len(text))
-        clock += dur + 0.15
-        o.append(f'<clipPath id="cl{n}"><rect x="{x0 - 2}" y="{y - 16}" width="{full:.0f}" height="22">'
-                 f'<animate attributeName="width" values="0;0;{full:.0f};{full:.0f};0" keyTimes="0;{st / T:.4f};{(st + dur) / T:.4f};0.94;1" dur="{T}s" repeatCount="indefinite"/></rect></clipPath>')
-        spans = "".join(f'<tspan fill="{col[r]}">{esc(s_)}</tspan>' for s_, r in parts)
-        o.append(f'<text x="{x0}" y="{y}" font-family="{MONO}" font-size="14" xml:space="preserve" clip-path="url(#cl{n})">{spans}</text>')
-        y += 22
-    last = "".join(s_ for s_, _ in CODE[-1][1])
-    o.append(f'<rect x="{cx + 48 + tw(last, 14, mono=True) + 2:.0f}" y="{y - 22 - 13}" width="2" height="17" fill="{t["accent"]}">'
-             '<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1.1s" repeatCount="indefinite"/></rect>')
     # «I build …» — слово меняется по кругу, выезжая снизу
-    o.append(f'<text x="56" y="336" font-family="{SANS}" font-size="15" fill="{t["muted"]}">I build</text>')
-    o.append(f'<clipPath id="rot"><rect x="110" y="318" width="300" height="24"/></clipPath><g clip-path="url(#rot)">')
-    words = BUILD
-    n = len(words)
-    for i, wd in enumerate(words):
+    yb = 380
+    o.append(f'<text x="56" y="{yb}" font-family="{SANS}" font-size="15" fill="{t["muted"]}">I build</text>')
+    o.append(f'<clipPath id="rot"><rect x="110" y="{yb - 18}" width="300" height="24"/></clipPath><g clip-path="url(#rot)">')
+    n = len(BUILD)
+    for i, wd in enumerate(BUILD):
         a0, a1 = i / n, (i + 1) / n
-        vals = f"0 24;0 24;0 0;0 0;0 -24;0 -24" if i else "0 0;0 0;0 -24;0 -24;0 24;0 0"
+        vals = "0 24;0 24;0 0;0 0;0 -24;0 -24" if i else "0 0;0 0;0 -24;0 -24;0 24;0 0"
         # моменты не должны выходить за 1, иначе браузер выбрасывает анимацию целиком
         kts = (f"0;{a0:.3f};{a0 + 0.03:.3f};{a1 - 0.015:.3f};{min(a1 + 0.015, 1):.3f};1" if i else
                f"0;{a1 - 0.015:.3f};{a1 + 0.015:.3f};0.985;0.986;1")
         base = "" if i == 0 else ' transform="translate(0 24)"'   # без анимации видно только первое слово
         o.append(f'<g{base}><animateTransform attributeName="transform" type="translate" values="{vals}" keyTimes="{kts}" dur="{n * 2.6}s" repeatCount="indefinite"/>'
-                 f'<text x="112" y="336" font-family="{SANS}" font-size="15" font-weight="600" fill="{t["text"]}">{esc(wd)}</text></g>')
+                 f'<text x="112" y="{yb}" font-family="{SANS}" font-size="15" font-weight="600" fill="{t["text"]}">{esc(wd)}</text></g>')
     o.append("</g>")
-    # подпись под ролью тянется акцентной линией
-    o.append(f'<rect x="56" y="240" width="64" height="2" rx="1" fill="{t["accent"]}"><animate attributeName="width" values="64;180;64" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/></rect>')
+
+    # стеклянная карточка с кодом поверх каркаса
+    cx, cy, cw, ch = 652, 116, 420, 236
+    o.append(f'<defs><filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="{t["shadow"]}"/></filter></defs>')
+    o.append(f'<rect x="{cx}" y="{cy}" width="{cw}" height="{ch}" rx="14" fill="{t["panel"]}" fill-opacity="0.72" stroke="{t["line2"]}" filter="url(#sh)"/>')
+    o.append(f'<rect x="{cx + 0.5}" y="{cy + 0.5}" width="{cw - 1}" height="{ch - 1}" rx="13.5" fill="none" stroke="{t["rim"]}" stroke-opacity="{t["rim_op"] * 0.6:.2f}"/>')
+    o.append(f'<line x1="{cx}" y1="{cy + 38}" x2="{cx + cw}" y2="{cy + 38}" stroke="{t["line2"]}"/>')
+    for i in range(3):
+        o.append(f'<circle cx="{cx + 20 + i * 16}" cy="{cy + 19}" r="4.5" fill="{t["line2"]}"/>')
+    o.append(f'<text x="{cx + cw - 18}" y="{cy + 23.5}" text-anchor="end" font-family="{MONO}" font-size="12" fill="{t["muted"]}">cmd/api/main.go</text>')
+    col = {"kw": t["kw"], "str": t["str"], "fn": t["accent"], "t": t["soft"]}
+    T, clock, y = 14.0, 0.6, cy + 66
+    for n_, (ind, parts) in enumerate(CODE):
+        o.append(f'<text x="{cx + 20}" y="{y}" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{n_ + 1}</text>')
+        text = "".join(s_ for s_, _ in parts)
+        x0 = cx + 48 + ind * 29
+        full = tw(text, 14, mono=True) + 6
+        st_, dur = clock, max(0.05, 0.05 * len(text))
+        clock += dur + 0.15
+        o.append(f'<clipPath id="cl{n_}"><rect x="{x0 - 2}" y="{y - 16}" width="{full:.0f}" height="22">'
+                 f'<animate attributeName="width" values="0;0;{full:.0f};{full:.0f};0" keyTimes="0;{st_ / T:.4f};{(st_ + dur) / T:.4f};0.94;1" dur="{T}s" repeatCount="indefinite"/></rect></clipPath>')
+        spans = "".join(f'<tspan fill="{col[r]}">{esc(s_)}</tspan>' for s_, r in parts)
+        o.append(f'<text x="{x0}" y="{y}" font-family="{MONO}" font-size="14" xml:space="preserve" clip-path="url(#cl{n_})">{spans}</text>')
+        y += 21
+    # гофер vim-go парит у края карточки
+    img, gwid = gopher("vim-go", 0, 0, 200)
+    gx, gy = 948, 252
+    o.append(f'<ellipse cx="{gx + gwid / 2:.0f}" cy="{gy + 205}" rx="{gwid * 0.32:.0f}" ry="7" fill="#000" opacity="{t["shadow"] * 0.6:.2f}">'
+             '<animate attributeName="rx" values="62;52;62" dur="4s" repeatCount="indefinite"/></ellipse>')
+    o.append(f'<g transform="translate({gx} {gy})"><g><animateTransform attributeName="transform" type="translate" values="0 0;0 -10;0 0" dur="4s" repeatCount="indefinite" '
+             f'calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>{img}</g></g>')
     return svg(W, H, "\n".join(o), f'{INTRO["name"]} — {INTRO["role"]} {INTRO["about"]}')
 
 
@@ -321,7 +369,7 @@ def project(p, theme):
     if p.get("team"):
         o.append(f'<rect x="{nx:.0f}" y="41" width="50" height="22" rx="11" fill="none" stroke="{t["line2"]}"/>'
                  f'<text x="{nx + 25:.0f}" y="56" text-anchor="middle" font-family="{SANS}" font-size="12" fill="{t["muted"]}">Team</text>')
-    o.append(f'<text x="30" y="86" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{esc(p["repo"])}</text>')
+    o.append(f'<text x="30" y="86" font-family="{MONO}" font-size="12" fill="{t["muted"]}">{esc(p["repo"])}</text>')
     s, _ = para(p["desc"], 30, 122, 14.5, 330, t["soft"], limit=3)
     o.append(s)
     o.append(tags(p["tags"], 30, h - 28, t))
@@ -493,10 +541,22 @@ def stack(theme):
 
 # ═══════════════════════════════ финал ═══════════════════════════════
 
+def runner(y, scale=4, dur=11):
+    """Пиксельный гофер (спрайт Эгона Элбре, CC0) бежит через весь кадр; кадры бега 16–23 по 12×14."""
+    import base64
+    data = base64.b64encode((ROOT / "assets" / "gophers" / "sprite-sheet.png").read_bytes()).decode()
+    fw, fh = 12 * scale, 14 * scale
+    xs = ";".join(str(-12 * f) for f in range(16, 24))
+    return (f'<g><animateTransform attributeName="transform" type="translate" values="-60 0;{W + 10} 0" dur="{dur}s" repeatCount="indefinite"/>'
+            f'<svg x="0" y="{y - fh}" width="{fw}" height="{fh}" viewBox="0 0 12 14">'
+            f'<image x="-192" y="0" width="324" height="14" style="image-rendering:pixelated" href="data:image/png;base64,{data}">'
+            f'<animate attributeName="x" values="{xs}" calcMode="discrete" dur="0.8s" repeatCount="indefinite"/></image></svg></g>')
+
+
 def footer(theme):
     t = THEMES[theme]
-    H = 120
-    o = [frame(W, H, t, rx=16, fill=t["panel"])]
+    H = 170
+    o = [frame(W, H, t, rx=16, fill=t["panel"], seed=29)]
     msg = "exit  # thanks for stopping by"
     full = tw("$ " + msg, 15, mono=True) + 8
     o.append(f'<clipPath id="ft"><rect x="38" y="44" width="{full:.0f}" height="30"><animate attributeName="width" values="0;0;{full:.0f};{full:.0f};0" keyTimes="0;0.1;0.45;0.92;1" dur="8s" repeatCount="indefinite"/></rect></clipPath>')
@@ -504,7 +564,10 @@ def footer(theme):
              f'<tspan fill="{t["text"]}">exit</tspan>  <tspan fill="{t["muted"]}"># thanks for stopping by</tspan></text>')
     o.append(f'<rect x="{40 + full:.0f}" y="51" width="8" height="17" fill="{t["accent"]}"><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1.1s" repeatCount="indefinite"/></rect>')
     o.append(f'<text x="{W - 40}" y="65" text-anchor="end" font-family="{SANS}" font-size="13" fill="{t["muted"]}">van1dal · Saint Petersburg · English or Russian</text>')
-    return svg(W, H, "\n".join(o), "Thanks for stopping by")
+    o.append(f'<line x1="24" y1="{H - 30}" x2="{W - 24}" y2="{H - 30}" stroke="{t["line2"]}" stroke-dasharray="3 6"/>')
+    o.append(f'<clipPath id="fr"><rect width="{W}" height="{H}" rx="16"/></clipPath><g clip-path="url(#fr)">{runner(H - 30)}</g>')
+    o.append(f'<text x="{W - 40}" y="{H - 10}" text-anchor="end" font-family="{SANS}" font-size="11" fill="{t["faint"]}">gophers by Egon Elbre, CC0</text>')
+    return svg(W, H, "\n".join(o), "Thanks for stopping by — a pixel gopher runs across")
 
 
 # ═══════════════════════════════ заголовки разделов ═══════════════════════════════
@@ -522,14 +585,27 @@ SECTIONS = {   # ключ → (номер, заголовок, подпись)
 }
 
 
+MASCOTS = {   # раздел → (гофер, высота)
+    "now": ("music", 84), "about": ("gamer", 84), "projects": ("soldering", 80), "journey": ("hiking", 78),
+    "ship": ("rocket", 92), "habits": ("knight", 84), "stack": ("network", 80), "activity": ("lifting", 74),
+    "contact": ("heart-balloon", 92),
+}
+
+
 def header(key, theme):
     t = THEMES[theme]
     num, title, sub = SECTIONS[key]
-    H = 96
+    H = 110
     o = []   # фон прозрачный — заголовок ложится прямо на страницу GitHub
     o.append(f'<text x="4" y="52" font-family="{MONO}" font-size="13" fill="{t["accent"]}">{num}</text>')
     o.append(gt(title, 40, 56, 30, t["text"], tracking=-0.8))
     o.append(f'<text x="{40 + gw(title, 30, tracking=-0.8) + 16:.0f}" y="55" font-family="{SANS}" font-size="15" fill="{t["muted"]}">{esc(sub)}</text>')
+    if key in MASCOTS:   # гофер сидит на линии справа и слегка покачивается
+        name, gh = MASCOTS[key]
+        img, gwid = gopher(name, 0, 0, gh)
+        o.append(f'<g transform="translate({W - 40 - gwid:.0f} {H - 12 - gh:.0f})"><g><animateTransform attributeName="transform" type="rotate" '
+                 f'values="-3 {gwid / 2:.0f} {gh:.0f};3 {gwid / 2:.0f} {gh:.0f};-3 {gwid / 2:.0f} {gh:.0f}" dur="{4 + len(key) % 3}s" repeatCount="indefinite" '
+                 f'calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>{img}</g></g>')
     o.append(f'<line x1="4" y1="{H - 14}" x2="{W - 4}" y2="{H - 14}" stroke="{t["line"]}"/>')
     # по линии скользит короткий акцентный отрезок
     o.append(f'<rect x="4" y="{H - 15}" width="90" height="2" rx="1" fill="{t["accent"]}"><animate attributeName="x" values="4;{W - 94};4" dur="12s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/></rect>')
@@ -621,7 +697,7 @@ def habits(theme):
     o = [f'<rect width="{W}" height="{H}" fill="{t["bg"]}" opacity="0"/>']
     for i, (kind, head, sub) in enumerate(HABITS):
         x = i * (cw + gap)
-        o.append(f'<rect x="{x + 0.5:.1f}" y="0.5" width="{cw - 1:.1f}" height="{H - 1}" rx="16" fill="{t["panel"]}" stroke="{t["line"]}"/>')
+        o.append(f'<g transform="translate({x:.1f} 0)">{frame(int(cw), H, t, rx=16, seed=11 + i * 5, n=2, uid=f"h{i}")}</g>')
         o.append(habit_icon(kind, t, x + 26, 28))
         o.append(gt(head, x + 26, 112, 18, t["text"], tracking=-0.3))
         s_, _ = para(sub, x + 26, 140, 13.5, cw - 52, t["muted"], limit=3)

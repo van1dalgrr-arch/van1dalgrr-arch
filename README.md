@@ -60,4 +60,5 @@
 
 <p><picture><source media="(prefers-color-scheme: light)" srcset="assets/footer-light.svg"><img src="assets/footer.svg" width="100%" alt="Thanks for stopping by"></picture></p>
 
-<sub>The images are drawn by [`scripts/build.py`](scripts/build.py); activity is redrawn daily by [a workflow](.github/workflows/graphics.yml).</sub>
+<sub>The images are drawn by [`scripts/build.py`](scripts/build.py); activity is redrawn daily by [a workflow](.github/workflows/graphics.yml).
+Gophers by [Egon Elbre](https://github.com/egonelbre/gophers), CC0; the Go gopher was designed by Renée French.</sub>

@@ -1,9 +1,10 @@
 """Общее для картинок профиля: две темы, шрифт-контуры, иконки.
 
-Стиль — минимализм: почти чёрный (или белый) фон, текст, тонкие рамки и один сдержанный синий акцент.
+Стиль — минимализм со стеклом: под каждой карточкой медленно плывут размытые цветные пятна,
+сверху — полупрозрачное «матовое стекло» с бликом по краю и мягкой тенью. Акцент — синий.
 Каждая картинка рисуется дважды, под тёмную и светлую тему GitHub; README выбирает через <picture>.
 """
-import json
+import base64, json, random
 from pathlib import Path
 from xml.sax.saxutils import escape
 
@@ -18,10 +19,14 @@ SANS = "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica
 THEMES = {
     "dark": dict(bg="#0a0a0a", panel="#0f0f11", line="#222226", line2="#2e2e34", dot="#26262b",
                  text="#ededed", soft="#c4c4ca", muted="#8f8f97", faint="#55555d",
-                 accent="#7aa2ff", green="#3fb950", str="#a5d6a7", kw="#c3a6ff"),
+                 accent="#7aa2ff", green="#3fb950", str="#a5d6a7", kw="#c3a6ff",
+                 aurora=["#3b5bff", "#8b5cf6", "#14b8a6", "#ec4899"], blob=0.34, glass="#ffffff", glass_op=0.035,
+                 rim="#ffffff", rim_op=0.22, shadow=0.55),
     "light": dict(bg="#ffffff", panel="#fafafa", line="#e6e6ea", line2="#d6d6dc", dot="#e3e3e8",
                   text="#111113", soft="#3a3a41", muted="#6c6c75", faint="#b0b0b8",
-                  accent="#2f6bff", green="#1a7f37", str="#1f7a3a", kw="#7c3aed"),
+                  accent="#2f6bff", green="#1a7f37", str="#1f7a3a", kw="#7c3aed",
+                  aurora=["#7ea2ff", "#b69cff", "#5fd6c4", "#f7a6cf"], blob=0.38, glass="#ffffff", glass_op=0.62,
+                  rim="#ffffff", rim_op=0.9, shadow=0.12),
 }
 
 
@@ -65,9 +70,49 @@ def arrow(x, y, size, color):
             f'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>')
 
 
-def frame(w, h, t, rx=16, fill=None):
-    return (f'<rect width="{w}" height="{h}" rx="{rx}" fill="{fill or t["bg"]}"/>'
-            f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="{rx - 0.5}" fill="none" stroke="{t["line"]}"/>')
+def blobs(w, h, t, seed=1, n=3, op=None, uid="b"):
+    """Размытые цветные пятна, которые медленно плывут, — «северное сияние» под стеклом."""
+    rnd = random.Random(seed)
+    op = t["blob"] if op is None else op
+    out = [f'<defs><filter id="{uid}f" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="{max(w, h) * 0.07:.0f}"/></filter></defs>',
+           f'<g filter="url(#{uid}f)" opacity="{op}">']
+    for i in range(n):
+        cx, cy = rnd.uniform(0.1, 0.9) * w, rnd.uniform(0.15, 0.85) * h
+        rx, ry = rnd.uniform(0.18, 0.32) * w, rnd.uniform(0.35, 0.6) * h
+        dx, dy = rnd.uniform(-0.12, 0.12) * w, rnd.uniform(-0.2, 0.2) * h
+        d = rnd.uniform(16, 26)
+        out.append(f'<ellipse cx="{cx:.0f}" cy="{cy:.0f}" rx="{rx:.0f}" ry="{ry:.0f}" fill="{t["aurora"][(seed + i) % 4]}">'
+                   f'<animateTransform attributeName="transform" type="translate" values="0 0;{dx:.0f} {dy:.0f};0 0" dur="{d:.1f}s" repeatCount="indefinite" '
+                   'calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/></ellipse>')
+    out.append("</g>")
+    return "".join(out)
+
+
+def frame(w, h, t, rx=16, fill=None, seed=None, n=3, glow=True, uid="g"):
+    """Стеклянная карточка: фон, пятна, полупрозрачное стекло, блик по верхнему краю."""
+    seed = (w * 7 + h * 13) % 97 if seed is None else seed
+    out = [f'<defs><clipPath id="{uid}c"><rect width="{w}" height="{h}" rx="{rx}"/></clipPath>'
+           f'<linearGradient id="{uid}r" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="{t["rim"]}" stop-opacity="{t["rim_op"]}"/>'
+           f'<stop offset="0.5" stop-color="{t["rim"]}" stop-opacity="0.04"/><stop offset="1" stop-color="{t["rim"]}" stop-opacity="{t["rim_op"] * 0.35:.2f}"/></linearGradient>'
+           f'<linearGradient id="{uid}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t["glass"]}" stop-opacity="{t["glass_op"] * 1.6:.3f}"/>'
+           f'<stop offset="1" stop-color="{t["glass"]}" stop-opacity="{t["glass_op"]}"/></linearGradient></defs>',
+           f'<g clip-path="url(#{uid}c)"><rect width="{w}" height="{h}" fill="{fill or t["panel"]}"/>']
+    if glow:
+        out.append(blobs(w, h, t, seed=seed, n=n, uid=uid + "b"))
+    out.append(f'<rect width="{w}" height="{h}" fill="url(#{uid}s)"/></g>')
+    out.append(f'<rect x="0.75" y="0.75" width="{w - 1.5}" height="{h - 1.5}" rx="{rx - 0.75}" fill="none" stroke="{t["line"]}"/>')
+    out.append(f'<rect x="0.75" y="0.75" width="{w - 1.5}" height="{h - 1.5}" rx="{rx - 0.75}" fill="none" stroke="url(#{uid}r)" stroke-width="1.2"/>')
+    return "".join(out)
+
+
+def gopher(name, x, y, h, extra=""):
+    """Гофер Эгона Элбре (CC0) из assets/gophers, встроенный прямо в SVG."""
+    path = ROOT / "assets" / "gophers" / f"{name}.png"
+    raw = path.read_bytes()
+    iw, ih = int.from_bytes(raw[16:20], "big"), int.from_bytes(raw[20:24], "big")   # ширина и высота из заголовка PNG
+    w = h * iw / ih
+    data = base64.b64encode(raw).decode()
+    return f'<image x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" href="data:image/png;base64,{data}"{extra}/>', w
 
 
 def svg(w, h, body, title):
