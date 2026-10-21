@@ -1,10 +1,16 @@
 <picture><source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg"><img src="assets/hero.svg" width="100%" alt="van1dal — Go backend developer in Saint Petersburg. I build REST services with Gin, PostgreSQL, Redis and Docker, tested, linted and shipped through CI on every push."></picture>
 
+<p align="center">
+  <img src="https://komarev.com/ghpvc/?username=van1dalgrr-arch&label=profile%20views&color=00ADD8&style=for-the-badge&abbreviated=false" alt="Profile views">
+</p>
+
 <picture><source media="(prefers-color-scheme: light)" srcset="assets/h-now-light.svg"><img src="assets/h-now.svg" width="100%" alt="01 Right now"></picture>
 
 <p><picture><source media="(prefers-color-scheme: light)" srcset="assets/now-light.svg"><img src="assets/now.svg" width="100%" alt="Right now: building gw, the Go backend of kinoza-back with a team, tuning dotfiles. An example feed of the gw daemon: pull requests, Actions runs, reviews and mentions sent to Telegram."></picture></p>
 
 <picture><source media="(prefers-color-scheme: light)" srcset="assets/h-about-light.svg"><img src="assets/h-about.svg" width="100%" alt="02 About"></picture>
+
+<p><picture><source media="(prefers-color-scheme: light)" srcset="assets/gomod-light.svg"><img src="assets/gomod.svg" width="100%" alt="go.mod: module github.com/van1dalgrr-arch, go 1.27, requires gin, pgx, go-redis, bubbletea and cobra; go vet, go test -race and golangci-lint pass"></picture></p>
 
 - Go backend developer in Saint Petersburg
 - REST services with Gin, PostgreSQL, Redis and Docker: tested, linted and shipped through CI on every push

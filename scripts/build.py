@@ -101,7 +101,7 @@ def wireframe(t, cx, cy, r, T=28, frames=72):
     for v in range(12):
         xs = ";".join(f"{fr[v][0]:.1f}" for fr in proj)
         ys = ";".join(f"{fr[v][1]:.1f}" for fr in proj)
-        o.append(f'<circle r="2.6" fill="{t["accent"]}" cx="{proj[0][v][0]:.1f}" cy="{proj[0][v][1]:.1f}">'
+        o.append(f'<circle r="3" fill="{t["go"][v % 5]}" cx="{proj[0][v][0]:.1f}" cy="{proj[0][v][1]:.1f}">'
                  f'<animate attributeName="cx" values="{xs}" dur="{T}s" repeatCount="indefinite"/><animate attributeName="cy" values="{ys}" dur="{T}s" repeatCount="indefinite"/></circle>')
     # две орбиты вокруг
     for k, (rx_, ry_, rot, d) in enumerate(((r * 1.55, r * 0.42, -18, 40), (r * 1.3, r * 0.3, 24, 55))):
@@ -114,7 +114,7 @@ def hero(theme):
     t = THEMES[theme]
     H = 470
     o = [frame(W, H, t, rx=24, n=4, seed=3)]
-    o.append(wireframe(t, 930, 170, 150))
+    o.append(wireframe(t, 905, 190, 150))
     # статус: стеклянная плашка, зелёная точка пульсирует
     st = INTRO["status"]
     pw = tw(st, 13) * 0.9 + 40
@@ -123,7 +123,10 @@ def hero(theme):
              f'<animate attributeName="opacity" values="0.35;0;0.35" dur="2.4s" repeatCount="indefinite"/></circle>')
     o.append(f'<circle cx="74" cy="73" r="3.5" fill="{t["green"]}"/>')
     o.append(f'<text x="88" y="77.5" font-family="{SANS}" font-size="13" fill="{t["soft"]}">{esc(st)}</text>')
-    o.append(gt(INTRO["name"], 50, 200, 110, t["text"], tracking=-4.5))
+    o.append(f'<defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="0.3"><stop offset="0" stop-color="{t["text"]}"/>'
+             f'<stop offset="0.55" stop-color="{t["go"][1]}"/><stop offset="1" stop-color="{t["go"][2]}"/>'
+             '<animate attributeName="x2" values="1;1.6;1" dur="9s" repeatCount="indefinite"/></linearGradient></defs>')
+    o.append(gt(INTRO["name"], 50, 200, 110, "url(#ng)", tracking=-4.5))
     o.append(gt(INTRO["role"], 56, 252, 26, t["soft"], font="body", tracking=-0.4))
     o.append(f'<rect x="56" y="268" width="64" height="2" rx="1" fill="{t["accent"]}"><animate attributeName="width" values="64;200;64" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/></rect>')
     s, _ = para(INTRO["about"], 56, 306, 16, 540, t["muted"])
@@ -144,6 +147,10 @@ def hero(theme):
                  f'<text x="112" y="{yb}" font-family="{SANS}" font-size="15" font-weight="600" fill="{t["text"]}">{esc(wd)}</text></g>')
     o.append("</g>")
 
+    # логотип Go: «спидлайны» слегка дрожат, как будто он едет
+    o.append(f'<g><animateTransform attributeName="transform" type="translate" values="0 0;-3 0;0 0" dur="0.9s" repeatCount="indefinite"/>{icon("go", W - 150, 26, 104, t["accent"])}</g>')
+    o.append(f'<text x="56" y="430" font-family="{MONO}" font-size="13" fill="{t["muted"]}"><tspan fill="{t["go"][2]}">$</tspan> go install '
+             f'<tspan fill="{t["accent"]}">github.com/van1dalgrr-arch/github-watcher/cmd/gw</tspan><tspan fill="{t["go"][3]}">@latest</tspan></text>')
     # стеклянная карточка с кодом поверх каркаса
     cx, cy, cw, ch = 652, 116, 420, 236
     o.append(f'<defs><filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="{t["shadow"]}"/></filter></defs>')
@@ -515,6 +522,12 @@ STACK = [
 ]
 
 
+BRAND = {"go": "#00ADD8", "gin": "#00A8E8", "openjdk": "#ED8B00", "spring": "#6DB33F", "postgresql": "#5B8DEF", "redis": "#FF4438",
+         "docker": "#2496ED", "githubactions": "#2088FF", "linux": "#FCC624", "git": "#F05032", "gnubash": "#4EAA25", "neovim": "#57A143"}
+DARKISH = {"linux"}                     # жёлтый пингвин на белом не виден
+BRAND_LIGHT = {"linux": "#111113"}
+
+
 def stack(theme):
     t = THEMES[theme]
     H = 200
@@ -530,7 +543,7 @@ def stack(theme):
         for j, (ic, label) in enumerate(items):
             cx = x + step * (j + 0.5)
             # подсветка по очереди пробегает по всем иконкам
-            o.append(f'<g>{icon(ic, cx - 16, 92, 32, t["text"])}</g>')
+            o.append(f'<g>{icon(ic, cx - 16, 92, 32, BRAND.get(ic, t["text"]) if not (theme == "light" and ic in DARKISH) else BRAND_LIGHT.get(ic, t["text"]))}</g>')
             o.append(f'<g opacity="0"><animate attributeName="opacity" values="0;1;0;0" keyTimes="0;0.04;0.1;1" dur="{total * 0.7:.1f}s" begin="{k * 0.7:.1f}s" repeatCount="indefinite"/>'
                      f'{icon(ic, cx - 16, 92, 32, t["accent"])}</g>')
             o.append(f'<text x="{cx:.0f}" y="156" text-anchor="middle" font-family="{SANS}" font-size="13" fill="{t["muted"]}">{esc(label)}</text>')
@@ -568,6 +581,63 @@ def footer(theme):
     o.append(f'<clipPath id="fr"><rect width="{W}" height="{H}" rx="16"/></clipPath><g clip-path="url(#fr)">{runner(H - 30)}</g>')
     o.append(f'<text x="{W - 40}" y="{H - 10}" text-anchor="end" font-family="{SANS}" font-size="11" fill="{t["faint"]}">gophers by Egon Elbre, CC0</text>')
     return svg(W, H, "\n".join(o), "Thanks for stopping by — a pixel gopher runs across")
+
+
+# ═══════════════════════════════ go.mod и go test ═══════════════════════════════
+
+GOMOD = [   # (текст, роль): kw — ключевое слово, mod — модуль, c — комментарий, t — обычный
+    [("module", "kw"), (" github.com/van1dalgrr-arch", "mod")],
+    [],
+    [("go", "kw"), (" 1.27", "t")],
+    [],
+    [("require", "kw"), (" (", "t")],
+    [("    github.com/gin-gonic/gin", "mod"), ("        // REST APIs", "c")],
+    [("    github.com/jackc/pgx/v5", "mod"), ("         // PostgreSQL", "c")],
+    [("    github.com/redis/go-redis/v9", "mod"), ("    // cache", "c")],
+    [("    charm.land/bubbletea/v2", "mod"), ("         // TUIs like gw", "c")],
+    [("    github.com/spf13/cobra", "mod"), ("          // CLIs", "c")],
+    [(")", "t")],
+]
+GORUN = [   # что печатается в терминале справа: (команда или вывод, цвет)
+    ("$ go version", "cmd"), ("go version go1.27.2", "out"),
+    ("$ go vet ./...", "cmd"),
+    ("$ go test -race ./...", "cmd"), ("ok   internal/api      0.42s", "ok"), ("ok   internal/store    0.87s", "ok"),
+    ("$ golangci-lint run", "cmd"), ("0 issues.", "ok"),
+]
+
+
+def gomod(theme):
+    t = THEMES[theme]
+    H, T = 360, 16.0
+    o = [frame(W, H, t, rx=16, seed=41, n=4)]
+    col = {"kw": t["go"][3], "mod": t["accent"], "c": t["faint"], "t": t["soft"]}
+    # левое окно: go.mod
+    x, y, w, h = 32, 32, 620, H - 64
+    o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="{t["bg"]}" fill-opacity="0.82" stroke="{t["line2"]}"/>')
+    o.append(f'<text x="{x + 18}" y="{y + 26}" font-family="{MONO}" font-size="12" fill="{t["muted"]}">go.mod</text>')
+    o.append(f'<line x1="{x}" y1="{y + 40}" x2="{x + w}" y2="{y + 40}" stroke="{t["line2"]}"/>')
+    yy = y + 68
+    for line in GOMOD:
+        spans = "".join(f'<tspan fill="{col[r]}">{esc(s_)}</tspan>' for s_, r in line)
+        o.append(f'<text x="{x + 20}" y="{yy}" font-family="{MONO}" font-size="13.5" xml:space="preserve">{spans}</text>')
+        yy += 21
+    # правое окно: команды выполняются по очереди
+    x2, w2 = x + w + 20, W - (x + w + 20) - 32
+    o.append(f'<rect x="{x2}" y="{y}" width="{w2}" height="{h}" rx="12" fill="{t["bg"]}" fill-opacity="0.82" stroke="{t["line2"]}"/>')
+    for i, c in enumerate(t["go"][:3]):
+        o.append(f'<circle cx="{x2 + 20 + i * 16}" cy="{y + 21}" r="4.5" fill="{c}"/>')
+    o.append(f'<line x1="{x2}" y1="{y + 40}" x2="{x2 + w2}" y2="{y + 40}" stroke="{t["line2"]}"/>')
+    yy = y + 68
+    for i, (line, kind) in enumerate(GORUN):
+        at = 0.05 + i * 0.08
+        c = {"cmd": t["text"], "out": t["soft"], "ok": t["green"]}[kind]
+        txt = (f'<tspan fill="{t["go"][2]}">$</tspan>{esc(line[1:])}' if kind == "cmd" else esc(line))
+        o.append(f'<text x="{x2 + 20}" y="{yy}" font-family="{MONO}" font-size="13" fill="{c}" xml:space="preserve">{txt}'
+                 f'<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;{at:.2f};{at + 0.01:.2f};0.94;1" dur="{T}s" repeatCount="indefinite"/></text>')
+        yy += 26
+    img, gwid = gopher("network", 0, 0, 64)
+    o.append(f'<g transform="translate({x2 + w2 - gwid - 14:.0f} {y + h - 74})">{img}</g>')
+    return svg(W, H, "\n".join(o), "go.mod: module github.com/van1dalgrr-arch, go 1.27, requires gin, pgx, go-redis, bubbletea and cobra; go vet, go test -race and golangci-lint pass")
 
 
 # ═══════════════════════════════ заголовки разделов ═══════════════════════════════
@@ -715,6 +785,7 @@ def main():
         write("ci", theme, ci(theme))
         write("footer", theme, footer(theme))
         write("journey", theme, journey(theme))
+        write("gomod", theme, gomod(theme))
         write("habits", theme, habits(theme))
         for k in SECTIONS:
             write("h-" + k, theme, header(k, theme))

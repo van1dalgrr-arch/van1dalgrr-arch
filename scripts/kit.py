@@ -1,7 +1,8 @@
 """Общее для картинок профиля: две темы, шрифт-контуры, иконки.
 
 Стиль — минимализм со стеклом: под каждой карточкой медленно плывут размытые цветные пятна,
-сверху — полупрозрачное «матовое стекло» с бликом по краю и мягкой тенью. Акцент — синий.
+сверху — полупрозрачное «матовое стекло» с бликом по краю и мягкой тенью.
+Цвета — фирменная палитра Go с go.dev: Gopher Blue #00ADD8, Light Blue, Aqua, Fuchsia и Yellow.
 Каждая картинка рисуется дважды, под тёмную и светлую тему GitHub; README выбирает через <picture>.
 """
 import base64, json, random
@@ -17,15 +18,17 @@ MONO = "ui-monospace, 'Geist Mono', SFMono-Regular, Menlo, Consolas, monospace"
 SANS = "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif"
 
 THEMES = {
-    "dark": dict(bg="#0a0a0a", panel="#0f0f11", line="#222226", line2="#2e2e34", dot="#26262b",
-                 text="#ededed", soft="#c4c4ca", muted="#8f8f97", faint="#55555d",
-                 accent="#7aa2ff", green="#3fb950", str="#a5d6a7", kw="#c3a6ff",
-                 aurora=["#3b5bff", "#8b5cf6", "#14b8a6", "#ec4899"], blob=0.34, glass="#ffffff", glass_op=0.035,
-                 rim="#ffffff", rim_op=0.22, shadow=0.55),
-    "light": dict(bg="#ffffff", panel="#fafafa", line="#e6e6ea", line2="#d6d6dc", dot="#e3e3e8",
-                  text="#111113", soft="#3a3a41", muted="#6c6c75", faint="#b0b0b8",
-                  accent="#2f6bff", green="#1a7f37", str="#1f7a3a", kw="#7c3aed",
-                  aurora=["#7ea2ff", "#b69cff", "#5fd6c4", "#f7a6cf"], blob=0.38, glass="#ffffff", glass_op=0.62,
+    "dark": dict(bg="#0a0a0a", panel="#0d1014", line="#1f262e", line2="#2b343e", dot="#1f2a33",
+                 text="#eef3f6", soft="#c3ccd3", muted="#8a96a0", faint="#4f5b66",
+                 accent="#00ADD8", green="#3fb950", str="#7ee0c8", kw="#ff7aa8",
+                 go=["#00ADD8", "#5DC9E2", "#00A29C", "#CE3262", "#FDDD00"],
+                 aurora=["#00ADD8", "#00A29C", "#CE3262", "#5DC9E2"], blob=0.5, glass="#ffffff", glass_op=0.035,
+                 rim="#ffffff", rim_op=0.24, shadow=0.55),
+    "light": dict(bg="#ffffff", panel="#f7fbfc", line="#dfe8ec", line2="#cbd8de", dot="#d9e6eb",
+                  text="#0b1a22", soft="#2f414b", muted="#5e707b", faint="#a3b1b9",
+                  accent="#007d9c", green="#1a7f37", str="#00796b", kw="#b0285a",
+                  go=["#007d9c", "#00ADD8", "#00A29C", "#CE3262", "#c9a800"],
+                  aurora=["#5DC9E2", "#6fd6cc", "#f3a1bd", "#fde56b"], blob=0.5, glass="#ffffff", glass_op=0.6,
                   rim="#ffffff", rim_op=0.9, shadow=0.12),
 }
 
