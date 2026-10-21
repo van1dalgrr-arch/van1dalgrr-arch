@@ -648,7 +648,7 @@ SECTIONS = {   # ключ → (номер, заголовок, подпись)
     "projects": ("03", "Projects", "things I built and keep building"),
     "journey": ("04", "Journey", "2026, month by month"),
     "ship": ("05", "How I ship", "every push, every repo"),
-    "habits": ("06", "Habits", "rules I don't break"),
+    "habits": ("06", "Habits", "found in my own code, not a checklist"),
     "stack": ("07", "Stack", "what I reach for"),
     "activity": ("08", "Activity", "redrawn every day"),
     "contact": ("09", "Contact", "say hi"),
@@ -731,48 +731,67 @@ def journey(theme):
 
 # ═══════════════════════════════ привычки ═══════════════════════════════
 
-HABITS = [
-    ("check", "Green or it doesn't merge", "fmt, vet, race tests, lint and govulncheck on every push"),
-    ("lock", "No secrets in git", "gitleaks checks each commit before it leaves the laptop"),
-    ("term", "Setup as code", "one command rebuilds my Mac, dot doctor checks it"),
-    ("boxes", "Small, plain services", "cmd/ and internal/, plain net/http when it's enough"),
+HABITS = [   # найдено в моём коде: (заголовок, что это значит, строка-доказательство, откуда)
+    ("Code habits", [
+        ("/health comes first", "Every service starts with it, and watchdog exists just to poll it.",
+         'r.GET("/health", handler.Health())', "logsence · OrderGo · MINI-deploy"),
+        ("Handlers are factories", "A method returns gin.HandlerFunc, so dependencies stay in the struct.",
+         "Create() gin.HandlerFunc", "logsence · OrderGo"),
+        ("One place maps errors", "Sentinel errors, errors.Is to 400/404, and a 500 never leaks DB text.",
+         "errors.Is(err, ErrNotFound) → 404", "logsence · kinoza-back"),
+        ("[] instead of null", "Lists start empty, so the JSON is [] even when nothing is found.",
+         "logs := []domain.Log{}", "logsence · OrderGo · kinoza-back"),
+    ]),
+    ("Data and safety", [
+        ("Clamp what clients send", "Default and max limits in the service, ids ≤ 0 rejected early.",
+         "if limit > maxLimit { … }", "logsence · OrderGo"),
+        ("Owner from auth only", "user_id comes from the context, never from body or query.",
+         "WHERE user_id = $1 AND …", "kinoza-back"),
+        ("0 rows affected = 404", "Update and delete check RowsAffected instead of trusting the call.",
+         "if rows == 0 { … }", "OrderGo · kinoza-back"),
+        ("SQL by hand", "Explicit columns, RETURNING for DB-made fields, upsert, index for the query.",
+         "RETURNING id, received_at", "logsence · kinoza-back"),
+    ]),
+    ("Tests and workflow", [
+        ("Fakes, not mock libs", "Hand-written fakes record what they got; sqlmock only for repos.",
+         "var _ Service = (*FakeService)(nil)", "logsence · kinoza-back"),
+        ("Table tests via httptest", "One router helper, a table of cases, a check that errors don't leak.",
+         "t.Run(tt.name, func(t …", "kinoza-back · OrderGo"),
+        ("Bottom-up, one step a commit", "domain → repo → service → dto → handler → routes, then review fixes.",
+         "feat(watchlist): add service", "kinoza-back · logsence"),
+        ("make base", "Same short Makefile in every repo: start, form, stat, base, up, db.",
+         'make base msg="…"', "logsence · OrderGo"),
+    ]),
 ]
-
-
-def habit_icon(kind, t, x, y):
-    a = t["accent"]
-    if kind == "check":   # галочка рисуется заново
-        return (f'<circle cx="{x + 18}" cy="{y + 18}" r="16" fill="none" stroke="{t["line2"]}" stroke-width="2"/>'
-                f'<path d="M{x + 10} {y + 18}l6 6 11-12" fill="none" stroke="{a}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="26">'
-                '<animate attributeName="stroke-dashoffset" values="26;0;0;26" keyTimes="0;0.25;0.85;1" dur="3s" repeatCount="indefinite"/></path>')
-    if kind == "lock":    # дужка замка защёлкивается
-        return (f'<rect x="{x + 6}" y="{y + 16}" width="24" height="19" rx="4" fill="none" stroke="{a}" stroke-width="2"/>'
-                f'<path d="M{x + 11} {y + 16}v-5a7 7 0 0 1 14 0v5" fill="none" stroke="{t["soft"]}" stroke-width="2">'
-                '<animateTransform attributeName="transform" type="translate" values="0 -4;0 -4;0 0;0 0;0 -4" keyTimes="0;0.3;0.4;0.9;1" dur="3s" repeatCount="indefinite"/></path>'
-                f'<circle cx="{x + 18}" cy="{y + 25}" r="2" fill="{a}"/>')
-    if kind == "term":    # приглашение и мигающий курсор
-        return (f'<rect x="{x + 2}" y="{y + 4}" width="32" height="28" rx="5" fill="none" stroke="{t["line2"]}" stroke-width="2"/>'
-                f'<path d="M{x + 9} {y + 13}l5 4-5 4" fill="none" stroke="{a}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-                f'<rect x="{x + 17}" y="{y + 20}" width="9" height="2" fill="{t["soft"]}"><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1s" repeatCount="indefinite"/></rect>')
-    return (f'<rect x="{x + 4}" y="{y + 20}" width="12" height="12" rx="2" fill="none" stroke="{t["soft"]}" stroke-width="2"/>'
-            f'<rect x="{x + 20}" y="{y + 20}" width="12" height="12" rx="2" fill="none" stroke="{t["soft"]}" stroke-width="2"/>'
-            f'<rect x="{x + 12}" y="{y + 4}" width="12" height="12" rx="2" fill="none" stroke="{a}" stroke-width="2">'
-            '<animateTransform attributeName="transform" type="translate" values="0 -3;0 0;0 0;0 -3" keyTimes="0;0.2;0.8;1" dur="2.6s" repeatCount="indefinite"/></rect>')
 
 
 def habits(theme):
     t = THEMES[theme]
-    H, gap = 210, 16
+    gap, ch, head = 16, 196, 40
     cw = (W - 3 * gap) / 4
-    o = [f'<rect width="{W}" height="{H}" fill="{t["bg"]}" opacity="0"/>']
-    for i, (kind, head, sub) in enumerate(HABITS):
-        x = i * (cw + gap)
-        o.append(f'<g transform="translate({x:.1f} 0)">{frame(int(cw), H, t, rx=16, seed=11 + i * 5, n=2, uid=f"h{i}")}</g>')
-        o.append(habit_icon(kind, t, x + 26, 28))
-        o.append(gt(head, x + 26, 112, 18, t["text"], tracking=-0.3))
-        s_, _ = para(sub, x + 26, 140, 13.5, cw - 52, t["muted"], limit=3)
-        o.append(s_)
-    return svg(W, H, "\n".join(o), "Habits: " + "; ".join(f"{h} — {s_}" for _, h, s_ in HABITS))
+    H = len(HABITS) * (head + ch + gap)
+    o = []
+    y = 0
+    for gi, (group, cards) in enumerate(HABITS):
+        o.append(f'<text x="2" y="{y + 24}" font-family="{SANS}" font-size="12" font-weight="600" letter-spacing="1.5" fill="{t["go"][gi % 4 + 1] if gi else t["accent"]}">{group.upper()}</text>')
+        y += head
+        for i, (title, what, code, src) in enumerate(cards):
+            x = i * (cw + gap)
+            k = gi * 4 + i
+            o.append(f'<g transform="translate({x:.1f} {y})">{frame(int(cw), ch, t, rx=16, seed=11 + k * 5, n=2, uid=f"h{k}")}')
+            o.append(f'<rect x="20" y="22" width="4" height="22" rx="2" fill="{t["go"][k % 5]}"/>')
+            o.append(gt(title, 34, 40, 16.5, t["text"], tracking=-0.3))
+            s_, _ = para(what, 20, 70, 13, cw - 40, t["soft"], limit=3)
+            o.append(s_)
+            # строка из моего кода — в маленьком окошке
+            o.append(f'<rect x="14" y="{ch - 74}" width="{cw - 28:.0f}" height="32" rx="7" fill="{t["bg"]}" fill-opacity="0.75" stroke="{t["line2"]}"/>')
+            code_fit = code if tw(code, 11, mono=True) < cw - 50 else code[: int((cw - 56) / (11 * 0.602)) - 1] + "…"
+            o.append(f'<text x="24" y="{ch - 53}" font-family="{MONO}" font-size="11" fill="{t["accent"]}" xml:space="preserve">{esc(code_fit)}</text>')
+            o.append(f'<text x="20" y="{ch - 18}" font-family="{MONO}" font-size="10.5" fill="{t["muted"]}">{esc(src)}</text>')
+            o.append("</g>")
+        y += ch + gap
+    flat = "; ".join(f"{c[0]} — {c[1]}" for _, cards in HABITS for c in cards)
+    return svg(W, H - gap, "\n".join(o), "Habits found in my own Go code: " + flat)
 
 
 def main():

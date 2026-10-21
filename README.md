@@ -48,7 +48,7 @@
 
 <picture><source media="(prefers-color-scheme: light)" srcset="assets/h-habits-light.svg"><img src="assets/h-habits.svg" width="100%" alt="06 Habits"></picture>
 
-<p><picture><source media="(prefers-color-scheme: light)" srcset="assets/habits-light.svg"><img src="assets/habits.svg" width="100%" alt="Habits: green or it doesn't merge; no secrets in git; setup as code; small, plain services"></picture></p>
+<p><picture><source media="(prefers-color-scheme: light)" srcset="assets/habits-light.svg"><img src="assets/habits.svg" width="100%" alt="Habits found in my own Go code: /health comes first; handlers are factories returning gin.HandlerFunc; one place maps errors to HTTP and a 500 never leaks DB text; [] instead of null; clamp limits and ids; user_id only from auth; 0 rows affected means 404; SQL by hand with RETURNING and upsert; hand-written fakes over mock libraries; table tests via httptest; bottom-up commits, one step each; make base"></picture></p>
 
 <picture><source media="(prefers-color-scheme: light)" srcset="assets/h-stack-light.svg"><img src="assets/h-stack.svg" width="100%" alt="07 Stack"></picture>
 
