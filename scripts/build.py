@@ -4,7 +4,7 @@
 Тексты лежат здесь обычными списками (INTRO, FEATURED, PROJECTS, STACK) — поправил строку,
 перезапустил скрипт, закоммитил. Живую статистику рисует stats.py в workflow.
 """
-from kit import ROOT, MONO, SANS, THEMES, arrow, esc, frame, gopher, gt, gw, icon, svg, tw, write
+from kit import ROOT, MONO, SANS, THEMES, arrow, esc, frame, glow, gopher, gt, gw, icon, svg, tw, write
 
 W = 1200
 
@@ -110,78 +110,80 @@ def wireframe(t, cx, cy, r, T=28, frames=72):
     return "".join(o)
 
 
+GO_WORDS = ["go func()", "chan Job", "select {}", "defer cancel()", "context.Context", "errors.Is", "sync.WaitGroup",
+            "for range jobs", "interface{}", "go test -race", "gofmt", "goroutine", "http.Handler", "go.mod"]
+
+
 def hero(theme):
     t = THEMES[theme]
-    H = 470
-    o = [frame(W, H, t, rx=24, n=4, seed=3)]
-    o.append(wireframe(t, 905, 190, 150))
-    # статус: стеклянная плашка, зелёная точка пульсирует
+    H = 540
+    go = t["go"]
+    o = [frame(W, H, t, rx=26, n=5, seed=7, fill="#06131b" if theme == "dark" else "#f2fbfd")]
+    # переливающаяся рамка в цветах Go
+    o.append(f'<defs><linearGradient id="edge" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{W}" y2="{H}">'
+             + "".join(f'<stop offset="{i / 4:.2f}" stop-color="{c}"/>' for i, c in enumerate([go[0], go[2], go[3], go[4], go[0]]))
+             + f'<animateTransform attributeName="gradientTransform" type="rotate" values="0 {W / 2} {H / 2};360 {W / 2} {H / 2}" dur="12s" repeatCount="indefinite"/></linearGradient></defs>')
+    o.append(f'<rect x="1.5" y="1.5" width="{W - 3}" height="{H - 3}" rx="24.5" fill="none" stroke="url(#edge)" stroke-width="2.5" opacity="0.9"/>')
+
+    # справа: ореол, орбиты с горутинами, гофер в плаще
+    gx, gy = 925, 272
+    o.append(f'<defs><radialGradient id="halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="{go[0]}" stop-opacity="0.55"/>'
+             f'<stop offset="0.6" stop-color="{go[0]}" stop-opacity="0.12"/><stop offset="1" stop-color="{go[0]}" stop-opacity="0"/></radialGradient></defs>')
+    o.append(f'<circle cx="{gx}" cy="{gy}" r="250" fill="url(#halo)"><animate attributeName="r" values="235;265;235" dur="5s" repeatCount="indefinite"/></circle>')
+    orbits = [(220, 70, -14, 9, go[0]), (190, 110, 22, 13, go[3]), (240, 46, 6, 7, go[4]), (160, 150, -38, 17, go[2])]
+    for k, (rx_, ry_, rot, d, c) in enumerate(orbits):
+        path = f"M{gx - rx_} {gy}a{rx_} {ry_} 0 1 0 {2 * rx_} 0a{rx_} {ry_} 0 1 0 {-2 * rx_} 0"
+        o.append(f'<g transform="rotate({rot} {gx} {gy})"><path d="{path}" fill="none" stroke="{c}" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="3 6"/>')
+        for j in range(2 if k % 2 else 3):   # горутины бегут по орбите
+            o.append(f'<circle r="{5 - j}" fill="{c}"><animateMotion path="{path}" dur="{d}s" begin="-{j * d / 3:.1f}s" repeatCount="indefinite"/>'
+                     f'<animate attributeName="opacity" values="1;0.5;1" dur="{d / 3:.1f}s" repeatCount="indefinite"/></circle>')
+        o.append("</g>")
+    img, gwid = gopher("standing", 0, 0, 300)
+    o.append(f'<ellipse cx="{gx}" cy="{gy + 158}" rx="{gwid * 0.3:.0f}" ry="9" fill="#000" opacity="{t["shadow"] * 0.7:.2f}"><animate attributeName="rx" values="{gwid * 0.3:.0f};{gwid * 0.24:.0f};{gwid * 0.3:.0f}" dur="4.5s" repeatCount="indefinite"/></ellipse>')
+    o.append(f'<g transform="translate({gx - gwid / 2:.0f} {gy - 160})"><g><animateTransform attributeName="transform" type="translate" values="0 0;0 -14;0 0" dur="4.5s" repeatCount="indefinite" '
+             f'calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>{img}</g></g>')
+    o.append(f'<g><animateTransform attributeName="transform" type="translate" values="0 0;-3 0;0 0" dur="0.9s" repeatCount="indefinite"/>{icon("go", W - 140, 30, 96, go[0])}</g>')
+
+    # слева: кто я — сразу и крупно
     st = INTRO["status"]
     pw = tw(st, 13) * 0.9 + 40
-    o.append(f'<rect x="56" y="58" width="{pw:.0f}" height="30" rx="15" fill="{t["glass"]}" fill-opacity="{t["glass_op"] * 2:.3f}" stroke="{t["line2"]}"/>')
-    o.append(f'<circle cx="74" cy="73" r="7" fill="{t["green"]}" opacity="0.25"><animate attributeName="r" values="4;8;4" dur="2.4s" repeatCount="indefinite"/>'
-             f'<animate attributeName="opacity" values="0.35;0;0.35" dur="2.4s" repeatCount="indefinite"/></circle>')
-    o.append(f'<circle cx="74" cy="73" r="3.5" fill="{t["green"]}"/>')
-    o.append(f'<text x="88" y="77.5" font-family="{SANS}" font-size="13" fill="{t["soft"]}">{esc(st)}</text>')
-    o.append(f'<defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="0.3"><stop offset="0" stop-color="{t["text"]}"/>'
-             f'<stop offset="0.55" stop-color="{t["go"][1]}"/><stop offset="1" stop-color="{t["go"][2]}"/>'
-             '<animate attributeName="x2" values="1;1.6;1" dur="9s" repeatCount="indefinite"/></linearGradient></defs>')
-    o.append(gt(INTRO["name"], 50, 200, 110, "url(#ng)", tracking=-4.5))
-    o.append(gt(INTRO["role"], 56, 252, 26, t["soft"], font="body", tracking=-0.4))
-    o.append(f'<rect x="56" y="268" width="64" height="2" rx="1" fill="{t["accent"]}"><animate attributeName="width" values="64;200;64" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/></rect>')
-    s, _ = para(INTRO["about"], 56, 306, 16, 540, t["muted"])
-    o.append(s)
-    # «I build …» — слово меняется по кругу, выезжая снизу
-    yb = 380
-    o.append(f'<text x="56" y="{yb}" font-family="{SANS}" font-size="15" fill="{t["muted"]}">I build</text>')
-    o.append(f'<clipPath id="rot"><rect x="110" y="{yb - 18}" width="300" height="24"/></clipPath><g clip-path="url(#rot)">')
-    n = len(BUILD)
-    for i, wd in enumerate(BUILD):
-        a0, a1 = i / n, (i + 1) / n
-        vals = "0 24;0 24;0 0;0 0;0 -24;0 -24" if i else "0 0;0 0;0 -24;0 -24;0 24;0 0"
-        # моменты не должны выходить за 1, иначе браузер выбрасывает анимацию целиком
-        kts = (f"0;{a0:.3f};{a0 + 0.03:.3f};{a1 - 0.015:.3f};{min(a1 + 0.015, 1):.3f};1" if i else
-               f"0;{a1 - 0.015:.3f};{a1 + 0.015:.3f};0.985;0.986;1")
-        base = "" if i == 0 else ' transform="translate(0 24)"'   # без анимации видно только первое слово
-        o.append(f'<g{base}><animateTransform attributeName="transform" type="translate" values="{vals}" keyTimes="{kts}" dur="{n * 2.6}s" repeatCount="indefinite"/>'
-                 f'<text x="112" y="{yb}" font-family="{SANS}" font-size="15" font-weight="600" fill="{t["text"]}">{esc(wd)}</text></g>')
-    o.append("</g>")
+    o.append(f'<rect x="56" y="52" width="{pw:.0f}" height="30" rx="15" fill="{t["glass"]}" fill-opacity="{t["glass_op"] * 2:.3f}" stroke="{t["line2"]}"/>')
+    o.append(f'<circle cx="74" cy="67" r="7" fill="{t["green"]}" opacity="0.25"><animate attributeName="r" values="4;8;4" dur="2.4s" repeatCount="indefinite"/>'
+             f'<animate attributeName="opacity" values="0.35;0;0.35" dur="2.4s" repeatCount="indefinite"/></circle><circle cx="74" cy="67" r="3.5" fill="{t["green"]}"/>')
+    o.append(f'<text x="88" y="71.5" font-family="{SANS}" font-size="13" fill="{t["soft"]}">{esc(st)}</text>')
+    o.append(gt("van1dal", 56, 136, 34, t["text"], tracking=-1))
+    o.append(f'<text x="{60 + gw("van1dal", 34, tracking=-1):.0f}" y="135" font-family="{SANS}" font-size="18" fill="{t["muted"]}"> · Saint Petersburg</text>')
+    # «Go» огромное, голубое, по нему бежит блик
+    gsize = 168
+    o.append(f'<defs><linearGradient id="gob" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{go[1]}"/><stop offset="0.55" stop-color="{go[0]}"/><stop offset="1" stop-color="{go[2]}"/></linearGradient>'
+             f'<linearGradient id="shine" gradientUnits="userSpaceOnUse" x1="-260" y1="0" x2="-60" y2="80">'
+             f'<stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>'
+             '<animateTransform attributeName="gradientTransform" type="translate" values="0 0;0 0;900 0" keyTimes="0;0.55;1" dur="4.5s" repeatCount="indefinite"/></linearGradient>'
+             f'{glow("goglow", 16, 0.55)}</defs>')
+    o.append(gt("Go", 46, 300, gsize, "url(#gob)", tracking=-6, extra=' filter="url(#goglow)"'))
+    o.append(gt("Go", 46, 300, gsize, "url(#shine)", tracking=-6))
+    gox = 46 + gw("Go", gsize, tracking=-6) + 22
+    o.append(gt("developer", gox, 300, 66, t["text"], tracking=-2.5))
+    o.append(gt("REST services, CLIs and TUIs in Go.", 58, 350, 24, t["soft"], font="body", tracking=-0.3))
+    o.append(f'<text x="58" y="386" font-family="{MONO}" font-size="14" fill="{t["muted"]}">Gin · PostgreSQL · Redis · Docker · go test -race on every push</text>')
 
-    # логотип Go: «спидлайны» слегка дрожат, как будто он едет
-    o.append(f'<g><animateTransform attributeName="transform" type="translate" values="0 0;-3 0;0 0" dur="0.9s" repeatCount="indefinite"/>{icon("go", W - 150, 26, 104, t["accent"])}</g>')
-    o.append(f'<text x="56" y="430" font-family="{MONO}" font-size="13" fill="{t["muted"]}"><tspan fill="{t["go"][2]}">$</tspan> go install '
-             f'<tspan fill="{t["accent"]}">github.com/van1dalgrr-arch/github-watcher/cmd/gw</tspan><tspan fill="{t["go"][3]}">@latest</tspan></text>')
-    # стеклянная карточка с кодом поверх каркаса
-    cx, cy, cw, ch = 652, 116, 420, 236
-    o.append(f'<defs><filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="{t["shadow"]}"/></filter></defs>')
-    o.append(f'<rect x="{cx}" y="{cy}" width="{cw}" height="{ch}" rx="14" fill="{t["panel"]}" fill-opacity="0.72" stroke="{t["line2"]}" filter="url(#sh)"/>')
-    o.append(f'<rect x="{cx + 0.5}" y="{cy + 0.5}" width="{cw - 1}" height="{ch - 1}" rx="13.5" fill="none" stroke="{t["rim"]}" stroke-opacity="{t["rim_op"] * 0.6:.2f}"/>')
-    o.append(f'<line x1="{cx}" y1="{cy + 38}" x2="{cx + cw}" y2="{cy + 38}" stroke="{t["line2"]}"/>')
-    for i in range(3):
-        o.append(f'<circle cx="{cx + 20 + i * 16}" cy="{cy + 19}" r="4.5" fill="{t["line2"]}"/>')
-    o.append(f'<text x="{cx + cw - 18}" y="{cy + 23.5}" text-anchor="end" font-family="{MONO}" font-size="12" fill="{t["muted"]}">cmd/api/main.go</text>')
-    col = {"kw": t["kw"], "str": t["str"], "fn": t["accent"], "t": t["soft"]}
-    T, clock, y = 14.0, 0.6, cy + 66
-    for n_, (ind, parts) in enumerate(CODE):
-        o.append(f'<text x="{cx + 20}" y="{y}" font-family="{MONO}" font-size="12" fill="{t["faint"]}">{n_ + 1}</text>')
-        text = "".join(s_ for s_, _ in parts)
-        x0 = cx + 48 + ind * 29
-        full = tw(text, 14, mono=True) + 6
-        st_, dur = clock, max(0.05, 0.05 * len(text))
-        clock += dur + 0.15
-        o.append(f'<clipPath id="cl{n_}"><rect x="{x0 - 2}" y="{y - 16}" width="{full:.0f}" height="22">'
-                 f'<animate attributeName="width" values="0;0;{full:.0f};{full:.0f};0" keyTimes="0;{st_ / T:.4f};{(st_ + dur) / T:.4f};0.94;1" dur="{T}s" repeatCount="indefinite"/></rect></clipPath>')
-        spans = "".join(f'<tspan fill="{col[r]}">{esc(s_)}</tspan>' for s_, r in parts)
-        o.append(f'<text x="{x0}" y="{y}" font-family="{MONO}" font-size="14" xml:space="preserve" clip-path="url(#cl{n_})">{spans}</text>')
-        y += 21
-    # гофер vim-go парит у края карточки
-    img, gwid = gopher("vim-go", 0, 0, 200)
-    gx, gy = 948, 252
-    o.append(f'<ellipse cx="{gx + gwid / 2:.0f}" cy="{gy + 205}" rx="{gwid * 0.32:.0f}" ry="7" fill="#000" opacity="{t["shadow"] * 0.6:.2f}">'
-             '<animate attributeName="rx" values="62;52;62" dur="4s" repeatCount="indefinite"/></ellipse>')
-    o.append(f'<g transform="translate({gx} {gy})"><g><animateTransform attributeName="transform" type="translate" values="0 0;0 -10;0 0" dur="4s" repeatCount="indefinite" '
-             f'calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>{img}</g></g>')
-    return svg(W, H, "\n".join(o), f'{INTRO["name"]} — {INTRO["role"]} {INTRO["about"]}')
+    # бегущая строка ключевых слов Go
+    yb, hb = H - 92, 52
+    o.append(f'<rect x="24" y="{yb}" width="{W - 48}" height="{hb}" rx="14" fill="{t["glass"]}" fill-opacity="{t["glass_op"] * 1.8:.3f}" stroke="{t["line2"]}"/>')
+    o.append(f'<clipPath id="mq"><rect x="25" y="{yb}" width="{W - 50}" height="{hb}" rx="14"/></clipPath><g clip-path="url(#mq)"><g>')
+    x, chips = 40, []
+    for i, wd in enumerate(GO_WORDS):
+        w = tw(wd, 14, mono=True) + 30
+        chips.append((x, w, wd, go[i % 5]))
+        x += w + 14
+    total = x - 40
+    o.append(f'<animateTransform attributeName="transform" type="translate" values="0 0;{-total} 0" dur="{total / 45:.0f}s" repeatCount="indefinite"/>')
+    for rep in (0, total):
+        for cx_, w, wd, c in chips:
+            o.append(f'<rect x="{cx_ + rep:.0f}" y="{yb + 11}" width="{w:.0f}" height="30" rx="15" fill="{c}" fill-opacity="0.14" stroke="{c}" stroke-opacity="0.7"/>'
+                     f'<text x="{cx_ + rep + w / 2:.0f}" y="{yb + 31}" text-anchor="middle" font-family="{MONO}" font-size="14" fill="{t["text"]}">{esc(wd)}</text>')
+    o.append("</g></g>")
+    return svg(W, H, "\n".join(o), "van1dal — Go developer from Saint Petersburg: REST services, CLIs and TUIs in Go with Gin, PostgreSQL, Redis and Docker")
 
 
 # ═══════════════════════════════ проекты ═══════════════════════════════

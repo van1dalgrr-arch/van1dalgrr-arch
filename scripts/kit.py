@@ -73,6 +73,14 @@ def arrow(x, y, size, color):
             f'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>')
 
 
+def glow(fid, std=6, alpha=0.9):
+    """Мягкое свечение вокруг фигуры: размытая копия под оригиналом."""
+    return (f'<filter id="{fid}" x="-30%" y="-60%" width="160%" height="220%">'
+            f'<feGaussianBlur stdDeviation="{std}" result="b"/>'
+            f'<feComponentTransfer in="b" result="b2"><feFuncA type="linear" slope="{alpha}"/></feComponentTransfer>'
+            '<feMerge><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge></filter>')
+
+
 def blobs(w, h, t, seed=1, n=3, op=None, uid="b"):
     """Размытые цветные пятна, которые медленно плывут, — «северное сияние» под стеклом."""
     rnd = random.Random(seed)

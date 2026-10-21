@@ -1,4 +1,4 @@
-<picture><source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg"><img src="assets/hero.svg" width="100%" alt="van1dal — Go backend developer in Saint Petersburg. I build REST services with Gin, PostgreSQL, Redis and Docker, tested, linted and shipped through CI on every push."></picture>
+<picture><source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg"><img src="assets/hero.svg" width="100%" alt="van1dal — Go developer from Saint Petersburg: REST services, CLIs and TUIs in Go with Gin, PostgreSQL, Redis and Docker; go test -race on every push"></picture>
 
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=van1dalgrr-arch&label=profile%20views&color=00ADD8&style=for-the-badge&abbreviated=false" alt="Profile views">
